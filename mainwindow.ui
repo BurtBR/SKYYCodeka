@@ -186,7 +186,7 @@ CodeEditor{
        </spacer>
       </item>
       <item>
-       <widget class="QToolButton" name="toolButton">
+       <widget class="QToolButton" name="buttonBuild">
         <property name="minimumSize">
          <size>
           <width>100</width>

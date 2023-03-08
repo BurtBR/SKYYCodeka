@@ -42,7 +42,7 @@
 }
 
 QToolButton{
-	background-color: rgb(45,45,45, 80);
+	background-color: rgba(45,45,45, 80);
 	border: transparent;
 	font: 45px 'EngraversGothic BT';
 	font-weight: bold;
@@ -124,7 +124,7 @@ QToolButton{
     </size>
    </property>
    <property name="text">
-    <string>Yes</string>
+    <string>Sim</string>
    </property>
   </widget>
   <widget class="QToolButton" name="ButtonNo">
@@ -143,7 +143,7 @@ QToolButton{
     </sizepolicy>
    </property>
    <property name="text">
-    <string>No</string>
+    <string>Não</string>
    </property>
   </widget>
  </widget>

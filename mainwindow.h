@@ -2,8 +2,16 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QFileDialog>
+#include <QFile>
+#include <QTextStream>
+#include <QDateTime>
 #include "dialogpopup.h"
 #include "codeeditor.h"
+
+//TEMPORARIO
+#include <QDebug>
+//TEMPORARIO
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -18,11 +26,31 @@ class MainWindow : public QMainWindow{
     Q_OBJECT
 
 private:
+    //Private Attributes
     Ui::MainWindow *ui;
     CodeEditor *codeEditor;
+    QString currentFilePath;
+    bool isSaved = true;
+
+    //Private Methods
+    void NewFile();
+    void OpenFile(QString filepath);
+    void SaveFile(QString filepath);
+    void Build();
+    void Run();
+    void closeEvent(QCloseEvent *event) override;
 
 public:
-    MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
+    MainWindow(QWidget *parent = nullptr); //Constructor
+    ~MainWindow(); //Destructor
+
+private slots:
+    void On_buttonNew_clicked();
+    void On_buttonOpen_clicked();
+    void On_buttonSave_clicked();
+    void On_buttonSaveAs_clicked();
+    void On_buttonBuild_clicked();
+    void On_buttonBuildRun_clicked();
+    void EditorTextEdited();
 };
 #endif // MAINWINDOW_H
