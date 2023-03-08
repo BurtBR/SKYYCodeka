@@ -8,17 +8,27 @@ CONFIG += c++17
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+#Executable Icon
+win64:RC_ICONS += SoftwareIcon.ico
+win32:RC_ICONS += SoftwareIcon.ico
+
 SOURCES += \
+    dialogpopup.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
+    dialogpopup.h \
     mainwindow.h
 
 FORMS += \
+    dialogpopup.ui \
     mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    resource.qrc

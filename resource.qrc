@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Icons/Exclamation.png</file>
+        <file>Icons/Information.png</file>
+        <file>Icons/Question.png</file>
+        <file>Images/BackgroundError2.png</file>
+        <file>Icons/Nuclear.png</file>
+        <file>Icons/SoftwareIcon.png</file>
+        <file>Icons/Socialism.png</file>
+    </qresource>
+</RCC>
