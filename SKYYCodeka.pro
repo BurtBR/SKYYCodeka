@@ -13,12 +13,16 @@ win64:RC_ICONS += SoftwareIcon.ico
 win32:RC_ICONS += SoftwareIcon.ico
 
 SOURCES += \
+    codeeditor.cpp \
     dialogpopup.cpp \
+    linenumberarea.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
+    codeeditor.h \
     dialogpopup.h \
+    linenumberarea.h \
     mainwindow.h
 
 FORMS += \

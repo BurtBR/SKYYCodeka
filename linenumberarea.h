@@ -1,15 +1,12 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef LINENUMBERAREA_H
+#define LINENUMBERAREA_H
 
-#include <QMainWindow>
-#include "dialogpopup.h"
+#include <QWidget>
 #include "codeeditor.h"
 
-QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
-QT_END_NAMESPACE
+class CodeEditor;
 
-class MainWindow : public QMainWindow{
+class LineNumberArea : public QWidget{
     //Q_OBJECT macro needs to be used with QT as indicated
     //in the QObject class documentation:
     //The Q_OBJECT macro must appear in the private section of a class
@@ -18,11 +15,15 @@ class MainWindow : public QMainWindow{
     Q_OBJECT
 
 private:
-    Ui::MainWindow *ui;
     CodeEditor *codeEditor;
 
+protected:
+    void paintEvent(QPaintEvent *event) override;
+
 public:
-    MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
+    LineNumberArea(CodeEditor *editor); //Constructor
+
+    QSize sizeHint() const override;
 };
-#endif // MAINWINDOW_H
+
+#endif // LINENUMBERAREA_H

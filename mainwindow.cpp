@@ -3,9 +3,13 @@
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow){
     ui->setupUi(this);
+
+    codeEditor = new CodeEditor(this);
+    ui->layoutEditor->addWidget(codeEditor);
 }
 
 MainWindow::~MainWindow(){
     delete ui;
+    delete codeEditor;
 }
 
