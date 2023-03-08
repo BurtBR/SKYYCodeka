@@ -7,5 +7,11 @@
         <file>Icons/Nuclear.png</file>
         <file>Icons/SoftwareIcon.png</file>
         <file>Icons/Socialism.png</file>
+        <file>Icons/New.png</file>
+        <file>Icons/Open.png</file>
+        <file>Icons/Save.png</file>
+        <file>Icons/SaveAs.png</file>
+        <file>Icons/Build.png</file>
+        <file>Icons/Build2.png</file>
     </qresource>
 </RCC>
