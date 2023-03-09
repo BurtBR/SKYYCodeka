@@ -6,8 +6,10 @@
 #include <QFile>
 #include <QTextStream>
 #include <QDateTime>
+#include <QThread>
 #include "dialogpopup.h"
 #include "codeeditor.h"
+#include "workerfilehandler.h"
 
 //TEMPORARIO
 #include <QDebug>
@@ -28,11 +30,14 @@ class MainWindow : public QMainWindow{
 private:
     //Private Attributes
     Ui::MainWindow *ui;
+    QThread *threadWorking = nullptr;
     CodeEditor *codeEditor;
     QString currentFilePath;
     bool isSaved = true;
 
     //Private Methods
+    bool StartFileThread();
+    void KillAllThreads();
     void NewFile();
     void OpenFile(QString filepath);
     void SaveFile(QString filepath);
@@ -45,12 +50,22 @@ public:
     ~MainWindow(); //Destructor
 
 private slots:
+    //Buttons
     void On_buttonNew_clicked();
     void On_buttonOpen_clicked();
     void On_buttonSave_clicked();
     void On_buttonSaveAs_clicked();
     void On_buttonBuild_clicked();
     void On_buttonBuildRun_clicked();
+    //Other
     void EditorTextEdited();
+    void WorkerError(int type, QString message);
+    void WorkerDone(int type, QString message);
+    void WorkerTextLoaded(QString message);
+
+signals:
+    void WorkerSave(QString text, QString filepath);
+    void WorkerLoad(QString filepath);
+
 };
 #endif // MAINWINDOW_H

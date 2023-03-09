@@ -22,6 +22,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 }
 
 MainWindow::~MainWindow(){
+    KillAllThreads();
     delete ui;
     delete codeEditor;
 }
@@ -38,6 +39,52 @@ void MainWindow::closeEvent(QCloseEvent *event){
     }
 }
 
+bool MainWindow::StartFileThread(){
+
+    if(threadWorking)
+        return false;
+
+    WorkerFileHandler *worker = nullptr;
+
+    try{
+        threadWorking = new QThread();
+    }catch(...){
+        return false;
+    }
+
+    try{
+        worker = new WorkerFileHandler();
+    }catch(...){
+        delete threadWorking;
+        threadWorking = nullptr;
+        return false;
+    }
+
+    //Connect Signals and Slots
+    connect(threadWorking, &QThread::finished, worker, &WorkerFileHandler::deleteLater);
+    connect(worker, &WorkerFileHandler::Error, this, WorkerError);
+    connect(worker, &WorkerFileHandler::Done, this, WorkerDone);
+    connect(worker, &WorkerFileHandler::TextLoaded, this, WorkerTextLoaded);
+    connect(this, WorkerLoad, worker, &WorkerFileHandler::LoadFile);
+    connect(this, WorkerSave, worker, &WorkerFileHandler::SaveFile);
+
+    worker->moveToThread(threadWorking);
+    threadWorking->start();
+
+    return true;
+}
+
+void MainWindow::KillAllThreads(){
+
+    if(threadWorking){
+        threadWorking->quit();
+        while(!threadWorking->wait());
+        delete threadWorking;
+        threadWorking = nullptr;
+    }
+
+}
+
 void MainWindow::NewFile(){
 
     codeEditor->clear();
@@ -48,8 +95,6 @@ void MainWindow::NewFile(){
 void MainWindow::OpenFile(QString filepath){
 
     QFileInfo fileInfo = QFileInfo(filepath);
-    QFile file(filepath);
-    QTextStream in;
 
     if(!fileInfo.exists()){
         ui->textMessages->append(QDateTime::currentDateTime().toString("hh:mm:ss") + " ERRO: O arquivo não existe!");
@@ -59,53 +104,34 @@ void MainWindow::OpenFile(QString filepath){
         return;
     }
 
-    if(!file.open(QIODevice::ReadOnly | QIODevice::Text)){
-        ui->textMessages->append(QDateTime::currentDateTime().toString("hh:mm:ss") + " ERRO: Não foi possível abrir o arquivo");
-        return;
-    }
-
     NewFile();
 
-    in.setDevice(&file);
-    while (!in.atEnd()) {
-        QString line = in.readLine();
-        codeEditor->appendPlainText(line);
+    if(StartFileThread()){
+        currentFilePath = filepath;
+        this->setEnabled(false);
+        emit WorkerLoad(filepath);
+    }else{
+        ui->textMessages->append(QDateTime::currentDateTime().toString("hh:mm:ss") + " ERRO: Não foi possível iniciar nova thread");
     }
 
-    file.close();
-    isSaved = true;
-    ui->textMessages->append(QDateTime::currentDateTime().toString("hh:mm:ss") + " INFO: Arquivo carregado com sucesso");
 }
 
 void MainWindow::SaveFile(QString filepath){
 
-    if(isSaved){
-        DialogPopup(0, "O arquivo está salvo!").exec();
-        return;
-    }
+    if(!filepath.size()){ //Save path unknown (Save As...)
 
-    QFile file(filepath);
-    QTextStream out(&file);
-
-    if(filepath.size()){ //Save path known
-
-    }else{ //Save AS...
-        QFileDialog fileDialog;
-        fileDialog.setFileMode(QFileDialog::AnyFile);
-
-        filepath = fileDialog.getSaveFileName(this, "Abrir Arquivo", "", "Codeka Files (*.cdk)");
+        filepath = QFileDialog::getSaveFileName(this, "Abrir Arquivo", "", "Codeka Files (*.cdk)");
         if(!filepath.size())
             return;
 
-        file.setFileName(filepath);
-        if(!file.open(QIODevice::WriteOnly | QIODevice::Text)){
-            ui->textMessages->append(QDateTime::currentDateTime().toString("hh:mm:ss") + " ERRO: Não foi possível abrir o arquivo");
-            return;
-        }
+    }
 
-
-
-        file.close();
+    if(StartFileThread()){
+        currentFilePath = filepath;
+        this->setEnabled(false);
+        emit WorkerSave(codeEditor->toPlainText(), filepath);
+    }else{
+        ui->textMessages->append(QDateTime::currentDateTime().toString("hh:mm:ss") + " ERRO: Não foi possível iniciar nova thread");
     }
 }
 
@@ -120,6 +146,60 @@ void MainWindow::Run(){
 //---------------------------SLOTS---------------------------
 void MainWindow::EditorTextEdited(){
     isSaved = false;
+}
+
+void MainWindow::WorkerError(int type, QString message){
+
+    QString errorMessage = "ERRO: ";
+
+    switch(type){
+    case 0: //Load File
+        errorMessage.append(message);
+        break;
+
+    case 1: //Save File
+        errorMessage.append(message);
+        break;
+
+    default: //Unknown Error
+        errorMessage.append("Erro desconhecido!");
+        break;
+    }
+
+    KillAllThreads();
+    DialogPopup(0, errorMessage).exec();
+
+    this->setEnabled(true);
+
+}
+
+void MainWindow::WorkerDone(int type, QString message){
+
+    QString doneMessage = QDateTime::currentDateTime().toString("hh:mm:ss") + " INFO: ";
+
+    switch(type){
+    case 0: //Load File
+        doneMessage.append("Arquivo carregado com sucesso! " + message);
+        isSaved = true;
+        break;
+
+    case 1: //Save File
+        doneMessage.append("Arquivo salvo com sucesso! " + message);
+        isSaved = true;
+        break;
+
+    default: //Unknown
+        break;
+    }
+
+    KillAllThreads();
+    this->setEnabled(true);
+
+    ui->textMessages->append(doneMessage);
+}
+
+void MainWindow::WorkerTextLoaded(QString message){
+    codeEditor->appendPlainText(message);
 }
 
 void MainWindow::On_buttonNew_clicked(){
@@ -147,6 +227,12 @@ void MainWindow::On_buttonOpen_clicked(){
 }
 
 void MainWindow::On_buttonSave_clicked(){
+
+    if(isSaved){
+        DialogPopup(0, "O arquivo está salvo!").exec();
+        return;
+    }
+
     SaveFile(currentFilePath);
 }
 

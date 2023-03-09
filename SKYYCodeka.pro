@@ -17,13 +17,15 @@ SOURCES += \
     dialogpopup.cpp \
     linenumberarea.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    workerfilehandler.cpp
 
 HEADERS += \
     codeeditor.h \
     dialogpopup.h \
     linenumberarea.h \
-    mainwindow.h
+    mainwindow.h \
+    workerfilehandler.h
 
 FORMS += \
     dialogpopup.ui \
