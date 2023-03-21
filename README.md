@@ -3,7 +3,7 @@ int -> intsky
 char -> charovsky
 float -> floatsky
 bool -> bolichisky
-void -> chernobyl
+void -> chernobyl (nada retorna de la)
 string -> palavrovka
 
 //BLOCOS DE CÓDIGO
@@ -15,18 +15,18 @@ else ->
 return -> yebat
 
 //OPERAÇÕES
-+ -> 
-- -> 
-* -> 
-/ -> 
-= -> 
-== -> 
-!= -> 
->= -> 
-<= -> 
++ -> +
+- -> -
+* -> *
+/ -> /
+= -> =
+== -> ==
+!= -> !=
+>= -> >=
+<= -> <=
 !(not) -> niet
-&& -> 
-|| -> 
+&& -> &&
+|| -> ||
 
 //OUTROS
 EOL -> ;
