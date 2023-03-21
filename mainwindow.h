@@ -4,12 +4,15 @@
 #include <QMainWindow>
 #include <QFileDialog>
 #include <QFile>
-#include <QTextStream>
+#include <QTextCursor>
+#include <QTextCharFormat>
 #include <QDateTime>
 #include <QThread>
+#include <QMovie>
 #include "dialogpopup.h"
 #include "codeeditor.h"
 #include "workerfilehandler.h"
+#include "workercompiler.h"
 
 //TEMPORARIO
 #include <QDebug>
@@ -34,15 +37,17 @@ private:
     CodeEditor *codeEditor;
     QString currentFilePath;
     bool isSaved = true;
+    bool runCode = false;
 
     //Private Methods
     bool StartFileThread();
+    bool StartCompilerThread();
     void KillAllThreads();
     void NewFile();
     void OpenFile(QString filepath);
     void SaveFile(QString filepath);
     void Build();
-    void Run();
+    void RunCode();
     void closeEvent(QCloseEvent *event) override;
 
 public:
@@ -59,13 +64,14 @@ private slots:
     void On_buttonBuildRun_clicked();
     //Other
     void EditorTextEdited();
-    void WorkerError(int type, QString message);
+    void WorkerError(int type, QString message, int errorline = -1);
     void WorkerDone(int type, QString message);
     void WorkerTextLoaded(QString message);
 
 signals:
     void WorkerSave(QString text, QString filepath);
     void WorkerLoad(QString filepath);
+    void WorkerCompile(QString code);
 
 };
 #endif // MAINWINDOW_H

@@ -8,6 +8,9 @@ int main(int argc, char *argv[]){
     MainWindow *window = nullptr;
     try{
       window = new MainWindow();
+    }catch(const char *error){
+        DialogPopup(0, "Erro catastrófico, assim como em Chernobyl! " + QString(error)).exec();
+        return 0;
     }catch(...){
         DialogPopup(0, "Erro catastrófico, assim como em Chernobyl!").exec();
         return 0;

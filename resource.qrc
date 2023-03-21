@@ -13,5 +13,6 @@
         <file>Icons/SaveAs.png</file>
         <file>Icons/Build.png</file>
         <file>Icons/Build2.png</file>
+        <file>Gifs/Working.gif</file>
     </qresource>
 </RCC>

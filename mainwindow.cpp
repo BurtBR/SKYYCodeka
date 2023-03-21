@@ -4,7 +4,12 @@
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow){
     ui->setupUi(this);
 
-    codeEditor = new CodeEditor(this);
+    //Instantiate codeEditor (text area)
+    try{
+        codeEditor = new CodeEditor(this);
+    }catch(...){
+        throw "Erro ao instanciar o editor de código";
+    }
     codeEditor->setTabStopDistance(20);
     ui->layoutEditor->addWidget(codeEditor);
     codeEditor->setFocus();
@@ -74,6 +79,39 @@ bool MainWindow::StartFileThread(){
     return true;
 }
 
+bool MainWindow::StartCompilerThread(){
+
+    if(threadWorking)
+        return false;
+
+    WorkerCompiler *worker = nullptr;
+
+    try{
+        threadWorking = new QThread();
+    }catch(...){
+        return false;
+    }
+
+    try{
+        worker = new WorkerCompiler();
+    }catch(...){
+        delete threadWorking;
+        threadWorking = nullptr;
+        return false;
+    }
+
+    worker->moveToThread(threadWorking);
+    threadWorking->start();
+
+    //Connect Signals and Slots
+    connect(threadWorking, &QThread::finished, worker, &WorkerCompiler::deleteLater);
+    connect(worker, &WorkerCompiler::Error, this, WorkerError);
+    connect(worker, &WorkerCompiler::Done, this, WorkerDone);
+    connect(this, WorkerCompile, worker, &WorkerCompiler::Compile);
+
+    return true;
+}
+
 void MainWindow::KillAllThreads(){
 
     if(threadWorking){
@@ -83,12 +121,15 @@ void MainWindow::KillAllThreads(){
         threadWorking = nullptr;
     }
 
+    ui->labelGif->clear();
+
 }
 
 void MainWindow::NewFile(){
 
     codeEditor->clear();
     isSaved = true;
+    this->setWindowTitle("SKYY Codka - (Salvo)");
     currentFilePath.clear();
 }
 
@@ -136,21 +177,48 @@ void MainWindow::SaveFile(QString filepath){
 }
 
 void MainWindow::Build(){
+    ui->textMessages->append(QDateTime::currentDateTime().toString("hh:mm:ss") + " INFO: Compilando...");
+
+    if(StartCompilerThread()){
+
+        //Disable Main Window
+        this->setEnabled(false);
+
+        //Start gif
+        QMovie *movie = nullptr;
+        try{
+            movie = new QMovie(":/Gifs/Working.gif");
+            connect(threadWorking, &QThread::finished, movie , &QMovie::deleteLater);
+            ui->labelGif->setMovie(movie);
+            ui->labelGif->setScaledContents(true);
+            movie->start();
+        }catch(...){
+
+        }
+
+        emit WorkerCompile(codeEditor->toPlainText());
+
+    }else{
+        ui->textMessages->append(QDateTime::currentDateTime().toString("hh:mm:ss") + " ERRO: Não foi possível compilar");
+    }
 
 }
 
-void MainWindow::Run(){
+void MainWindow::RunCode(){
 
 }
 
 //---------------------------SLOTS---------------------------
 void MainWindow::EditorTextEdited(){
     isSaved = false;
+    this->setWindowTitle("SKYY Codka - (Não salvo)");
 }
 
-void MainWindow::WorkerError(int type, QString message){
+void MainWindow::WorkerError(int type, QString message, int errorline){
 
-    QString errorMessage = "ERRO: ";
+    KillAllThreads();
+
+    QString errorMessage = QDateTime::currentDateTime().toString("hh:mm:ss") + " ERRO: ";
 
     switch(type){
     case 0: //Load File
@@ -159,6 +227,14 @@ void MainWindow::WorkerError(int type, QString message){
 
     case 1: //Save File
         errorMessage.append(message);
+        break;
+
+    case 2: //Compiler Error
+        errorMessage.append("Linha " + QString::number(errorline) + ": " + message);
+        codeEditor->setTextCursor(QTextCursor(codeEditor->document()->findBlockByLineNumber(errorline)));
+        break;
+
+    case 3: //Run Error
         break;
 
     default: //Unknown Error
@@ -166,36 +242,63 @@ void MainWindow::WorkerError(int type, QString message){
         break;
     }
 
-    KillAllThreads();
-    DialogPopup(0, errorMessage).exec();
+    //Change text color to red
+    QTextCharFormat charFormat = ui->textMessages->currentCharFormat();
+    charFormat.setForeground(QBrush(Qt::yellow));
+    ui->textMessages->setCurrentCharFormat(charFormat);
+    ui->textMessages->append(errorMessage);
 
     this->setEnabled(true);
 
 }
 
-void MainWindow::WorkerDone(int type, QString message){
+void MainWindow::WorkerDone(int type, QString /*message*/){
+
+    KillAllThreads();
+
+    //Change text color to white
+    QTextCharFormat charFormat = ui->textMessages->currentCharFormat();
+    charFormat.setForeground(QBrush(Qt::white));
+    ui->textMessages->setCurrentCharFormat(charFormat);
 
     QString doneMessage = QDateTime::currentDateTime().toString("hh:mm:ss") + " INFO: ";
 
     switch(type){
     case 0: //Load File
-        doneMessage.append("Arquivo carregado com sucesso! " + message);
+        doneMessage.append("Arquivo carregado com sucesso! ");
         isSaved = true;
+        this->setWindowTitle("SKYY Codka - (Salvo)");
         break;
 
     case 1: //Save File
-        doneMessage.append("Arquivo salvo com sucesso! " + message);
+        doneMessage.append("Arquivo salvo com sucesso! ");
         isSaved = true;
+        this->setWindowTitle("SKYY Codka - (Salvo)");
+        break;
+
+    case 2: //Compiler
+        doneMessage.append("Compilado com sucesso!");
+
+        if(runCode)
+            RunCode();
+
+        break;
+
+    case 3: //Run
+        doneMessage.append("Executando...");
         break;
 
     default: //Unknown
         break;
     }
 
-    KillAllThreads();
     this->setEnabled(true);
 
+    //Show message
     ui->textMessages->append(doneMessage);
+
+    if(type == 2 && runCode)
+        RunCode();
 }
 
 void MainWindow::WorkerTextLoaded(QString message){
@@ -205,7 +308,7 @@ void MainWindow::WorkerTextLoaded(QString message){
 void MainWindow::On_buttonNew_clicked(){
 
     if(!isSaved){
-        if(!DialogPopup(1, "Deseja apagar sem salvar?").exec())
+        if(!DialogPopup(1, "Camarada deseja apagar sem salvar?").exec())
             return;
     }
 
@@ -215,7 +318,7 @@ void MainWindow::On_buttonNew_clicked(){
 void MainWindow::On_buttonOpen_clicked(){
 
     if(!isSaved){
-        if(!DialogPopup(1, "Deseja apagar sem salvar?").exec())
+        if(!DialogPopup(1, "Camarada deseja apagar sem salvar?").exec())
             return;
     }
 
@@ -229,7 +332,7 @@ void MainWindow::On_buttonOpen_clicked(){
 void MainWindow::On_buttonSave_clicked(){
 
     if(isSaved){
-        DialogPopup(0, "O arquivo está salvo!").exec();
+        DialogPopup(0, "Camarada o arquivo está salvo!").exec();
         return;
     }
 
@@ -241,10 +344,12 @@ void MainWindow::On_buttonSaveAs_clicked(){
 }
 
 void MainWindow::On_buttonBuild_clicked(){
-
+    runCode = false;
+    Build();
 }
 
 void MainWindow::On_buttonBuildRun_clicked(){
-
+    runCode = true;
+    Build();
 }
 //---------------------------SLOTS---------------------------

@@ -18,6 +18,7 @@ SOURCES += \
     linenumberarea.cpp \
     main.cpp \
     mainwindow.cpp \
+    workercompiler.cpp \
     workerfilehandler.cpp
 
 HEADERS += \
@@ -25,6 +26,7 @@ HEADERS += \
     dialogpopup.h \
     linenumberarea.h \
     mainwindow.h \
+    workercompiler.h \
     workerfilehandler.h
 
 FORMS += \

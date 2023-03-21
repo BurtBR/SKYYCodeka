@@ -1,28 +1,37 @@
-#ifndef WORKERFILEHANDLER_H
-#define WORKERFILEHANDLER_H
+#ifndef WORKERCOMPILER_H
+#define WORKERCOMPILER_H
 
 #include <QObject>
-#include <QFile>
-#include <QTextStream>
 
-class WorkerFileHandler : public QObject{
+//TEMPORARIO
+#include <QThread>
+//TEMPORARIO
+
+class WorkerCompiler : public QObject{
+
     //Q_OBJECT macro needs to be used with QT as indicated
     //in the QObject class documentation:
     //The Q_OBJECT macro must appear in the private section of a class
     //definition that declares its own signals and slots or that uses
     //other services provided by Qt's meta-object system.
     Q_OBJECT
+
+private:
+    //Private Attributes
+
+    //Private Methods
+    bool LexicalAnalysis(QString &code);
+    bool SyntacticAnalysis(QString &code);
+
 public:
-    WorkerFileHandler(QObject *parent = nullptr);
+    WorkerCompiler(QObject *parent = nullptr);
 
 public slots:
-    void LoadFile(QString filepath);
-    void SaveFile(QString text, QString filepath);
+    void Compile(QString text);
 
 signals:
     void Error(int type, QString message = QString(), int errorline = -1);
     void Done(int type, QString message = QString());
-    void TextLoaded(QString text);
 };
 
-#endif // WORKERFILEHANDLER_H
+#endif // WORKERCOMPILER_H
