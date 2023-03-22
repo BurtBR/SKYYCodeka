@@ -49,6 +49,7 @@ bool WorkerCompiler::IsValidChar(const QChar &c){
     case '}':
     case '(':
     case ')':
+    case '#':
     case '\"':
     case '\'':
     case ';':
@@ -58,10 +59,16 @@ bool WorkerCompiler::IsValidChar(const QChar &c){
     case '&':
     case '!':
     case '|':
+    case '^':
+    case '>':
+    case '<':
+    case '=':
+    case '%':
     case '+':
     case '-':
     case '*':
     case '/':
+    case '_':
         return true;
 
     case ' ':
