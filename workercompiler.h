@@ -22,6 +22,7 @@ private:
     //Private Methods
     bool LexicalAnalysis(QString &code);
     bool SyntacticAnalysis(QString &code);
+    bool IsValidChar(const QChar &c);
 
 public:
     WorkerCompiler(QObject *parent = nullptr);

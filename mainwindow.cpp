@@ -372,7 +372,7 @@ void MainWindow::WorkerError(int type, QString message, int errorline){
 
     case 2: //Compiler Error
         errorMessage.append("Linha " + QString::number(errorline) + ": " + message);
-        codeEditor->setTextCursor(QTextCursor(codeEditor->document()->findBlockByLineNumber(errorline)));
+        codeEditor->setTextCursor(QTextCursor(codeEditor->document()->findBlockByLineNumber(errorline-1)));
         break;
 
     case 3: //Run Error
