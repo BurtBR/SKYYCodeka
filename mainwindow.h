@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QFileDialog>
 #include <QFile>
+#include <QByteArray>
 #include <QTextCursor>
 #include <QTextCharFormat>
 #include <QDateTime>
@@ -42,6 +43,9 @@ private:
     //Private Methods
     bool StartFileThread();
     bool StartCompilerThread();
+    void LoadConfigFile();
+    void ProcessConfiLine(QString line);
+    void SaveConfigParameter(QString parameter, QString value);
     void KillAllThreads();
     void NewFile();
     void OpenFile(QString filepath);

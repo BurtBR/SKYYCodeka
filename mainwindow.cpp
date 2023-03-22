@@ -24,6 +24,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->buttonBuildRun, &QToolButton::clicked, this, On_buttonBuildRun_clicked);
     //Other
     connect(codeEditor, QPlainTextEdit::textChanged, this, EditorTextEdited);
+
+    LoadConfigFile();
 }
 
 MainWindow::~MainWindow(){
@@ -112,6 +114,104 @@ bool MainWindow::StartCompilerThread(){
     return true;
 }
 
+void MainWindow::LoadConfigFile(){
+
+    QFile configfile("configuramento.skyy");
+
+    if(!configfile.exists()){
+
+        QTextStream IOStream(&configfile);
+
+        if(!configfile.open(QIODevice::WriteOnly | QIODevice::Text))
+            return;
+
+        IOStream << "lastfile=";
+
+        configfile.close();
+
+    }else{
+
+        if(!configfile.open(QIODevice::ReadOnly | QIODevice::Text)){
+            ui->textMessages->append(QDateTime::currentDateTime().toString("hh:mm:ss") +
+                                     " ERRO: Não foi possível abrir o arquivo de configuração!");
+            return;
+        }
+
+        while(!configfile.atEnd()){
+            ProcessConfiLine(configfile.readLine().trimmed());
+        }
+
+        configfile.close();
+
+    }
+
+}
+
+void MainWindow::ProcessConfiLine(QString line){
+
+    if(!line.size())
+        return;
+
+    QStringList config = line.split('=');
+
+    if(config.size() != 2)
+        return;
+
+    if(!config[0].compare("lastfile")){
+        OpenFile(config[1]);
+    }
+
+}
+
+void MainWindow::SaveConfigParameter(QString parameter, QString value){
+
+    QFile configfile("configuramento.skyy");
+    QTextStream IOStream(&configfile);
+    QString text, line;
+    QStringList strlist;
+
+    if(!configfile.exists()){
+        text = parameter + "=" + value;
+    }else{
+
+        //Open File
+        if(!configfile.open(QIODevice::ReadOnly | QIODevice::Text))
+            return;
+
+        while(!configfile.atEnd()){
+
+            line = configfile.readLine().trimmed();
+            strlist = line.split('=');
+
+            //If the parameter is the same as the one read in the file
+            if(!parameter.compare(strlist[0]))
+                text.append(parameter + "=" + value + '\n');
+            else
+                text.append(line + "\n");
+
+        }
+
+        //CloseFile
+        configfile.close();
+
+        //Error redundancy
+        if(!text.size())
+            text = parameter + "=" + value;
+
+    }
+
+    //Open File
+    if(!configfile.open(QIODevice::WriteOnly | QIODevice::Text))
+        return;
+
+    //Write to file
+    IOStream << text;
+
+    //Close File
+    configfile.close();
+
+}
+
 void MainWindow::KillAllThreads(){
 
     if(threadWorking){
@@ -149,6 +249,7 @@ void MainWindow::OpenFile(QString filepath){
 
     if(StartFileThread()){
         currentFilePath = filepath;
+        SaveConfigParameter("lastfile", currentFilePath);
         this->setEnabled(false);
         emit WorkerLoad(filepath);
     }else{
@@ -169,6 +270,7 @@ void MainWindow::SaveFile(QString filepath){
 
     if(StartFileThread()){
         currentFilePath = filepath;
+        SaveConfigParameter("lastfile", currentFilePath);
         this->setEnabled(false);
         emit WorkerSave(codeEditor->toPlainText(), filepath);
     }else{
