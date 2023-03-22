@@ -67,6 +67,7 @@ private slots:
     void On_buttonBuild_clicked();
     void On_buttonBuildRun_clicked();
     //Other
+    void DisplayMessage(QString text, int messagetype = 1);
     void EditorTextEdited();
     void WorkerError(int type, QString message, int errorline = -1);
     void WorkerDone(int type, QString message);

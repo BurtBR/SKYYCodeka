@@ -32,6 +32,7 @@ public slots:
 signals:
     void Error(int type, QString message = QString(), int errorline = -1);
     void Done(int type, QString message = QString());
+    void DisplayInfo(QString message, int messagetype = 1);
 };
 
 #endif // WORKERCOMPILER_H

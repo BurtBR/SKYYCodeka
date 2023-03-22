@@ -107,6 +107,7 @@ bool MainWindow::StartCompilerThread(){
 
     //Connect Signals and Slots
     connect(threadWorking, &QThread::finished, worker, &WorkerCompiler::deleteLater);
+    connect(worker, &WorkerCompiler::DisplayInfo, this, DisplayMessage);
     connect(worker, &WorkerCompiler::Error, this, WorkerError);
     connect(worker, &WorkerCompiler::Done, this, WorkerDone);
     connect(this, WorkerCompile, worker, &WorkerCompiler::Compile);
@@ -132,8 +133,7 @@ void MainWindow::LoadConfigFile(){
     }else{
 
         if(!configfile.open(QIODevice::ReadOnly | QIODevice::Text)){
-            ui->textMessages->append(QDateTime::currentDateTime().toString("hh:mm:ss") +
-                                     " ERRO: Não foi possível abrir o arquivo de configuração!");
+            DisplayMessage("Não foi possível abrir o arquivo de configuração!", 0);
             return;
         }
 
@@ -238,10 +238,10 @@ void MainWindow::OpenFile(QString filepath){
     QFileInfo fileInfo = QFileInfo(filepath);
 
     if(!fileInfo.exists()){
-        ui->textMessages->append(QDateTime::currentDateTime().toString("hh:mm:ss") + " ERRO: O arquivo não existe!");
+        DisplayMessage("O arquivo não existe!", 0);
         return;
     }else if(QString::compare(fileInfo.suffix(),"cdk")){
-        ui->textMessages->append(QDateTime::currentDateTime().toString("hh:mm:ss") + " ERRO: O arquivo não é compatível!");
+        DisplayMessage("O arquivo não é compatível!", 0);
         return;
     }
 
@@ -253,7 +253,7 @@ void MainWindow::OpenFile(QString filepath){
         this->setEnabled(false);
         emit WorkerLoad(filepath);
     }else{
-        ui->textMessages->append(QDateTime::currentDateTime().toString("hh:mm:ss") + " ERRO: Não foi possível iniciar nova thread");
+        DisplayMessage("Não foi possível iniciar nova thread", 0);
     }
 
 }
@@ -274,12 +274,13 @@ void MainWindow::SaveFile(QString filepath){
         this->setEnabled(false);
         emit WorkerSave(codeEditor->toPlainText(), filepath);
     }else{
-        ui->textMessages->append(QDateTime::currentDateTime().toString("hh:mm:ss") + " ERRO: Não foi possível iniciar nova thread");
+        DisplayMessage("Não foi possível iniciar nova thread", 0);
     }
 }
 
 void MainWindow::Build(){
-    ui->textMessages->append(QDateTime::currentDateTime().toString("hh:mm:ss") + " INFO: Compilando...");
+
+    DisplayMessage("Compilando...");
 
     if(StartCompilerThread()){
 
@@ -301,7 +302,7 @@ void MainWindow::Build(){
         emit WorkerCompile(codeEditor->toPlainText());
 
     }else{
-        ui->textMessages->append(QDateTime::currentDateTime().toString("hh:mm:ss") + " ERRO: Não foi possível compilar");
+        DisplayMessage("Não foi possível compilar", 0);
     }
 
 }
@@ -311,6 +312,44 @@ void MainWindow::RunCode(){
 }
 
 //---------------------------SLOTS---------------------------
+
+void MainWindow::DisplayMessage(QString text, int messagetype){
+
+    QString message;
+    QTextCharFormat charFormat;
+
+    switch(messagetype){
+
+    case 0: //Error
+
+        //Set text color to yellow
+        charFormat = ui->textMessages->currentCharFormat();
+        charFormat.setForeground(QBrush(Qt::yellow));
+        ui->textMessages->setCurrentCharFormat(charFormat);
+
+        message = QDateTime::currentDateTime().toString("hh:mm:ss") + " ERRO: " + text;
+
+        break;
+
+    case 1: //Information
+
+        //Set text color to white
+        charFormat = ui->textMessages->currentCharFormat();
+        charFormat.setForeground(QBrush(Qt::white));
+        ui->textMessages->setCurrentCharFormat(charFormat);
+
+        message = QDateTime::currentDateTime().toString("hh:mm:ss") + " INFO: " + text;
+
+        break;
+
+    default:
+        break;
+    }
+
+    ui->textMessages->append(message);
+
+}
+
 void MainWindow::EditorTextEdited(){
     isSaved = false;
     this->setWindowTitle("SKYY Codka - (Não salvo)");
@@ -320,7 +359,7 @@ void MainWindow::WorkerError(int type, QString message, int errorline){
 
     KillAllThreads();
 
-    QString errorMessage = QDateTime::currentDateTime().toString("hh:mm:ss") + " ERRO: ";
+    QString errorMessage;
 
     switch(type){
     case 0: //Load File
@@ -344,11 +383,7 @@ void MainWindow::WorkerError(int type, QString message, int errorline){
         break;
     }
 
-    //Change text color to red
-    QTextCharFormat charFormat = ui->textMessages->currentCharFormat();
-    charFormat.setForeground(QBrush(Qt::yellow));
-    ui->textMessages->setCurrentCharFormat(charFormat);
-    ui->textMessages->append(errorMessage);
+    DisplayMessage(errorMessage, 0);
 
     this->setEnabled(true);
 
@@ -358,12 +393,7 @@ void MainWindow::WorkerDone(int type, QString /*message*/){
 
     KillAllThreads();
 
-    //Change text color to white
-    QTextCharFormat charFormat = ui->textMessages->currentCharFormat();
-    charFormat.setForeground(QBrush(Qt::white));
-    ui->textMessages->setCurrentCharFormat(charFormat);
-
-    QString doneMessage = QDateTime::currentDateTime().toString("hh:mm:ss") + " INFO: ";
+    QString doneMessage;
 
     switch(type){
     case 0: //Load File
@@ -397,10 +427,7 @@ void MainWindow::WorkerDone(int type, QString /*message*/){
     this->setEnabled(true);
 
     //Show message
-    ui->textMessages->append(doneMessage);
-
-    if(type == 2 && runCode)
-        RunCode();
+    DisplayMessage(doneMessage);
 }
 
 void MainWindow::WorkerTextLoaded(QString message){
