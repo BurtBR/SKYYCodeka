@@ -14,8 +14,8 @@ string  | palavrovka
 main    | motherland
 while   | mickwhail
 for     | forevisky
-if      | ser
-else    | sergay
+if      | gey
+else    | ser
 return  | yebat
 
 # OPERAÇÕES
@@ -89,8 +89,8 @@ truotsky      |
 \<predecrement\> | \<minusminus\> \<identifier\>
 \<postdecrement\> | \<identifier\> \<minusminus\>
 \<main_id\> | "motherland"
-\<if\> | "ser"
-\<else\> | "sergay"
+\<if\> | "gey"
+\<else\> | "ser"
 \<for\> | "forevisky"
 \<while\> | "michwhail"
 \<var_type\> | "intsky" \| "charovsky" \| "floatsky" \| "bolichisky" \| "palavrovka"
