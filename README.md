@@ -12,10 +12,10 @@ string  | palavrovka
 **em C**  | **SKYY**
 :------|:----------
 main    | motherland
-while   | 
+while   | Nikowile
 for     | forevisky
-if      |
-else    |
+if      | 
+else    | 
 return  | yebat
 
 # OPERAÇÕES
@@ -37,14 +37,14 @@ $*$ | $*$
 # OUTROS
 **em C**  | **SKYY**
 :------|:----------
-EOL | ;
+; (EOL) | ;
 
 # NÃO NECESSÁRIOS
 **em C** | **SKYY**
 :------|:----------
 \#define  | 
-true      | ivandrago \| nosso
-false     | rocky \| meu
+true      | strongon
+false     | strongonoff 
 
 # PALAVRAS
 **Palavra**  | **Significado**
@@ -53,6 +53,9 @@ tchekutchka   |
 pollitra      |
 stolichnaya   | Marca de vodka
 za zdorôvie!  | brinde(bebida)
+sergay        |
+primakov      |
+truotsky      |
 
 # ENBF
 **Símbolo**  | **Digivolve para**
