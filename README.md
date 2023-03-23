@@ -12,10 +12,10 @@ string  | palavrovka
 **em C**  | **SKYY**
 :------|:----------
 main    | motherland
-while   | Nikowile
+while   | mickwhail
 for     | forevisky
-if      | 
-else    | 
+if      | ser
+else    | sergay
 return  | yebat
 
 # OPERAÇÕES
@@ -63,18 +63,18 @@ truotsky      |
 \<program\> | {\<var_declaration\> \| \<function\>} \<main\> {\<var_declaration\> \| \<function\>}
 \<main\> | \<var_type\> \<main_id\> \<arguments\> \<begin_code\> [\<code\>] \<return_statement\> \<end_code\>
 \<return_statement\> | \<return\> \<value\> \<eol\>
-\<function\> | \<return_function\> | \<void_function\>
+\<function\> | \<return_function\> \| \<void_function\>
 \<return_function\> | \<var_type\> \<identifier\> \<arguments\> \<begin_code\> [\<code\>] \<return_statement\> \<end_code\>
 \<void_function\> | \<void\> \<identifier\> \<arguments\> \<block\>
 \<arguments\> | \<begin_arg\> [\<arg_list\>] \<end_arg\>
 \<block\> | \<begin_code\> [\<code\>] \<end_code\>
-\<code\> | {\<var_declaration\> \| \<loop_block\> | \<ifelse_statement\> \| \<attribution\>}
+\<code\> | {\<var_declaration\> \| \<loop_block\> \| \<ifelse_statement\> \| (\<attribution\> \<eol\>)}
 \<ifelse_statement\> | \<if\> \<begin_arg\> \<operation\> \<end_arg\> \<block\> [\<else_statement\>]
 \<else_statement\> | \<else\> (\<ifelse_statement\> \| \<block\> [\<else_statement\>])
 \<loop_block\> | \<for_statement\> \| \<while_statement\>
 \<for_statement\> | \<for\> \<begin_arg\> [\<var_declaration\> {\<separator\> \<var_declaration\>}] \<eol\> \<operation\> \<eol\> \<attribution\> \<end_arg\> \<block\>
 \<while_statement\> | \<while\> \<begin_arg\> \<operation\> \<end_arg\> \<block\>
-\<value\> | \<identifier\> \| \<number\> \| \<operation\>
+\<value\> | \<identifier\> \| \<number\> \| \<operation\> \| \<logical\>
 \<identifier\> | \<letter\> {\<character\>}
 \<var_declaration\> | \<var_type\> \<var_list\> \<eol\>
 \<var_list\> | (\<identifier\> \| \<attribution\>) {\<separator\> \<var_list\>}
@@ -89,10 +89,10 @@ truotsky      |
 \<predecrement\> | \<minusminus\> \<identifier\>
 \<postdecrement\> | \<identifier\> \<minusminus\>
 \<main_id\> | "motherland"
-\<if\> | ""
-\<else\> | ""
-\<for\> | ""
-\<while\> | ""
+\<if\> | "ser"
+\<else\> | "sergay"
+\<for\> | "forevisky"
+\<while\> | "michwhail"
 \<var_type\> | "intsky" \| "charovsky" \| "floatsky" \| "bolichisky" \| "palavrovka"
 \<void\> | "chernobyl"
 \<underline\> | "_"
@@ -105,6 +105,7 @@ truotsky      |
 \<letter\> | "a" \| "b" \| "c" \| "d" \| "e" \| "f" \| "g" \| "h" \| "i" \| "j" \| "k" \| "l" \| "m" \| "n" \| "o" \| "p" \| "q" \| "r" \| "s" \| "t" \| "u" \| "v" \| "w" \| "x" \| "y" \| "z" \| "A" \| "B" \| "C" \| "D" \| "E" \| "F" \| "G" \| "H" \| "I" \| "J" \| "K" \| "L" \| "M" \| "N" \| "O" \| "P" \| "Q" \| "R" \| "S" \| "T" \| "U" \| "V" \| "W" \| "X" \| "Y" \| "Z"
 \<digit_nonzero\>  | "1" \| "2" \| "3" \| "4" \| "5" \| "6" \| "7" \| "8" \| "9"
 \<digit\> | "0" \| \<digit_nonzero\>
+\<logical\> | "strongon" \| "strongonoff"
 \<operator\> | "+" \| "-" \| "*" \| "/" \| "&&" \| "\|\|" \| "==" \| "!=" \| ">=" \| "<=" \| "<" \| ">"
 \<equal\> | "="
 \<plusplus\> | "++"
