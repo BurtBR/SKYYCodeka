@@ -112,3 +112,227 @@ truotsky      |
 \<minusminus\> | "--"
 \<not\> | "niet"
 \<return\> | "yebat"
+
+# Exemplos
+
+```
+intsky motherland(){
+  
+  charovisky c = 69;
+  
+  forevisky(intsky i=0 ; i<10 ;i++){
+    c = c + 1;
+  }
+
+  yebat 0;
+}
+```
+```
+<program>
+│
+└─<main>
+  │
+  └─<var_type>
+  | |
+  | └─ intsky
+  |
+  └─<main_id>
+  | |
+  | └─ motherland
+  |
+  └─<arguments>
+  | |
+  | └─<begin_arg>
+  | | |
+  | | └─ (
+  | |
+  | └─<arg_list>
+  | | |
+  | | └─ {}
+  | |
+  | └─<end_arg>
+  |   |
+  |   └─ )
+  |
+  └─<begin_code>
+  | |
+  | └─ {
+  |
+  └─<code>
+  | |
+  | └─<var_declaration>
+  | | |
+  | | └─<var_type>
+  | | | |
+  | | | └─ charovsky
+  | | |
+  | | └─<var_list>
+  | |   |
+  | |   └─<attribution>
+  | |     |
+  | |     └─<identifier>
+  | |     | |
+  | |     | └─<letter>
+  | |     |   |
+  | |     |   └─ c
+  | |     |
+  | |     └─<equal>
+  | |     | |
+  | |     | └─ =
+  | |     |
+  | |     └─<value>
+  | |       |
+  | |       └─<number>
+  | |         |
+  | |         └─<digit_nonzero>
+  | |         | |
+  | |         | └─ 6
+  | |         |
+  | |         └─<digit>
+  | |           |
+  | |           └─ 9
+  | |
+  | └─<eol>
+  | | |
+  | | └─ ;
+  | |
+  | └─<loop_block>
+  |   |
+  |   └─<for_statement>
+  |     |
+  |     └─<for>
+  |     |
+  |     └─<begin_arg>
+  |     |
+  |     └─<var_declaration>
+  |     | |
+  |     | └─<var_type>
+  |     | |
+  |     | └─<var_list>
+  |     |
+  |     └─<eol>
+  |     | |
+  |     | └─ ;
+  |     |
+  |     └─<operation>
+  |     | |
+  |     | └─<value>
+  |     | | |
+  |     | | └─<identifier>
+  |     | |   |
+  |     | |   └─<letter>
+  |     | |     |
+  |     | |     └─ i
+  |     | |
+  |     | └─<operator>
+  |     | | |
+  |     | | └─ <
+  |     | |
+  |     | └─<value>
+  |     |   |
+  |     |   └─<number>
+  |     |     |
+  |     |     └─<digit_nonzero>
+  |     |     | |
+  |     |     | └─ 1
+  |     |     |
+  |     |     └─<digit>
+  |     |       |
+  |     |       └─ 0
+  |     |
+  |     └─<eol>
+  |     | |
+  |     | └─ ;
+  |     |
+  |     └─<attribution>
+  |     | |
+  |     | └─<increment>
+  |     |   |
+  |     |   └─<postincrement>
+  |     |     |
+  |     |     └─<identifier>
+  |     |     | |
+  |     |     | └─<letter>
+  |     |     |   |
+  |     |     |   └─i
+  |     |     |
+  |     |     └─<plusplus>
+  |     |       |
+  |     |       └─ ++
+  |     |
+  |     └─<end_arg>
+  |     | |
+  |     | └─ )
+  |     |
+  |     └─<block>
+  |       |
+  |       └─<begin_code>
+  |       | |
+  |       | └─ {
+  |       |
+  |       └─<code>
+  |       | |
+  |       | └─<attribution>
+  |       | | |
+  |       | | └─<identifier>
+  |       | | | |
+  |       | | | └─<letter>
+  |       | | |   |
+  |       | | |   └─ c
+  |       | | |
+  |       | | └─<equal>
+  |       | | | |
+  |       | | | └─ =
+  |       | | |
+  |       | | └─<value>
+  |       | |   |
+  |       | |   └─<operation>
+  |       | |     |
+  |       | |     └─<value>
+  |       | |     | |
+  |       | |     | └─<identifier>
+  |       | |     |   |
+  |       | |     |   └─<letter>
+  |       | |     |     |
+  |       | |     |     └─ c
+  |       | |     |
+  |       | |     └─<operator>
+  |       | |     | |
+  |       | |     | └─ +
+  |       | |     |
+  |       | |     └─<value>
+  |       | |       |
+  |       | |       └─<number>
+  |       | |         |
+  |       | |         └─<digit>
+  |       | |           |
+  |       | |           └─ 1
+  |       | |
+  |       | └─<eol>
+  |       |   |
+  |       |   └─ ;
+  |       |
+  |       └─<end_code>
+  |         |
+  |         └─ }
+  |
+  └─<return_statement>
+  | |
+  | └─<return>
+  | |
+  | └─<value>
+  | | |
+  | | └─<number>
+  | |   |
+  | |   └─<digit>
+  | |     |
+  | |     └─ 0
+  | |
+  | └─<eol>
+  |   |
+  |   └─ ;
+  |
+  └─<end_code>
+    |
+    └─ }
+```
