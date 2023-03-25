@@ -68,13 +68,14 @@ truotsky      |
 \<void_function\> | \<void\> \<identifier\> \<arguments\> \<block\>
 \<arguments\> | \<begin_arg\> [\<arg_list\>] \<end_arg\>
 \<block\> | \<begin_code\> [\<code\>] \<end_code\>
-\<code\> | {(\<var_declaration\>) \| \<loop_block\> \| \<ifelse_statement\> \| (\<attribution\> \<eol\>) \| \<return_statement\>}
+\<code\> | {(\<var_declaration\>) \| \<loop_block\> \| \<ifelse_statement\> \| (\<attribution\> \<eol\>) \| (\<function_call\> \<eol\)> \| \<return_statement\>}
 \<ifelse_statement\> | \<if\> \<begin_arg\> \<operation\> \<end_arg\> \<block\> [\<else_statement\>]
 \<else_statement\> | \<else\> (\<ifelse_statement\> \| \<block\> [\<else_statement\>])
 \<loop_block\> | \<for_statement\> \| \<while_statement\>
-\<for_statement\> | \<for\> \<begin_arg\> [\<attribution\> {\<separator\> \<attribution\>}] \<eol\> \<operation\> \<eol\> [\<attribution\>] \<end_arg\> \<block\>
+\<for_statement\> | \<for\> \<begin_arg\> [\<attribution\> {\<separator\> \<attribution\>}] \<eol\> \<value\> \<eol\> [\<attribution\>] \<end_arg\> \<block\>
 \<while_statement\> | \<while\> \<begin_arg\> \<operation\> \<end_arg\> \<block\>
-\<value\> | \<identifier\> \| \<number\> \| \<operation\> \| \<logical\> \| \<string\>
+\<value\> | \<identifier\> \| \<number\> \| \<operation\> \| \<logical\> \| \<string\> \| \<function_call\>
+\<function_call\> | \<identifier\> \<arguments\>
 \<string\> | \<begin_str\> {\<character\>} \<end_str\>
 \<identifier\> | \<letter\> {\<character\>}
 \<var_declaration\> | \<var_type\> \<var_list\> \<eol\>
@@ -256,31 +257,33 @@ intsky motherland(){
   |     | |
   |     | └─ ;
   |     |
-  |     └─<operation>
+  |     └─<value>
   |     | |
-  |     | └─<value>
-  |     | | |
-  |     | | └─<identifier>
-  |     | |   |
-  |     | |   └─<letter>
-  |     | |     |
-  |     | |     └─ i
-  |     | |
-  |     | └─<operator>
-  |     | | |
-  |     | | └─ <
-  |     | |
-  |     | └─<value>
+  |     | └─<operation>
   |     |   |
-  |     |   └─<number>
+  |     |   └─<value>
+  |     |   | |
+  |     |   | └─<identifier>
+  |     |   |   |
+  |     |   |   └─<letter>
+  |     |   |     |
+  |     |   |     └─ i
+  |     |   |
+  |     |   └─<operator>
+  |     |   | |
+  |     |   | └─ <
+  |     |   |
+  |     |   └─<value>
   |     |     |
-  |     |     └─<digit_nonzero>
-  |     |     | |
-  |     |     | └─ 1
-  |     |     |
-  |     |     └─<digit>
+  |     |     └─<numbber>
   |     |       |
-  |     |       └─ 0
+  |     |       └─<digit_nonzero>
+  |     |       | |
+  |     |       | └─ 1
+  |     |       |
+  |     |       └─<digit>
+  |     |         |
+  |     |         └─ 0
   |     |
   |     └─<eol>
   |     | |
@@ -869,4 +872,198 @@ intsky motherland{
 |     └─ }
 |
 └─<main>
+  |
+  └─<var_type>
+  | |
+  | └─ intsky
+  |
+  └─<main_id>
+  | |
+  | └─ motherland
+  |
+  └─<arguments>
+  | |
+  | └─<begin_arg>
+  | | |
+  | | └─ (
+  | |
+  | └─<end_arg>
+  |   |
+  |   └─ )
+  |
+  └─<begin_code>
+  | |
+  | └─ {
+  |
+  └─<code>
+  | |
+  | └─<attribution>
+  | | |
+  | | └─<identifier>
+  | | | |
+  | | | └─<letter>
+  | | | | |
+  | | | | └─ c
+  | | | |
+  | | | └─<character>
+  | | | | |
+  | | | | └─<letter>
+  | | | |   |
+  | | | |   └─ a
+  | | | └─<character>
+  | | | | |
+  | | | | └─<letter>
+  | | | |   |
+  | | | |   └─ m
+  | | | └─<character>
+  | | | | |
+  | | | | └─<letter>
+  | | | |   |
+  | | | |   └─ a
+  | | | └─<character>
+  | | | | |
+  | | | | └─<letter>
+  | | | |   |
+  | | | |   └─ r
+  | | | └─<character>
+  | | | | |
+  | | | | └─<letter>
+  | | | |   |
+  | | | |   └─ a
+  | | | └─<character>
+  | | | | |
+  | | | | └─<letter>
+  | | | |   |
+  | | | |   └─ d
+  | | | └─<character>
+  | | |   |
+  | | |   └─<letter>
+  | | |     |
+  | | |     └─ a
+  | | |
+  | | └─<equal>
+  | | | |
+  | | | └─ =
+  | | |
+  | | └─<value>
+  | |   |
+  | |   └─<string>
+  | |     |
+  | |     └─<begin_str>
+  | |     | |
+  | |     | └─ "
+  | |     |
+  | |     └─<character>
+  | |     | |
+  | |     | └─<letter>
+  | |     |   |
+  | |     |   └─ B
+  | |     └─<character>
+  | |     | |
+  | |     | └─<letter>
+  | |     |   |
+  | |     |   └─ o
+  | |     └─<character>
+  | |     | |
+  | |     | └─<letter>
+  | |     |   |
+  | |     |   └─ r
+  | |     └─<character>
+  | |     | |
+  | |     | └─<letter>
+  | |     |   |
+  | |     |   └─ i
+  | |     └─<character>
+  | |     | |
+  | |     | └─<letter>
+  | |     |   |
+  | |     |   └─ s
+  | |     |
+  | |     └─<end_str>
+  | |       |
+  | |       └─ "
+  | |
+  | └─<eol>
+  | | |
+  | | └─ ;
+  | |
+  | └─<function_call>
+  | | |
+  | | └─<identifier>
+  | | | |
+  | | | └─<letter>
+  | | | | |
+  | | | | └─ v
+  | | | |
+  | | | └─<character>
+  | | | | |
+  | | | | └─<letter>
+  | | | |   |
+  | | | |   └─ e
+  | | | └─<character>
+  | | | | |
+  | | | | └─<letter>
+  | | | |   |
+  | | | |   └─ r
+  | | | └─<character>
+  | | | | |
+  | | | | └─<letter>
+  | | | |   |
+  | | | |   └─ i
+  | | | └─<character>
+  | | | | |
+  | | | | └─<letter>
+  | | | |   |
+  | | | |   └─ f
+  | | | └─<character>
+  | | | | |
+  | | | | └─<letter>
+  | | | |   |
+  | | | |   └─ i
+  | | | └─<character>
+  | | | | |
+  | | | | └─<letter>
+  | | | |   |
+  | | | |   └─ c
+  | | | └─<character>
+  | | |   |
+  | | |   └─<letter>
+  | | |     |
+  | | |     └─ a
+  | | |
+  | | └─<arguments>
+  | |   |
+  | |   └─<begin_arg>
+  | |   | |
+  | |   | └─ (
+  | |   |
+  | |   └─<end_arg>
+  | |     |
+  | |     └─ )
+  | |
+  | └─<eol>
+  |   |
+  |   └─ ;
+  |
+  └─<return_statement>
+  | |
+  | └─<return>
+  | | |
+  | | └─ yebat
+  | |
+  | └─<value>
+  | | |
+  | | └─<number>
+  | |   |
+  | |   └─<digit>
+  | |     |
+  | |     └─ 0
+  | |
+  | └─<eol>
+  |   |
+  |   └─ ;
+  |
+  └─<end_code>
+    |
+    └─ }
 ```
