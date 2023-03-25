@@ -68,15 +68,16 @@ truotsky      |
 \<void_function\> | \<void\> \<identifier\> \<arguments\> \<block\>
 \<arguments\> | \<begin_arg\> [\<arg_list\>] \<end_arg\>
 \<block\> | \<begin_code\> [\<code\>] \<end_code\>
-\<code\> | {(\<var_declaration\> \<eol\>) \| \<loop_block\> \| \<ifelse_statement\> \| (\<attribution\> \<eol\>)}
+\<code\> | {(\<var_declaration\>) \| \<loop_block\> \| \<ifelse_statement\> \| (\<attribution\> \<eol\>) \| \<return_statement\>}
 \<ifelse_statement\> | \<if\> \<begin_arg\> \<operation\> \<end_arg\> \<block\> [\<else_statement\>]
 \<else_statement\> | \<else\> (\<ifelse_statement\> \| \<block\> [\<else_statement\>])
 \<loop_block\> | \<for_statement\> \| \<while_statement\>
-\<for_statement\> | \<for\> \<begin_arg\> [\<var_declaration\> {\<separator\> \<var_declaration\>}] \<eol\> \<operation\> \<eol\> [\<attribution\>] \<end_arg\> \<block\>
+\<for_statement\> | \<for\> \<begin_arg\> [\<attribution\> {\<separator\> \<attribution\>}] \<eol\> \<operation\> \<eol\> [\<attribution\>] \<end_arg\> \<block\>
 \<while_statement\> | \<while\> \<begin_arg\> \<operation\> \<end_arg\> \<block\>
-\<value\> | \<identifier\> \| \<number\> \| \<operation\> \| \<logical\>
+\<value\> | \<identifier\> \| \<number\> \| \<operation\> \| \<logical\> \| \<string\>
+\<string\> | \<begin_str\> {\<character\>} \<end_str\>
 \<identifier\> | \<letter\> {\<character\>}
-\<var_declaration\> | \<var_type\> \<var_list\>
+\<var_declaration\> | \<var_type\> \<var_list\> \<eol\>
 \<var_list\> | (\<identifier\> \| \<attribution\>) {\<separator\> \<var_list\>}
 \<attribution\> | ( \<identifier\> \<equal\> (\<value\> \| \<attribution\>) ) \| ( [\<identifier\> \<equal\>] \<increment\>) \| ([\<identifier\> \<equal\>] \<decrement\>) \| \<increment\> \| \<decrement\>
 \<character\> | \<letter\> \| \<digit\> \| \<underline\>
@@ -100,6 +101,8 @@ truotsky      |
 \<end_arg\> | ")"
 \<begin_code\> | "{"
 \<end_code\> | "}"
+\<begin_str\> | """
+\<end_str\> | """
 \<eol\> | ";"
 \<separator\> | ","
 \<letter\> | "a" \| "b" \| "c" \| "d" \| "e" \| "f" \| "g" \| "h" \| "i" \| "j" \| "k" \| "l" \| "m" \| "n" \| "o" \| "p" \| "q" \| "r" \| "s" \| "t" \| "u" \| "v" \| "w" \| "x" \| "y" \| "z" \| "A" \| "B" \| "C" \| "D" \| "E" \| "F" \| "G" \| "H" \| "I" \| "J" \| "K" \| "L" \| "M" \| "N" \| "O" \| "P" \| "Q" \| "R" \| "S" \| "T" \| "U" \| "V" \| "W" \| "X" \| "Y" \| "Z"
