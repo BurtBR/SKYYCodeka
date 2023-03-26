@@ -14,8 +14,8 @@ string  | palavrovka
 main    | motherland
 while   | mickwhail
 for     | forevisky
-if      | gey
-else    | ser
+if      | ikov
+else    | kalashn
 return  | yebat
 
 # OPERAÇÕES
@@ -91,8 +91,8 @@ truotsky      |
 \<predecrement\> | \<minusminus\> \<identifier\>
 \<postdecrement\> | \<identifier\> \<minusminus\>
 \<main_id\> | "motherland"
-\<if\> | "gey"
-\<else\> | "ser"
+\<if\> | "ikov"
+\<else\> | "kalashn"
 \<for\> | "forevisky"
 \<while\> | "michwhail"
 \<var_type\> | "intsky" \| "charovsky" \| "floatsky" \| "bolichisky" \| "palavrovka"
@@ -391,9 +391,9 @@ palavrovka camarada;
 
 bolichisky verifica(){
   
-  gey(camarada == "Boris"){
+  ikov(camarada == "Boris"){
     yebat strongon;
-  }ser gey(camarada == "Kalashnikov"){
+  }kalashn ikov(camarada == "Kalashnikov"){
     yebat strongon;
   }
   
@@ -549,7 +549,7 @@ intsky motherland{
 |   |   |
 |   |   └─<if>
 |   |   | |
-|   |   | └─ gey
+|   |   | └─ ikov
 |   |   |
 |   |   └─<begin_arg>
 |   |   | |
@@ -689,13 +689,13 @@ intsky motherland{
 |   |     |
 |   |     └─<else>
 |   |     | |
-|   |     | └─ ser
+|   |     | └─ kalashn
 |   |     |
 |   |     └─<ifelse_statement>
 |   |       |
 |   |       └─<if>
 |   |       | |
-|   |       | └─ gey
+|   |       | └─ ikov
 |   |       |
 |   |       └─<begin_arg>
 |   |       | |
