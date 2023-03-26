@@ -82,7 +82,7 @@ truotsky      |
 \<var_list\> | (\<identifier\> \| \<attribution\>) {\<separator\> \<var_list\>}
 \<attribution\> | ( \<identifier\> \<equal\> (\<value\> \| \<attribution\>) ) \| ( [\<identifier\> \<equal\>] \<increment\>) \| ([\<identifier\> \<equal\>] \<decrement\>) \| \<increment\> \| \<decrement\>
 \<character\> | \<letter\> \| \<digit\> \| \<underline\>
-\<number\> | \<digit\> | (\<digit_nonzero\> {\<digit\>})
+\<number\> | \<digit\> \| (\<digit_nonzero\> {\<digit\>})
 \<operation\> | (\<value\> \<operator\> \<value\>) \| (\<begin_arg\> \<operation\> \<end_arg\>)
 \<increment\> | \<preincrement\> \| \<postincrement\>
 \<preincrement\> | \<plusplus\> \<identifier\>
