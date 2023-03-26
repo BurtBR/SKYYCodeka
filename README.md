@@ -68,7 +68,7 @@ truotsky      |
 \<void_function\> | \<void\> \<identifier\> \<arguments\> \<block\>
 \<arguments\> | \<begin_arg\> [\<arg_list\>] \<end_arg\>
 \<block\> | \<begin_code\> [\<code\>] \<end_code\>
-\<code\> | {(\<var_declaration\>) \| \<loop_block\> \| \<ifelse_statement\> \| (\<attribution\> \<eol\>) \| (\<function_call\> \<eol\)> \| \<return_statement\>}
+\<code\> | {\<var_declaration\> \| \<loop_block\> \| \<ifelse_statement\> \| (\<attribution\> \<eol\>) \| (\<function_call\> \<eol\)> \| \<return_statement\>}
 \<ifelse_statement\> | \<if\> \<begin_arg\> \<operation\> \<end_arg\> \<block\> [\<else_statement\>]
 \<else_statement\> | \<else\> (\<ifelse_statement\> \| \<block\> [\<else_statement\>])
 \<loop_block\> | \<for_statement\> \| \<while_statement\>
@@ -80,7 +80,7 @@ truotsky      |
 \<identifier\> | \<letter\> {\<character\>}
 \<var_declaration\> | \<var_type\> \<var_list\> \<eol\>
 \<var_list\> | (\<identifier\> \| \<attribution\>) {\<separator\> \<var_list\>}
-\<attribution\> | ( \<identifier\> \<equal\> (\<value\> \| \<attribution\>) ) \| ( [\<identifier\> \<equal\>] \<increment\>) \| ([\<identifier\> \<equal\>] \<decrement\>) \| \<increment\> \| \<decrement\>
+\<attribution\> | ( \<identifier\> \<equal\> (\<value\> \| \<attribution\>) ) \| ( [\<identifier\> \<equal\>] \<increment\>) \| ([\<identifier\> \<equal\>] \<decrement\>)
 \<character\> | \<letter\> \| \<digit\> \| \<underline\>
 \<number\> | \<digit\> \| (\<digit_nonzero\> {\<digit\>})
 \<operation\> | (\<value\> \<operator\> \<value\>) \| (\<begin_arg\> \<operation\> \<end_arg\>)
