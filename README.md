@@ -76,7 +76,7 @@ truotsky      |
 \<while_statement\> | \<while\> \<begin_arg\> \<operation\> \<end_arg\> \<block\>
 \<value\> | \<identifier\> \| \<number\> \| \<operation\> \| \<logical\> \| \<string\> \| \<function_call\>
 \<function_call\> | \<identifier\> \<arguments\>
-\<string\> | \<begin_str\> {\<character\>} \<end_str\>
+\<string\> | \<begin_str\> {\<character\> \| \<space\>} \<end_str\>
 \<identifier\> | \<letter\> {\<character\>}
 \<var_declaration\> | \<var_type\> \<var_list\> \<eol\>
 \<var_list\> | (\<identifier\> \| \<attribution\>) {\<separator\> \<var_list\>}
@@ -98,6 +98,7 @@ truotsky      |
 \<var_type\> | "intsky" \| "charovsky" \| "floatsky" \| "bolichisky" \| "palavrovka"
 \<void\> | "chernobyl"
 \<underline\> | "_"
+\<space\> | " "
 \<begin_arg\> | "("
 \<end_arg\> | ")"
 \<begin_code\> | "{"
