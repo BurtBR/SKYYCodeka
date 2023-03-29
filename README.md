@@ -76,13 +76,13 @@ truotsky      |
 \<while_statement\> | \<while\> \<begin_arg\> \<operation\> \<end_arg\> \<block\>
 \<value\> | \<identifier\> \| \<number\> \| \<operation\> \| \<logical\> \| \<string\> \| \<function_call\>
 \<function_call\> | \<identifier\> \<arguments\>
-\<string\> | \<begin_str\> {\<character\> \| \<space\>} \<end_str\>
+\<string\> | \<begin_str\> {\<character\> \| \<space\> \| \<newline\>} \<end_str\>
 \<identifier\> | \<letter\> {\<character\>}
 \<var_declaration\> | \<var_type\> \<var_list\> \<eol\>
 \<var_list\> | (\<identifier\> \| \<attribution\>) {\<separator\> \<var_list\>}
 \<attribution\> | ( \<identifier\> \<equal\> (\<value\> \| \<attribution\>) ) \| ( [\<identifier\> \<equal\>] (\<increment\> \| \<\decrement>) )
 \<character\> | \<letter\> \| \<digit\> \| \<underline\>
-\<number\> | \<digit\> \| (\<digit_nonzero\> {\<digit\>})
+\<number\> | \<digit\> \| (\<digit_nonzero\> {\<digit\>}) \| (\<digit\> \<float_separator\> \<digit\> {\<digit\>})
 \<operation\> | (\<value\> \<operator\> \<value\>) \| (\<begin_arg\> \<operation\> \<end_arg\>)
 \<increment\> | \<preincrement\> \| \<postincrement\>
 \<preincrement\> | \<plusplus\> \<identifier\>
@@ -99,6 +99,7 @@ truotsky      |
 \<void\> | "chernobyl"
 \<underline\> | "_"
 \<space\> | " "
+\<newline\> | "\\n"
 \<begin_arg\> | "("
 \<end_arg\> | ")"
 \<begin_code\> | "{"
@@ -107,6 +108,7 @@ truotsky      |
 \<end_str\> | """
 \<eol\> | ";"
 \<separator\> | ","
+\<float_separator\> | "."
 \<letter\> | "a" \| "b" \| "c" \| "d" \| "e" \| "f" \| "g" \| "h" \| "i" \| "j" \| "k" \| "l" \| "m" \| "n" \| "o" \| "p" \| "q" \| "r" \| "s" \| "t" \| "u" \| "v" \| "w" \| "x" \| "y" \| "z" \| "A" \| "B" \| "C" \| "D" \| "E" \| "F" \| "G" \| "H" \| "I" \| "J" \| "K" \| "L" \| "M" \| "N" \| "O" \| "P" \| "Q" \| "R" \| "S" \| "T" \| "U" \| "V" \| "W" \| "X" \| "Y" \| "Z"
 \<digit_nonzero\>  | "1" \| "2" \| "3" \| "4" \| "5" \| "6" \| "7" \| "8" \| "9"
 \<digit\> | "0" \| \<digit_nonzero\>
