@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QFile>
 #include <QTextStream>
+#include "automatons.h"
 
 //TEMPORARIO
 #include <QThread>

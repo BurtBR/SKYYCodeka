@@ -156,14 +156,16 @@ bool WorkerCompiler::LexicalAnalysis(QString &code, int &linenumber, QString &in
 
             case ' ':
             case '\t':
-                if(isString){
-                    word += c;
-                }else if(word.size()){
+                if(word.size()){
                     Tokenize(word, out, linenumber, (columnnumber - word.size() - 1) );
                     word.clear();
                 }
                 break;
             case '\n':
+                if(word.size()){
+                    Tokenize(word, out, linenumber, (columnnumber - word.size() - 1) );
+                    word.clear();
+                }
                 columnnumber = 1;
                 linenumber++;
                 break;
@@ -187,7 +189,8 @@ bool WorkerCompiler::LexicalAnalysis(QString &code, int &linenumber, QString &in
 }
 
 void WorkerCompiler::Tokenize(QString word, QTextStream &out, int linenumber, int columnnumber){
-    out << "<TK_," + word + "," + QString::number(linenumber) + "," + QString::number(columnnumber) + ">\n";
+    Automatons lexers;
+    out << "<" + lexers.GetToken(word) + "," + word + "," + QString::number(linenumber) + "," + QString::number(columnnumber) + ">\n";
 }
 
 //---------------------------SLOTS---------------------------
