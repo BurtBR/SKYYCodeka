@@ -2,6 +2,8 @@
 #define WORKERCOMPILER_H
 
 #include <QObject>
+#include <QFile>
+#include <QTextStream>
 
 //TEMPORARIO
 #include <QThread>
@@ -20,9 +22,10 @@ private:
     //Private Attributes
 
     //Private Methods
-    bool LexicalAnalysis(QString &code);
+    bool LexicalAnalysis(QString &code, int &linenumber, QString &invalidchar);
     bool SyntacticAnalysis(QString &code);
     bool IsValidChar(const QChar &c);
+    void Tokenize(QString word, QTextStream &out, int linenumber, int columnnumber);
 
 public:
     WorkerCompiler(QObject *parent = nullptr);
