@@ -147,6 +147,7 @@ bool WorkerCompiler::LexicalAnalysis(QString &code, int &linenumber, QString &in
                 default:
                     stream.seek(stream.pos()-1);
                     columnnumber--;
+                    Tokenize(word, out, linenumber, (columnnumber - 1) );
                     break;
                 }
 
