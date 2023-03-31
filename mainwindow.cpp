@@ -431,7 +431,7 @@ void MainWindow::WorkerDone(int type, QString /*message*/){
 }
 
 void MainWindow::WorkerTextLoaded(QString message){
-    codeEditor->appendPlainText(message);
+    codeEditor->insertPlainText(message);
 }
 
 void MainWindow::On_buttonNew_clicked(){

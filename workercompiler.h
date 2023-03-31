@@ -25,7 +25,6 @@ private:
     //Private Methods
     bool LexicalAnalysis(QString &code, int &linenumber, QString &invalidchar);
     bool SyntacticAnalysis(QString &code);
-    bool IsValidChar(const QChar &c);
     void Tokenize(QString word, QTextStream &out, int linenumber, int columnnumber);
 
 public:

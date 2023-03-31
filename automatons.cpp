@@ -6,7 +6,12 @@ Automatons::Automatons(){
 
 void Automatons::StartAutomatons(){
     charcounter = 0;
-    ReservedWords = &Automaton_Reserved_0;
+    reservedWords = &Automaton_Reserved_0;
+    floatNumber = &Automaton_Float_0;
+    integerNumber = &Automaton_Integer_0;
+    stringWord = &Automaton_String_0;
+    operatorSymbol = &Automaton_Operator_0;
+    identifierWord = &Automaton_Identifier_0;
 }
 
 QString Automatons::GetToken(QString word){
@@ -14,7 +19,22 @@ QString Automatons::GetToken(QString word){
 
     for(charcounter=0; charcounter<word.size() ;charcounter++){
 
-        if((this->*ReservedWords)(word[charcounter])){
+        if((this->*stringWord)(word[charcounter])){
+            if(charcounter == (word.size()-1))
+                return token;
+        }else if((this->*reservedWords)(word[charcounter])){
+            if(charcounter == (word.size()-1))
+                return token;
+        }else if((this->*floatNumber)(word[charcounter])){
+            if(charcounter == (word.size()-1))
+                return token;
+        }else if((this->*integerNumber)(word[charcounter])){
+            if(charcounter == (word.size()-1))
+                return token;
+        }else if((this->*operatorSymbol)(word[charcounter])){
+            if(charcounter == (word.size()-1))
+                return token;
+        }else if((this->*identifierWord)(word[charcounter])){
             if(charcounter == (word.size()-1))
                 return token;
         }
@@ -24,40 +44,44 @@ QString Automatons::GetToken(QString word){
     return "TK_bunda";
 }
 
+bool Automatons::Automaton_FAIL(QChar){
+    return false;
+}
+
 //--------RESERVED WORD AUTOMATON--------
 
 bool Automatons::Automaton_Reserved_0(QChar c){
 
     switch(c.toLatin1()){
     case 'b':
-        ReservedWords = &Automaton_Reserved_bolichisky;
+        reservedWords = &Automaton_Reserved_bolichisky;
         break;
     case 'c':
-        ReservedWords = &Automaton_Reserved_ch;
+        reservedWords = &Automaton_Reserved_ch;
         break;
     case 'f':
-        ReservedWords = &Automaton_Reserved_f;
+        reservedWords = &Automaton_Reserved_f;
         break;
     case 'i':
-        ReservedWords = &Automaton_Reserved_i;
+        reservedWords = &Automaton_Reserved_i;
         break;
     case 'k':
-        ReservedWords = &Automaton_Reserved_kalashn;
+        reservedWords = &Automaton_Reserved_kalashn;
         break;
     case 'm':
-        ReservedWords = &Automaton_Reserved_m;
+        reservedWords = &Automaton_Reserved_m;
         break;
     case 'p':
-        ReservedWords = &Automaton_Reserved_palavrovka;
+        reservedWords = &Automaton_Reserved_palavrovka;
         break;
     case 's':
-        ReservedWords = &Automaton_Reserved_strongon;
+        reservedWords = &Automaton_Reserved_strongon;
         break;
     case 'y':
-        ReservedWords = &Automaton_Reserved_yebat;
+        reservedWords = &Automaton_Reserved_yebat;
         break;
     default:
-        ReservedWords = &Automaton_Reserved_FAIL;
+        reservedWords = &Automaton_FAIL;
         break;
     }
 
@@ -69,45 +93,45 @@ bool Automatons::Automaton_Reserved_bolichisky(QChar c){
     switch(charcounter){
     case 1:
         if(c != 'o')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 2:
         if(c != 'l')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 3:
         if(c != 'i')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 4:
         if(c != 'c')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 5:
         if(c != 'h')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 6:
         if(c != 'i')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 7:
         if(c != 's')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 8:
         if(c != 'k')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 9:
-        ReservedWords = &Automaton_Reserved_FAIL;
+        reservedWords = &Automaton_FAIL;
         if(c == 'y'){
             token = "TK_bolichisky";
             return true;
         }
         break;
     default:
-        ReservedWords = &Automaton_Reserved_FAIL;
+        reservedWords = &Automaton_FAIL;
         break;
     }
 
@@ -118,18 +142,18 @@ bool Automatons::Automaton_Reserved_ch(QChar c){
     switch(charcounter){
     case 1:
         if(c != 'h')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 2:
         if(c == 'a')
-            ReservedWords = &Automaton_Reserved_ch_arovsky;
+            reservedWords = &Automaton_Reserved_ch_arovsky;
         else if(c == 'e')
-            ReservedWords = &Automaton_Reserved_ch_ernobyl;
+            reservedWords = &Automaton_Reserved_ch_ernobyl;
         else
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     default:
-        ReservedWords = &Automaton_Reserved_FAIL;
+        reservedWords = &Automaton_FAIL;
         break;
     }
 
@@ -141,33 +165,33 @@ bool Automatons::Automaton_Reserved_ch_arovsky(QChar c){
     switch(charcounter){
     case 3:
         if(c != 'r')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 4:
         if(c != 'o')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 5:
         if(c != 'v')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 6:
         if(c != 's')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 7:
         if(c != 'k')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 8:
-        ReservedWords = &Automaton_Reserved_FAIL;
+        reservedWords = &Automaton_FAIL;
         if(c == 'y'){
             token = "TK_charovsky";
             return true;
         }
         break;
     default:
-        ReservedWords = &Automaton_Reserved_FAIL;
+        reservedWords = &Automaton_FAIL;
         break;
     }
 
@@ -179,33 +203,33 @@ bool Automatons::Automaton_Reserved_ch_ernobyl(QChar c){
     switch(charcounter){
     case 3:
         if(c != 'r')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 4:
         if(c != 'n')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 5:
         if(c != 'o')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 6:
         if(c != 'b')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 7:
         if(c != 'y')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 8:
-        ReservedWords = &Automaton_Reserved_FAIL;
+        reservedWords = &Automaton_FAIL;
         if(c == 'l'){
             token = "TK_chernobyl";
             return true;
         }
         break;
     default:
-        ReservedWords = &Automaton_Reserved_FAIL;
+        reservedWords = &Automaton_FAIL;
         break;
     }
 
@@ -215,11 +239,11 @@ bool Automatons::Automaton_Reserved_ch_ernobyl(QChar c){
 bool Automatons::Automaton_Reserved_f(QChar c){
 
     if(c == 'l')
-        ReservedWords = &Automaton_Reserved_f_loatsky;
+        reservedWords = &Automaton_Reserved_f_loatsky;
     else if(c == 'o')
-        ReservedWords = &Automaton_Reserved_f_orevisky;
+        reservedWords = &Automaton_Reserved_f_orevisky;
     else
-        ReservedWords = &Automaton_Reserved_FAIL;
+        reservedWords = &Automaton_FAIL;
 
     return false;
 
@@ -230,33 +254,33 @@ bool Automatons::Automaton_Reserved_f_loatsky(QChar c){
     switch(charcounter){
     case 2:
         if(c != 'o')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 3:
         if(c != 'a')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 4:
         if(c != 't')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 5:
         if(c != 's')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 6:
         if(c != 'k')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 7:
-        ReservedWords = &Automaton_Reserved_FAIL;
+        reservedWords = &Automaton_FAIL;
         if(c == 'y'){
             token = "TK_floatsky";
             return true;
         }
         break;
     default:
-        ReservedWords = &Automaton_Reserved_FAIL;
+        reservedWords = &Automaton_FAIL;
         break;
     }
 
@@ -268,37 +292,37 @@ bool Automatons::Automaton_Reserved_f_orevisky(QChar c){
     switch(charcounter){
     case 2:
         if(c != 'r')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 3:
         if(c != 'e')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 4:
         if(c != 'v')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 5:
         if(c != 'i')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 6:
         if(c != 's')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 7:
         if(c != 'k')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 8:
-        ReservedWords = &Automaton_Reserved_FAIL;
+        reservedWords = &Automaton_FAIL;
         if(c == 'y'){
             token = "TK_forevisky";
             return true;
         }
         break;
     default:
-        ReservedWords = &Automaton_Reserved_FAIL;
+        reservedWords = &Automaton_FAIL;
         break;
     }
 
@@ -307,11 +331,11 @@ bool Automatons::Automaton_Reserved_f_orevisky(QChar c){
 
 bool Automatons::Automaton_Reserved_i(QChar c){
     if(c == 'k')
-        ReservedWords = &Automaton_Reserved_i_kov;
+        reservedWords = &Automaton_Reserved_i_kov;
     else if(c == 'n')
-        ReservedWords = &Automaton_Reserved_i_ntsky;
+        reservedWords = &Automaton_Reserved_i_ntsky;
     else
-        ReservedWords = &Automaton_Reserved_FAIL;
+        reservedWords = &Automaton_FAIL;
 
     return false;
 }
@@ -321,17 +345,17 @@ bool Automatons::Automaton_Reserved_i_kov(QChar c){
     switch(charcounter){
     case 2:
         if(c != 'o')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 3:
-        ReservedWords = &Automaton_Reserved_FAIL;
+        reservedWords = &Automaton_FAIL;
         if(c == 'v'){
             token = "TK_ikov";
             return true;
         }
         break;
     default:
-        ReservedWords = &Automaton_Reserved_FAIL;
+        reservedWords = &Automaton_FAIL;
         break;
     }
 
@@ -343,25 +367,25 @@ bool Automatons::Automaton_Reserved_i_ntsky(QChar c){
     switch(charcounter){
     case 2:
         if(c != 't')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 3:
         if(c != 's')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 4:
         if(c != 'k')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 5:
-        ReservedWords = &Automaton_Reserved_FAIL;
+        reservedWords = &Automaton_FAIL;
         if(c == 'y'){
             token = "TK_intsky";
             return true;
         }
         break;
     default:
-        ReservedWords = &Automaton_Reserved_FAIL;
+        reservedWords = &Automaton_FAIL;
         break;
     }
 
@@ -373,33 +397,33 @@ bool Automatons::Automaton_Reserved_kalashn(QChar c){
     switch(charcounter){
     case 1:
         if(c != 'a')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 2:
         if(c != 'l')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 3:
         if(c != 'a')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 4:
         if(c != 's')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 5:
         if(c != 'h')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 6:
-        ReservedWords = &Automaton_Reserved_FAIL;
+        reservedWords = &Automaton_FAIL;
         if(c == 'n'){
             token = "TK_kalashn";
             return true;
         }
         break;
     default:
-        ReservedWords = &Automaton_Reserved_FAIL;
+        reservedWords = &Automaton_FAIL;
         break;
     }
 
@@ -409,11 +433,11 @@ bool Automatons::Automaton_Reserved_kalashn(QChar c){
 bool Automatons::Automaton_Reserved_m(QChar c){
 
     if(c == 'o')
-        ReservedWords = &Automaton_Reserved_m_otherland;
+        reservedWords = &Automaton_Reserved_m_otherland;
     else if(c == 'i')
-        ReservedWords = &Automaton_Reserved_m_ickwhail;
+        reservedWords = &Automaton_Reserved_m_ickwhail;
     else
-        ReservedWords = &Automaton_Reserved_FAIL;
+        reservedWords = &Automaton_FAIL;
 
     return false;
 }
@@ -423,41 +447,41 @@ bool Automatons::Automaton_Reserved_m_otherland(QChar c){
     switch(charcounter){
     case 2:
         if(c != 't')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 3:
         if(c != 'h')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 4:
         if(c != 'e')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 5:
         if(c != 'r')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 6:
         if(c != 'l')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 7:
         if(c != 'a')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 8:
         if(c != 'n')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 9:
-        ReservedWords = &Automaton_Reserved_FAIL;
+        reservedWords = &Automaton_FAIL;
         if(c == 'd'){
             token = "TK_motherland";
             return true;
         }
         break;
     default:
-        ReservedWords = &Automaton_Reserved_FAIL;
+        reservedWords = &Automaton_FAIL;
         break;
     }
 
@@ -469,37 +493,37 @@ bool Automatons::Automaton_Reserved_m_ickwhail(QChar c){
     switch(charcounter){
     case 2:
         if(c != 'c')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 3:
         if(c != 'k')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 4:
         if(c != 'w')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 5:
         if(c != 'h')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 6:
         if(c != 'a')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 7:
         if(c != 'i')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 8:
-        ReservedWords = &Automaton_Reserved_FAIL;
+        reservedWords = &Automaton_FAIL;
         if(c == 'l'){
             token = "TK_mickwhail";
             return true;
         }
         break;
     default:
-        ReservedWords = &Automaton_Reserved_FAIL;
+        reservedWords = &Automaton_FAIL;
         break;
     }
 
@@ -511,45 +535,45 @@ bool Automatons::Automaton_Reserved_palavrovka(QChar c){
     switch(charcounter){
     case 1:
         if(c != 'a')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 2:
         if(c != 'l')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 3:
         if(c != 'a')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 4:
         if(c != 'v')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 5:
         if(c != 'r')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 6:
         if(c != 'o')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 7:
         if(c != 'v')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 8:
         if(c != 'k')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 9:
-        ReservedWords = &Automaton_Reserved_FAIL;
+        reservedWords = &Automaton_FAIL;
         if(c == 'a'){
             token = "TK_palavrovka";
             return true;
         }
         break;
     default:
-        ReservedWords = &Automaton_Reserved_FAIL;
+        reservedWords = &Automaton_FAIL;
         break;
     }
 
@@ -561,27 +585,27 @@ bool Automatons::Automaton_Reserved_strongon(QChar c){
     switch(charcounter){
     case 1:
         if(c != 't')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 2:
         if(c != 'r')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 3:
         if(c != 'o')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 4:
         if(c != 'n')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 5:
         if(c != 'g')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 6:
         if(c != 'o')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 7:
         if(c == 'n'){
@@ -591,12 +615,12 @@ bool Automatons::Automaton_Reserved_strongon(QChar c){
         break;
     case 8:
         if(c == 'o')
-            ReservedWords = &Automaton_Reserved_strongon_off;
+            reservedWords = &Automaton_Reserved_strongon_off;
         else
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     default:
-        ReservedWords = &Automaton_Reserved_FAIL;
+        reservedWords = &Automaton_FAIL;
         break;
     }
 
@@ -608,17 +632,17 @@ bool Automatons::Automaton_Reserved_strongon_off(QChar c){
     switch(charcounter){
     case 9:
         if(c != 'f')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 10:
-        ReservedWords = &Automaton_Reserved_FAIL;
+        reservedWords = &Automaton_FAIL;
         if(c == 'f'){
             token = "TK_strongonoff";
             return true;
         }
         break;
     default:
-        ReservedWords = &Automaton_Reserved_FAIL;
+        reservedWords = &Automaton_FAIL;
         break;
     }
 
@@ -630,32 +654,369 @@ bool Automatons::Automaton_Reserved_yebat(QChar c){
     switch(charcounter){
     case 1:
         if(c != 'e')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 2:
         if(c != 'b')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 3:
         if(c != 'a')
-            ReservedWords = &Automaton_Reserved_FAIL;
+            reservedWords = &Automaton_FAIL;
         break;
     case 4:
-        ReservedWords = &Automaton_Reserved_FAIL;
+        reservedWords = &Automaton_FAIL;
         if(c == 't'){
             token = "TK_yebat";
             return true;
         }
         break;
     default:
-        ReservedWords = &Automaton_Reserved_FAIL;
+        reservedWords = &Automaton_FAIL;
+        break;
+    }
+
+    return false;
+}
+//------END RESERVED WORD AUTOMATON------
+
+
+
+//----------IDENTIFIER AUTOMATON---------
+bool Automatons::Automaton_Identifier_0(QChar c){
+
+    switch(c.toLower().toLatin1()){
+    case 'a':
+    case 'b':
+    case 'c':
+    case 'd':
+    case 'e':
+    case 'f':
+    case 'g':
+    case 'h':
+    case 'i':
+    case 'j':
+    case 'k':
+    case 'l':
+    case 'm':
+    case 'n':
+    case 'o':
+    case 'p':
+    case 'q':
+    case 'r':
+    case 's':
+    case 't':
+    case 'u':
+    case 'v':
+    case 'w':
+    case 'x':
+    case 'y':
+    case 'z':
+        identifierWord = Automaton_Identifier_1;
+        token = "TK_ID";
+        return true;
+        break;
+    default:
+        identifierWord = &Automaton_FAIL;
         break;
     }
 
     return false;
 }
 
-bool Automatons::Automaton_Reserved_FAIL(QChar){
+bool Automatons::Automaton_Identifier_1(QChar c){
+
+    switch(c.toLower().toLatin1()){
+    case 'a':
+    case 'b':
+    case 'c':
+    case 'd':
+    case 'e':
+    case 'f':
+    case 'g':
+    case 'h':
+    case 'i':
+    case 'j':
+    case 'k':
+    case 'l':
+    case 'm':
+    case 'n':
+    case 'o':
+    case 'p':
+    case 'q':
+    case 'r':
+    case 's':
+    case 't':
+    case 'u':
+    case 'v':
+    case 'w':
+    case 'x':
+    case 'y':
+    case 'z':
+    case '0':
+    case '1':
+    case '2':
+    case '3':
+    case '4':
+    case '5':
+    case '6':
+    case '7':
+    case '8':
+    case '9':
+    case '_':
+        token = "TK_ID";
+        return true;
+        break;
+    default:
+        identifierWord = &Automaton_FAIL;
+        break;
+    }
+
     return false;
 }
-//------END RESERVED WORD AUTOMATON------
+
+//--------END IDENTIFIER AUTOMATON-------
+
+
+
+//---------FLOAT NUMBER AUTOMATON--------
+bool Automatons::Automaton_Float_0(QChar c){
+
+    if(c >= '0' && c <= '9'){
+        floatNumber = &Automaton_Float_Before;
+    }else{
+        floatNumber = &Automaton_FAIL;
+    }
+
+    return false;
+}
+
+bool Automatons::Automaton_Float_Before(QChar c){
+
+    if(c == '.'){
+        floatNumber = &Automaton_Float_After;
+    }else if((c < '0') && (c > '9')){
+        floatNumber = &Automaton_FAIL;
+    }
+
+    return false;
+}
+
+bool Automatons::Automaton_Float_After(QChar c){
+
+    if(c >= '0' && c <= '9'){
+        token = "TK_constfloat";
+        return true;
+    }else{
+        floatNumber = &Automaton_FAIL;
+    }
+
+    return false;
+}
+//------END FLOAT NUMBER AUTOMATON-------
+
+
+
+//--------INTEGER NUMBER AUTOMATON-------
+
+bool Automatons::Automaton_Integer_0(QChar c){
+    if((c > '0') && (c <= '9')){
+        integerNumber = &Automaton_Integer_1;
+        token = "TK_integer";
+        return true;
+    }else if(c == '0'){
+        integerNumber = &Automaton_FAIL;
+        token = "TK_integer";
+        return true;
+    }
+
+    integerNumber = &Automaton_FAIL;
+    return false;
+}
+
+bool Automatons::Automaton_Integer_1(QChar c){
+
+    if((c >= '0') && (c <= '9')){
+        token = "TK_integer";
+        return true;
+    }
+
+    integerNumber = &Automaton_FAIL;
+    return false;
+}
+//-----END INTEGER NUMBER AUTOMATON------
+
+
+
+//------------STRING AUTOMATON-----------
+bool Automatons::Automaton_String_0(QChar c){
+    if((c == '\"') && (charcounter == 0))
+        stringWord = &Automaton_String_1;
+    else
+        stringWord = &Automaton_FAIL;
+
+    return false;
+}
+
+bool Automatons::Automaton_String_1(QChar c){
+    if(c == '\"'){
+        stringWord = &Automaton_FAIL;
+        token = "TK_string";
+        return true;
+    }
+
+    return false;
+}
+//----------END STRING AUTOMATON---------
+
+
+
+//-----------OPERATOR AUTOMATON----------
+bool Automatons::Automaton_Operator_0(QChar c){
+
+    switch(c.toLatin1()){
+    case '+':
+        token = "TK_Operator+";
+        operatorSymbol = &Automaton_Operator_Plus;
+        return true;
+        break;
+    case '-':
+        token = "TK_Operator-";
+        operatorSymbol = &Automaton_Operator_Minus;
+        return true;
+        break;
+    case '*':
+        token = "TK_operator*";
+        operatorSymbol = &Automaton_FAIL;
+        return true;
+        break;
+    case '/':
+        token = "TK_operator/";
+        operatorSymbol = &Automaton_FAIL;
+        return true;
+        break;
+    case '=':
+        token = "TK_Operator=";
+        operatorSymbol = &Automaton_Operator_Equal;
+        return true;
+        break;
+    case '!':
+        token = "TK_Operator!";
+        operatorSymbol = &Automaton_Operator_Not;
+        return true;
+        break;
+    case '&':
+        operatorSymbol = &Automaton_Operator_And;
+        break;
+    case '|':
+        operatorSymbol = &Automaton_Operator_Or;
+        break;
+    case '>':
+        token = "TK_Operator_big";
+        operatorSymbol = &Automaton_Operator_bigger;
+        return true;
+        break;
+    case '<':
+        token = "TK_Operator_small";
+        operatorSymbol = &Automaton_Operator_smaller;
+        return true;
+        break;
+    default:
+        operatorSymbol = &Automaton_FAIL;
+        break;
+    }
+
+    return false;
+}
+
+bool Automatons::Automaton_Operator_Plus(QChar c){
+
+    operatorSymbol = &Automaton_FAIL;
+
+    if(c == '+'){
+        token = "TK_Operator++";
+        return true;
+    }
+
+    return false;
+}
+
+bool Automatons::Automaton_Operator_Minus(QChar c){
+
+    operatorSymbol = &Automaton_FAIL;
+
+    if(c == '-'){
+        token = "TK_Operator--";
+        return true;
+    }
+
+    return false;
+}
+
+bool Automatons::Automaton_Operator_Equal(QChar c){
+
+    operatorSymbol = &Automaton_FAIL;
+
+    if(c == '='){
+        token = "TK_Operator==";
+        return true;
+    }
+
+    return false;
+}
+
+bool Automatons::Automaton_Operator_Not(QChar c){
+
+    operatorSymbol = &Automaton_FAIL;
+    if(c == '='){
+        token = "TK_Operator!=";
+        return true;
+    }
+
+    return false;
+}
+
+bool Automatons::Automaton_Operator_And(QChar c){
+
+    operatorSymbol = &Automaton_FAIL;
+    if(c == '&'){
+        token = "TK_Operator&&";
+        return true;
+    }
+
+    return false;
+}
+
+bool Automatons::Automaton_Operator_Or(QChar c){
+
+    operatorSymbol = &Automaton_FAIL;
+    if(c == '|'){
+        token = "TK_Operator||";
+        return true;
+    }
+
+    return false;
+}
+
+bool Automatons::Automaton_Operator_bigger(QChar c){
+
+    operatorSymbol = &Automaton_FAIL;
+    if(c == '='){
+        token = "TK_Operator_big_eq";
+        return true;
+    }
+
+    return false;
+}
+
+bool Automatons::Automaton_Operator_smaller(QChar c){
+
+    operatorSymbol = &Automaton_FAIL;
+    if(c == '='){
+        token = "TK_Operator_sml_eq";
+        return true;
+    }
+
+    return false;
+}
+//--------------END AUTOMATON------------
