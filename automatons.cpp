@@ -854,7 +854,7 @@ bool Automatons::Automaton_Integer_0(QChar c){
         integerNumber = &Automaton_Integer_1;
         token = "integer";
         return true;
-    }else{ // == 0
+    }else if(c == '0'){
         integerNumber = &Automaton_FAIL;
         token = "integer";
         return true;
