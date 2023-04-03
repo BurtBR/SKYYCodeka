@@ -41,6 +41,7 @@ private:
     bool Automaton_Reserved_m(QChar c);
     bool Automaton_Reserved_m_otherland(QChar c);
     bool Automaton_Reserved_m_ickwhail(QChar c);
+    bool Automaton_Reserved_niet(QChar c);
     bool Automaton_Reserved_palavrovka(QChar c);
     bool Automaton_Reserved_strongon(QChar c);
     bool Automaton_Reserved_strongon_off(QChar c);

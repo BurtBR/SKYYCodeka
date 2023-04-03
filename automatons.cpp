@@ -71,6 +71,9 @@ bool Automatons::Automaton_Reserved_0(QChar c){
     case 'm':
         reservedWords = &Automaton_Reserved_m;
         break;
+    case 'n':
+        reservedWords = &Automaton_Reserved_niet;
+        break;
     case 'p':
         reservedWords = &Automaton_Reserved_palavrovka;
         break;
@@ -530,6 +533,29 @@ bool Automatons::Automaton_Reserved_m_ickwhail(QChar c){
     return false;
 }
 
+bool Automatons::Automaton_Reserved_niet(QChar c){
+    switch(charcounter){
+    case 1:
+        if(c != 'i')
+            reservedWords = &Automaton_FAIL;
+        break;
+    case 2:
+        if(c != 'e')
+            reservedWords = &Automaton_FAIL;
+        break;
+    case 3:
+        if(c == 't'){
+            token = "TK_niet";
+            return true;
+        }
+        break;
+    default:
+        reservedWords = &Automaton_FAIL;
+        break;
+    }
+    return false;
+}
+
 bool Automatons::Automaton_Reserved_palavrovka(QChar c){
 
     switch(charcounter){
@@ -901,9 +927,7 @@ bool Automatons::Automaton_Operator_0(QChar c){
         return true;
         break;
     case '!':
-        token = "TK_Operator!";
         operatorSymbol = &Automaton_Operator_Not;
-        return true;
         break;
     case '&':
         operatorSymbol = &Automaton_Operator_And;
