@@ -12,6 +12,7 @@ void Automatons::StartAutomatons(){
     stringWord = &Automaton_String_0;
     operatorSymbol = &Automaton_Operator_0;
     identifierWord = &Automaton_Identifier_0;
+    limiters = &Automaton_Symbol_0;
 }
 
 QString Automatons::GetToken(QString word){
@@ -35,6 +36,9 @@ QString Automatons::GetToken(QString word){
             if(charcounter == (word.size()-1))
                 return token;
         }else if((this->*identifierWord)(word[charcounter])){
+            if(charcounter == (word.size()-1))
+                return token;
+        }else if((this->*limiters)(word[charcounter])){
             if(charcounter == (word.size()-1))
                 return token;
         }
@@ -1044,3 +1048,45 @@ bool Automatons::Automaton_Operator_smaller(QChar c){
     return false;
 }
 //--------------END AUTOMATON------------
+
+
+
+//------------SYMBOL AUTOMATON-----------
+
+bool Automatons::Automaton_Symbol_0(QChar c){
+
+    limiters = &Automaton_FAIL;
+
+    switch(c.toLatin1()){
+    case '{':
+        token = "TK_begincode";
+        return true;
+        break;
+    case '}':
+        token = "TK_endcode";
+        return true;
+        break;
+    case '(':
+        token = "TK_beginargument";
+        return true;
+        break;
+    case ')':
+        token = "TK_endargument";
+        return true;
+        break;
+    case ';':
+        token = "TK_eol";
+        return true;
+        break;
+    case ',':
+        token = "TK_separator";
+        return true;
+        break;
+    default:
+        break;
+    }
+
+    return false;
+
+}
+//----------END SYMBOL AUTOMATON---------

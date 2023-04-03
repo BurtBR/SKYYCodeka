@@ -16,6 +16,7 @@ private:
     State stringWord = nullptr;
     State operatorSymbol = nullptr;
     State identifierWord = nullptr;
+    State limiters = nullptr;
     QString token;
     int charcounter = 0;
 
@@ -76,6 +77,7 @@ private:
     bool Automaton_Operator_smaller(QChar c);
 
     //Symbol Automaton
+    bool Automaton_Symbol_0(QChar c);
 
 public:
     Automatons();
