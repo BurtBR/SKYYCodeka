@@ -45,7 +45,7 @@ QString Automatons::GetToken(QString word){
 
     }
 
-    return "TK_bunda";
+    return "unidentified";
 }
 
 bool Automatons::Automaton_FAIL(QChar){
