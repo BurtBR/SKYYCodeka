@@ -71,12 +71,12 @@ truotsky      |
 \<arguments\> | \<begin_arg\> [\<arg_list\>] \<end_arg\>
 \<block\> | \<begin_code\> [\<code\>] \<end_code\>
 \<code\> | {\<var_declaration\> \| \<loop_block\> \| \<ifelse_statement\> \| (\<attribution\> \<eol\>) \| (\<function_call\> \<eol\)> \| \<return_statement\>}
-\<ifelse_statement\> | \<if\> \<begin_arg\> \<operation\> \<end_arg\> \<block\> [\<else_statement\>]
+\<ifelse_statement\> | \<if\> \<begin_arg\> \<value\> \<end_arg\> \<block\> [\<else_statement\>]
 \<else_statement\> | \<else\> (\<ifelse_statement\> \| \<block\> [\<else_statement\>])
 \<loop_block\> | \<for_statement\> \| \<while_statement\>
 \<for_statement\> | \<for\> \<begin_arg\> [\<attribution\> {\<separator\> \<attribution\>}] \<eol\> \<value\> \<eol\> [\<attribution\>] \<end_arg\> \<block\>
-\<while_statement\> | \<while\> \<begin_arg\> \<operation\> \<end_arg\> \<block\>
-\<value\> | \<identifier\> \| \<number\> \| \<operation\> \| \<logical\> \| \<string\> \| \<function_call\>
+\<while_statement\> | \<while\> \<begin_arg\> \<value\> \<end_arg\> \<block\>
+\<value\> | \<identifier\> \| \<number\> \| \<operation\> \| \<logical\> \| \<string\> \| \<function_call\> \| (\<not\> \<value\>)
 \<function_call\> | \<identifier\> \<arguments\>
 \<string\> | \<begin_str\> {\<character\> \| \<space\> \| \<newline\>} \<end_str\>
 \<identifier\> | \<letter\> {\<character\>}
