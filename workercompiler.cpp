@@ -72,8 +72,7 @@ bool WorkerCompiler::LexicalAnalysis(QString &code, int &linenumber, QString &in
                 if(isString){
                     Tokenize(word + '\"', out, linenumber, (columnnumber - word.size() - 2) );
                     word.clear();
-                }
-                else if(word.size()){
+                }else if(word.size()){
                     Tokenize(word, out, linenumber, (columnnumber - word.size() - 1));
                     word.clear();
                     word += c;
