@@ -23,6 +23,21 @@ bool WorkerCompiler::LexicalAnalysis(QString &code, int &linenumber, QString &in
         columnnumber++;
         stream >> c;
 
+        if(c == '\\'){
+            while(c != '\n' && !stream.atEnd())
+                stream >> c;
+
+            //Reset parameters
+            columnnumber = 2;
+            linenumber++;
+
+            //Read one more char (the next after the comment)
+            if(!stream.atEnd())
+                stream >> c;
+            else
+                break;
+        }
+
         if(isString && c!='\"')
             word += c;
         else{
@@ -181,7 +196,7 @@ bool WorkerCompiler::LexicalAnalysis(QString &code, int &linenumber, QString &in
     } //End While
 
     if(word.size())
-        Tokenize(word, out, linenumber, (columnnumber - word.size() - 1));
+        Tokenize(word, out, linenumber, (columnnumber - word.size()));
 
     file.close();
     return true;
