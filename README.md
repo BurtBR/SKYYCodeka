@@ -78,7 +78,7 @@ truotsky      |
 \<while_statement\> | \<while\> \<begin_arg\> \<value\> \<end_arg\> \<block\>
 \<value\> | \<identifier\> \| \<number\> \| \<operation\> \| \<logical\> \| \<string\> \| \<function_call\> \| (\<not\> \<value\>)
 \<function_call\> | \<identifier\> \<arguments\>
-\<string\> | \<begin_str\> { (* any ASCII char *) } \<end_str\>
+\<string\> | \<begin_str\> { (* any unicode char *) } \<end_str\>
 \<identifier\> | \<letter\> {\<character\>}
 \<var_declaration\> | \<var_type\> \<var_list\> \<eol\>
 \<var_list\> | (\<identifier\> \| \<attribution\>) {\<separator\> \<var_list\>}
