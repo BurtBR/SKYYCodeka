@@ -720,11 +720,6 @@ bool Automatons::Automaton_Reserved_yebat(QChar c){
 //----------IDENTIFIER AUTOMATON---------
 bool Automatons::Automaton_Identifier_0(QChar c){
 
-    if(c == QChar('3'))
-        qDebug() << "Aqui";
-    else
-        qDebug() << c;
-
     switch(c.toLower().toLatin1()){
     case 'a':
     case 'b':

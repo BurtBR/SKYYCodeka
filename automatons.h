@@ -3,10 +3,6 @@
 
 #include <QString>
 
-//TEMPORARIO
-#include <QDebug>
-//TEMPORARIO
-
 class Automatons{
 
 private:
