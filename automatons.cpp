@@ -20,30 +20,35 @@ QString Automatons::GetToken(QString word){
 
     for(charcounter=0; charcounter<word.size() ;charcounter++){
 
-        if((this->*stringWord)(word[charcounter])){
+        if((this->*stringWord)(word[charcounter]))
             if(charcounter == (word.size()-1))
                 return token;
-        }else if((this->*reservedWords)(word[charcounter])){
-            if(charcounter == (word.size()-1))
-                return token;
-        }else if((this->*floatNumber)(word[charcounter])){
-            if(charcounter == (word.size()-1))
-                return token;
-        }else if((this->*integerNumber)(word[charcounter])){
-            if(charcounter == (word.size()-1))
-                return token;
-        }else if((this->*operatorSymbol)(word[charcounter])){
-            if(charcounter == (word.size()-1))
-                return token;
-        }else if((this->*identifierWord)(word[charcounter])){
-            if(charcounter == (word.size()-1))
-                return token;
-        }else if((this->*limiters)(word[charcounter])){
-            if(charcounter == (word.size()-1))
-                return token;
-        }
 
-    }
+        if((this->*reservedWords)(word[charcounter]))
+            if(charcounter == (word.size()-1))
+                return token;
+
+        if((this->*floatNumber)(word[charcounter]))
+            if(charcounter == (word.size()-1))
+                return token;
+
+        if((this->*integerNumber)(word[charcounter]))
+            if(charcounter == (word.size()-1))
+                return token;
+
+        if((this->*operatorSymbol)(word[charcounter]))
+            if(charcounter == (word.size()-1))
+                return token;
+
+        if((this->*identifierWord)(word[charcounter]))
+            if(charcounter == (word.size()-1))
+                return token;
+
+        if((this->*limiters)(word[charcounter]))
+            if(charcounter == (word.size()-1))
+                return token;
+
+    } // End for
 
     return "unidentified";
 }
@@ -715,6 +720,11 @@ bool Automatons::Automaton_Reserved_yebat(QChar c){
 //----------IDENTIFIER AUTOMATON---------
 bool Automatons::Automaton_Identifier_0(QChar c){
 
+    if(c == QChar('3'))
+        qDebug() << "Aqui";
+    else
+        qDebug() << c;
+
     switch(c.toLower().toLatin1()){
     case 'a':
     case 'b':
@@ -742,7 +752,7 @@ bool Automatons::Automaton_Identifier_0(QChar c){
     case 'x':
     case 'y':
     case 'z':
-        identifierWord = Automaton_Identifier_1;
+        identifierWord = &Automaton_Identifier_1;
         token = "identifier";
         return true;
         break;
