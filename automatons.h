@@ -32,7 +32,7 @@ private:
     State operatorSymbol = nullptr;
     State identifierWord = nullptr;
     State limiters = nullptr;
-    QString token;
+    Tokens token;
     int charcounter = 0;
 
     //Private Methods
@@ -96,8 +96,8 @@ private:
 
 public:
     Automatons();
-    QString GetToken(QString word);
-    QString GetTokenString(Tokens tk);
+    Tokens GetToken(QString word);
+    static QString GetTokenString(Tokens tk);
 };
 
 #endif // AUTOMATONS_H

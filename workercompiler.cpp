@@ -205,12 +205,39 @@ bool WorkerCompiler::LexicalAnalysis(QString &code, int &linenumber, QString &in
 void WorkerCompiler::Tokenize(QString word, QTextStream &out, int linenumber, int columnnumber){
 
     Automatons lexers;
-    QString currenttoken = lexers.GetToken(word);
+    Tokens currenttoken = lexers.GetToken(word);
 
-    if(!currenttoken.split(",").at(0).compare("unidentified"))
-        emit DisplayInfo("Blyat!!! Sequência desconhecida na linha " + QString::number(linenumber) + ": "+ currenttoken.split(",").at(1), 0);
+    switch(currenttoken){
+    case Tokens::unidentified:
+        emit DisplayInfo("Blyat!!! Sequência desconhecida na linha " + QString::number(linenumber) + ": "+ word, 0);
+        break;
+    case Tokens::mainfunction:
+        break;
+    case Tokens::keyword:
+        break;
+    case Tokens::identifier:
+        break;
+    case Tokens::constant:
+        break;
+    case Tokens::operation:
+        break;
+    case Tokens::begincode:
+        break;
+    case Tokens::endcode:
+        break;
+    case Tokens::beginargument:
+        break;
+    case Tokens::endargument:
+        break;
+    case Tokens::eol:
+        break;
+    case Tokens::separator:
+        break;
+    default:
+        break;
+    }
 
-    out << "<" + currenttoken + "," + QString::number(linenumber) + "," + QString::number(columnnumber) + ">\n";
+    out << "<" + Automatons::GetTokenString(currenttoken) + "," + word + "," + QString::number(linenumber) + "," + QString::number(columnnumber) + ">\n";
 }
 
 //---------------------------SLOTS---------------------------
