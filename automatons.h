@@ -3,6 +3,21 @@
 
 #include <QString>
 
+enum class Tokens{
+    unidentified,
+    mainfunction,
+    keyword,
+    identifier,
+    constant,
+    operation,
+    begincode,
+    endcode,
+    beginargument,
+    endargument,
+    eol,
+    separator
+};
+
 class Automatons{
 
 private:
@@ -82,6 +97,7 @@ private:
 public:
     Automatons();
     QString GetToken(QString word);
+    QString GetTokenString(Tokens tk);
 };
 
 #endif // AUTOMATONS_H

@@ -53,6 +53,53 @@ QString Automatons::GetToken(QString word){
     return "unidentified," + word;
 }
 
+QString Automatons::GetTokenString(Tokens tk){
+
+    switch(tk){
+    case Tokens::unidentified:
+        return "unidentified";
+        break;
+    case Tokens::mainfunction:
+        return "mainfunction";
+        break;
+    case Tokens::keyword:
+        return "keyword";
+        break;
+    case Tokens::identifier:
+        return "identifier";
+        break;
+    case Tokens::constant:
+        return "constant";
+        break;
+    case Tokens::operation:
+        return "operation";
+        break;
+    case Tokens::begincode:
+        return "begincode";
+        break;
+    case Tokens::endcode:
+        return "endcode";
+        break;
+    case Tokens::beginargument:
+        return "beginargument";
+        break;
+    case Tokens::endargument:
+        return "endargument";
+        break;
+    case Tokens::eol:
+        return "eol";
+        break;
+    case Tokens::separator:
+        return "separator";
+        break;
+    default:
+        return "";
+        break;
+    }
+
+    return "";
+}
+
 bool Automatons::Automaton_FAIL(QChar){
     return false;
 }
@@ -840,7 +887,7 @@ bool Automatons::Automaton_Float_Before(QChar c){
 bool Automatons::Automaton_Float_After(QChar c){
 
     if(c >= '0' && c <= '9'){
-        token = "float";
+        token = "constant";
         return true;
     }else{
         floatNumber = &Automaton_FAIL;
@@ -857,11 +904,11 @@ bool Automatons::Automaton_Float_After(QChar c){
 bool Automatons::Automaton_Integer_0(QChar c){
     if((c > '0') && (c <= '9')){
         integerNumber = &Automaton_Integer_1;
-        token = "integer";
+        token = "constant";
         return true;
     }else if(c == '0'){
         integerNumber = &Automaton_FAIL;
-        token = "integer";
+        token = "constant";
         return true;
     }
 
@@ -872,7 +919,7 @@ bool Automatons::Automaton_Integer_0(QChar c){
 bool Automatons::Automaton_Integer_1(QChar c){
 
     if((c >= '0') && (c <= '9')){
-        token = "integer";
+        token = "constant";
         return true;
     }
 
@@ -896,7 +943,7 @@ bool Automatons::Automaton_String_0(QChar c){
 bool Automatons::Automaton_String_1(QChar c){
     if(c == '\"'){
         stringWord = &Automaton_FAIL;
-        token = "string";
+        token = "constant";
         return true;
     }
 
@@ -911,27 +958,27 @@ bool Automatons::Automaton_Operator_0(QChar c){
 
     switch(c.toLatin1()){
     case '+':
-        token = "operator";
+        token = "operation";
         operatorSymbol = &Automaton_Operator_Plus;
         return true;
         break;
     case '-':
-        token = "operator";
+        token = "operation";
         operatorSymbol = &Automaton_Operator_Minus;
         return true;
         break;
     case '*':
-        token = "operator";
+        token = "operation";
         operatorSymbol = &Automaton_FAIL;
         return true;
         break;
     case '/':
-        token = "operator";
+        token = "operation";
         operatorSymbol = &Automaton_FAIL;
         return true;
         break;
     case '=':
-        token = "operator";
+        token = "operation";
         operatorSymbol = &Automaton_Operator_Equal;
         return true;
         break;
@@ -945,12 +992,12 @@ bool Automatons::Automaton_Operator_0(QChar c){
         operatorSymbol = &Automaton_Operator_Or;
         break;
     case '>':
-        token = "operator";
+        token = "operation";
         operatorSymbol = &Automaton_Operator_bigger;
         return true;
         break;
     case '<':
-        token = "operator";
+        token = "operation";
         operatorSymbol = &Automaton_Operator_smaller;
         return true;
         break;
@@ -967,7 +1014,7 @@ bool Automatons::Automaton_Operator_Plus(QChar c){
     operatorSymbol = &Automaton_FAIL;
 
     if(c == '+'){
-        token = "operator";
+        token = "operation";
         return true;
     }
 
@@ -979,7 +1026,7 @@ bool Automatons::Automaton_Operator_Minus(QChar c){
     operatorSymbol = &Automaton_FAIL;
 
     if(c == '-'){
-        token = "operator";
+        token = "operation";
         return true;
     }
 
@@ -991,7 +1038,7 @@ bool Automatons::Automaton_Operator_Equal(QChar c){
     operatorSymbol = &Automaton_FAIL;
 
     if(c == '='){
-        token = "operator";
+        token = "operation";
         return true;
     }
 
@@ -1002,7 +1049,7 @@ bool Automatons::Automaton_Operator_Not(QChar c){
 
     operatorSymbol = &Automaton_FAIL;
     if(c == '='){
-        token = "operator";
+        token = "operation";
         return true;
     }
 
@@ -1013,7 +1060,7 @@ bool Automatons::Automaton_Operator_And(QChar c){
 
     operatorSymbol = &Automaton_FAIL;
     if(c == '&'){
-        token = "operator";
+        token = "operation";
         return true;
     }
 
@@ -1024,7 +1071,7 @@ bool Automatons::Automaton_Operator_Or(QChar c){
 
     operatorSymbol = &Automaton_FAIL;
     if(c == '|'){
-        token = "operator";
+        token = "operation";
         return true;
     }
 
@@ -1035,7 +1082,7 @@ bool Automatons::Automaton_Operator_bigger(QChar c){
 
     operatorSymbol = &Automaton_FAIL;
     if(c == '='){
-        token = "operator";
+        token = "operation";
         return true;
     }
 
@@ -1046,7 +1093,7 @@ bool Automatons::Automaton_Operator_smaller(QChar c){
 
     operatorSymbol = &Automaton_FAIL;
     if(c == '='){
-        token = "operator";
+        token = "operation";
         return true;
     }
 
