@@ -22,35 +22,35 @@ QString Automatons::GetToken(QString word){
 
         if((this->*stringWord)(word[charcounter]))
             if(charcounter == (word.size()-1))
-                return token;
+                return token + "," + word;
 
         if((this->*reservedWords)(word[charcounter]))
             if(charcounter == (word.size()-1))
-                return token;
+                return token + "," + word;
 
         if((this->*floatNumber)(word[charcounter]))
             if(charcounter == (word.size()-1))
-                return token;
+                return token + "," + word;
 
         if((this->*integerNumber)(word[charcounter]))
             if(charcounter == (word.size()-1))
-                return token;
+                return token + "," + word;
 
         if((this->*operatorSymbol)(word[charcounter]))
             if(charcounter == (word.size()-1))
-                return token;
+                return token + "," + word;
 
         if((this->*identifierWord)(word[charcounter]))
             if(charcounter == (word.size()-1))
-                return token;
+                return token + "," + word;
 
         if((this->*limiters)(word[charcounter]))
             if(charcounter == (word.size()-1))
-                return token;
+                return token + "," + word;
 
     } // End for
 
-    return "unidentified";
+    return "unidentified," + word;
 }
 
 bool Automatons::Automaton_FAIL(QChar){

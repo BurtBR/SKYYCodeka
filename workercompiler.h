@@ -4,10 +4,12 @@
 #include <QObject>
 #include <QFile>
 #include <QTextStream>
+#include <QMultiMap>
 #include "automatons.h"
 
 //TEMPORARIO
 #include <QThread>
+#include <QDebug>
 //TEMPORARIO
 
 class WorkerCompiler : public QObject{
@@ -20,7 +22,13 @@ class WorkerCompiler : public QObject{
     Q_OBJECT
 
 private:
+
+    enum token_types{
+
+    };
+
     //Private Attributes
+    QMultiMap<QString,QString> hashtable;
 
     //Private Methods
     bool LexicalAnalysis(QString &code, int &linenumber, QString &invalidchar);

@@ -203,8 +203,14 @@ bool WorkerCompiler::LexicalAnalysis(QString &code, int &linenumber, QString &in
 }
 
 void WorkerCompiler::Tokenize(QString word, QTextStream &out, int linenumber, int columnnumber){
+
     Automatons lexers;
-    out << "<" + lexers.GetToken(word) + "," + word + "," + QString::number(linenumber) + "," + QString::number(columnnumber) + ">\n";
+    QString currenttoken = lexers.GetToken(word);
+
+    if(!currenttoken.split(",").at(0).compare("unidentified"))
+        emit DisplayInfo("Blyat!!! Sequência desconhecida na linha " + QString::number(linenumber) + ": "+ currenttoken.split(",").at(1), 0);
+
+    out << "<" + currenttoken + "," + QString::number(linenumber) + "," + QString::number(columnnumber) + ">\n";
 }
 
 //---------------------------SLOTS---------------------------
