@@ -4,18 +4,49 @@
 #include <QString>
 
 enum class Tokens{
-    unidentified,
-    mainfunction,
-    keyword,
-    identifier,
-    constant,
-    operation,
-    begincode,
-    endcode,
-    beginargument,
-    endargument,
-    eol,
-    separator
+    unidentified,   //0
+    mainfunction,   //1
+    keyword,        //2
+    identifier,     //3
+    constant,       //4
+    operation,      //5
+    begincode,      //6
+    endcode,        //7
+    beginargument,  //8
+    endargument,    //9
+    eol,            //10
+    separator       //11
+};
+
+enum class Keywords{
+    instsky,
+    charovaky,
+    floatsky,
+    bolichisky,
+    chernobyl,
+    palavrovka,
+    mickwhail,
+    forevisky,
+    ikov,
+    kalashn,
+    yebat
+};
+
+enum class Operations{
+    plus,
+    minus,
+    times,
+    division,
+    attribution,
+    equalequal,
+    different,
+    bigger,
+    smaller,
+    biggerequal,
+    smallerequal,
+    not_op,
+    and_op,
+    or_op
 };
 
 class Automatons{

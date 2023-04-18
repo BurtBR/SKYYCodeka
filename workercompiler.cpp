@@ -206,38 +206,65 @@ void WorkerCompiler::Tokenize(QString word, QTextStream &out, int linenumber, in
 
     Automatons lexers;
     Tokens currenttoken = lexers.GetToken(word);
+    QString tokenoutput = "<";
 
     switch(currenttoken){
     case Tokens::unidentified:
         emit DisplayInfo("Blyat!!! Sequência desconhecida na linha " + QString::number(linenumber) + ": "+ word, 0);
+        tokenoutput.append(QString::number((int)currenttoken) + "," + word);
         break;
+
     case Tokens::mainfunction:
+        tokenoutput.append(QString::number((int)currenttoken) + ",");
         break;
+
     case Tokens::keyword:
+        tokenoutput.append(QString::number((int)currenttoken) + "," + word);
         break;
+
     case Tokens::identifier:
+        tokenoutput.append(QString::number((int)currenttoken) + "," + word);
         break;
+
     case Tokens::constant:
+        tokenoutput.append(QString::number((int)currenttoken) + "," + word);
         break;
+
     case Tokens::operation:
+        tokenoutput.append(QString::number((int)currenttoken) + "," + word);
         break;
+
     case Tokens::begincode:
+        tokenoutput.append(QString::number((int)currenttoken) + ",");
         break;
+
     case Tokens::endcode:
+        tokenoutput.append(QString::number((int)currenttoken) + ",");
         break;
+
     case Tokens::beginargument:
+        tokenoutput.append(QString::number((int)currenttoken) + ",");
         break;
+
     case Tokens::endargument:
+        tokenoutput.append(QString::number((int)currenttoken) + ",");
         break;
+
     case Tokens::eol:
+        tokenoutput.append(QString::number((int)currenttoken) + ",");
         break;
+
     case Tokens::separator:
+        tokenoutput.append(QString::number((int)currenttoken) + ",");
         break;
+
     default:
         break;
     }
 
-    out << "<" + Automatons::GetTokenString(currenttoken) + "," + word + "," + QString::number(linenumber) + "," + QString::number(columnnumber) + ">\n";
+    tokenoutput.append("," + QString::number(linenumber) + "," + QString::number(columnnumber) + ">\n");
+
+    out << tokenoutput;
 }
 
 //---------------------------SLOTS---------------------------
