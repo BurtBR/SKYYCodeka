@@ -205,7 +205,8 @@ bool WorkerCompiler::LexicalAnalysis(QString &code, int &linenumber, QString &in
 void WorkerCompiler::Tokenize(QString word, QTextStream &out, int linenumber, int columnnumber){
 
     Automatons lexers;
-    Tokens currenttoken = lexers.GetToken(word);
+    int datatype = -1;
+    Tokens currenttoken = lexers.GetToken(word, datatype);
     QString tokenoutput = "<";
 
     switch(currenttoken){
@@ -219,7 +220,7 @@ void WorkerCompiler::Tokenize(QString word, QTextStream &out, int linenumber, in
         break;
 
     case Tokens::keyword:
-        tokenoutput.append(QString::number((int)currenttoken) + "," + word);
+        tokenoutput.append(QString::number((int)currenttoken) + "," + QString::number(datatype));
         break;
 
     case Tokens::identifier:
@@ -231,7 +232,7 @@ void WorkerCompiler::Tokenize(QString word, QTextStream &out, int linenumber, in
         break;
 
     case Tokens::operation:
-        tokenoutput.append(QString::number((int)currenttoken) + "," + word);
+        tokenoutput.append(QString::number((int)currenttoken) + "," + QString::number(datatype));
         break;
 
     case Tokens::begincode:

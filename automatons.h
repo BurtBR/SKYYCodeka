@@ -19,34 +19,38 @@ enum class Tokens{
 };
 
 enum class Keywords{
-    instsky,
-    charovaky,
-    floatsky,
-    bolichisky,
-    chernobyl,
-    palavrovka,
-    mickwhail,
-    forevisky,
-    ikov,
-    kalashn,
-    yebat
+    intsky,         //0
+    charovsky,      //1
+    floatsky,       //2
+    bolichisky,     //3
+    chernobyl,      //4
+    palavrovka,     //5
+    michwhail,      //6
+    forevisky,      //7
+    ikov,           //8
+    kalashn,        //9
+    niet,           //10
+    yebat,          //11
+    strongon,       //12
+    strongonoff     //13
 };
 
 enum class Operations{
-    plus,
-    minus,
-    times,
-    division,
-    attribution,
-    equalequal,
-    different,
-    bigger,
-    smaller,
-    biggerequal,
-    smallerequal,
-    not_op,
-    and_op,
-    or_op
+    plus,           //0
+    minus,          //1
+    times,          //2
+    division,       //3
+    attribution,    //4
+    equalequal,     //5
+    notequal,       //6
+    bigger,         //7
+    smaller,        //8
+    biggerequal,    //9
+    smallerequal,   //10
+    and_op,         //12
+    or_op,          //13
+    plusplus,       //14
+    minusminus      //15
 };
 
 class Automatons{
@@ -65,9 +69,10 @@ private:
     State limiters = nullptr;
     Tokens token;
     int charcounter = 0;
+    int *datatype = nullptr;
 
     //Private Methods
-    void StartAutomatons();
+    void StartAutomatons(int &keyoptype);
 
     //Failed automaton method
     bool Automaton_FAIL(QChar);
@@ -127,7 +132,7 @@ private:
 
 public:
     Automatons();
-    Tokens GetToken(QString word);
+    Tokens GetToken(QString word, int &keyoptype);
     static QString GetTokenString(Tokens tk);
 };
 
