@@ -4,19 +4,43 @@ WorkerCompiler::WorkerCompiler(QObject *parent) : QObject{parent}{
 
 }
 
+//TEMPORARIO
+void WorkerCompiler::PrintTokensToFile(QString filename){
+
+    QFile fp(filename);
+    QTextStream out(&fp);
+    QString tokentext;
+
+    if(!fp.open(QFile::WriteOnly))
+        return;
+
+    for(int i=0; i<tokenlist.size() ;i++){
+
+        tokentext = "<" + Token::GetTokenString(tokenlist[i].GetTokenType()) + ",";
+
+        if( (tokenlist[i].GetTokenType() == Token::TokenType::constant) || (tokenlist[i].GetTokenType() == Token::TokenType::identifier) )
+            tokentext.append(QString::number((uint64_t)(&(*tokenlist[i].GetPosition())),16).toUpper() + ",");
+        else if((tokenlist[i].GetTokenType() == Token::TokenType::keyword) || (tokenlist[i].GetTokenType() == Token::TokenType::operation))
+            tokentext.append(Token::GetSubTokenString(tokenlist[i].GetTokenSubtype()) + ",");
+        else
+            tokentext.append(",");
+
+        tokentext.append(QString::number(tokenlist[i].GetLine()) + ",");
+        tokentext.append(QString::number(tokenlist[i].GetColumn()) + ">\n");
+
+        out << tokentext;
+    }
+
+    fp.close();
+}
+
 bool WorkerCompiler::LexicalAnalysis(QString &code, int &linenumber, QString &invalidchar){
 
-    QFile file("lexer.skyy");
-    QTextStream stream(&code), out(&file);
+    QTextStream stream(&code);
     QString word;
     QChar c;
     bool isString = false;
     int columnnumber = 1;
-
-    if(!file.open(QIODevice::WriteOnly | QIODevice::Text)){
-        linenumber = -1;
-        return false;
-    }
 
     while(!stream.atEnd()){
 
@@ -85,10 +109,10 @@ bool WorkerCompiler::LexicalAnalysis(QString &code, int &linenumber, QString &in
 
             case '\"':
                 if(isString){
-                    Tokenize(word + '\"', out, linenumber, (columnnumber - word.size() - 2) );
+                    Tokenize(word + '\"', linenumber, (columnnumber - word.size() - 2) );
                     word.clear();
                 }else if(word.size()){
-                    Tokenize(word, out, linenumber, (columnnumber - word.size() - 1));
+                    Tokenize(word, linenumber, (columnnumber - word.size() - 1));
                     word.clear();
                     word += c;
                 }else{
@@ -108,11 +132,10 @@ bool WorkerCompiler::LexicalAnalysis(QString &code, int &linenumber, QString &in
                 word += c;
                 if(c != '&'){
                     invalidchar = (word);
-                    file.close();
                     return false;
                     break;
                 }else{
-                    Tokenize(word, out, linenumber, columnnumber - 2);
+                    Tokenize(word, linenumber, columnnumber - 2);
                     word.clear();
                 }
                 break;
@@ -130,9 +153,9 @@ bool WorkerCompiler::LexicalAnalysis(QString &code, int &linenumber, QString &in
             case '/':
             case '%':
                 if(word.size())
-                    Tokenize(word, out, linenumber, (columnnumber - word.size() - 1));
+                    Tokenize(word, linenumber, (columnnumber - word.size() - 1));
 
-                Tokenize(QString(c), out, linenumber, columnnumber - 1);
+                Tokenize(QString(c), linenumber, columnnumber - 1);
                 word.clear();
                 break;
 
@@ -142,7 +165,7 @@ bool WorkerCompiler::LexicalAnalysis(QString &code, int &linenumber, QString &in
             case '<':
             case '=':
                 if(word.size()){
-                    Tokenize(word, out, linenumber, (columnnumber - word.size() - 1) );
+                    Tokenize(word, linenumber, (columnnumber - word.size() - 1) );
                     word.clear();
                 }
 
@@ -156,12 +179,12 @@ bool WorkerCompiler::LexicalAnalysis(QString &code, int &linenumber, QString &in
                 case '<':
                 case '=':
                     word += c;
-                    Tokenize(word, out, linenumber, (columnnumber - 1) );
+                    Tokenize(word, linenumber, (columnnumber - 1) );
                     break;
                 default:
                     stream.seek(stream.pos()-1);
                     columnnumber--;
-                    Tokenize(word, out, linenumber, (columnnumber - 1) );
+                    Tokenize(word, linenumber, (columnnumber - 1) );
                     break;
                 }
 
@@ -171,13 +194,13 @@ bool WorkerCompiler::LexicalAnalysis(QString &code, int &linenumber, QString &in
             case ' ':
             case '\t':
                 if(word.size()){
-                    Tokenize(word, out, linenumber, (columnnumber - word.size() - 1) );
+                    Tokenize(word, linenumber, (columnnumber - word.size() - 1) );
                     word.clear();
                 }
                 break;
             case '\n':
                 if(word.size()){
-                    Tokenize(word, out, linenumber, (columnnumber - word.size() - 1) );
+                    Tokenize(word, linenumber, (columnnumber - word.size() - 1) );
                     word.clear();
                 }
                 columnnumber = 1;
@@ -186,7 +209,6 @@ bool WorkerCompiler::LexicalAnalysis(QString &code, int &linenumber, QString &in
 
             default:
                 invalidchar = c;
-                file.close();
                 return false;
                 break;
             }//End switch
@@ -196,76 +218,34 @@ bool WorkerCompiler::LexicalAnalysis(QString &code, int &linenumber, QString &in
     } //End While
 
     if(word.size())
-        Tokenize(word, out, linenumber, (columnnumber - word.size()));
+        Tokenize(word, linenumber, (columnnumber - word.size()));
 
-    file.close();
     return true;
 }
 
-void WorkerCompiler::Tokenize(QString word, QTextStream &out, int linenumber, int columnnumber){
+void WorkerCompiler::Tokenize(QString word, int linenumber, int columnnumber){
 
     Automatons lexers;
-    int datatype = -1;
+    Token::TokenSubtype datatype = Token::TokenSubtype::unidentified;
     Token::TokenType currenttoken = lexers.GetToken(word, datatype);
-    QString tokenoutput = "<";
+    QMultiMap<QString,QString>::iterator positioniterator;
 
     switch(currenttoken){
     case Token::TokenType::unidentified:
         emit DisplayInfo("Blyat!!! Sequência desconhecida na linha " + QString::number(linenumber) + ": "+ word, 0);
-        tokenoutput.append(QString::number((int)currenttoken) + "," + word);
-        break;
-
-    case Token::TokenType::mainfunction:
-        tokenoutput.append(QString::number((int)currenttoken) + ",");
-        break;
-
-    case Token::TokenType::keyword:
-        tokenoutput.append(QString::number((int)currenttoken) + "," + QString::number(datatype));
-        break;
-
-    case Token::TokenType::identifier:
-        tokenoutput.append(QString::number((int)currenttoken) + "," + word);
+        undefinedtokens.append(Token(currenttoken, Token::TokenSubtype::unidentified, linenumber, columnnumber));
         break;
 
     case Token::TokenType::constant:
-        tokenoutput.append(QString::number((int)currenttoken) + "," + word);
-        break;
-
-    case Token::TokenType::operation:
-        tokenoutput.append(QString::number((int)currenttoken) + "," + QString::number(datatype));
-        break;
-
-    case Token::TokenType::begincode:
-        tokenoutput.append(QString::number((int)currenttoken) + ",");
-        break;
-
-    case Token::TokenType::endcode:
-        tokenoutput.append(QString::number((int)currenttoken) + ",");
-        break;
-
-    case Token::TokenType::beginargument:
-        tokenoutput.append(QString::number((int)currenttoken) + ",");
-        break;
-
-    case Token::TokenType::endargument:
-        tokenoutput.append(QString::number((int)currenttoken) + ",");
-        break;
-
-    case Token::TokenType::eol:
-        tokenoutput.append(QString::number((int)currenttoken) + ",");
-        break;
-
-    case Token::TokenType::separator:
-        tokenoutput.append(QString::number((int)currenttoken) + ",");
+    case Token::TokenType::identifier:
+        positioniterator = hashtable.insert(word, word);
+        tokenlist.append(Token(currenttoken, positioniterator, linenumber, columnnumber));
         break;
 
     default:
+        tokenlist.append(Token(currenttoken, datatype, linenumber, columnnumber));
         break;
     }
-
-    tokenoutput.append("," + QString::number(linenumber) + "," + QString::number(columnnumber) + ">\n");
-
-    out << tokenoutput;
 }
 
 //---------------------------SLOTS---------------------------
@@ -284,12 +264,20 @@ void WorkerCompiler::Compile(QString text){
 
         if(linecounter == -1){
             emit Error(0, "Falha ao criar arquivo de saída da análise léxica", linecounter);
+            return;
         }else{
             emit Error(2, "Caractere desonhecido na linha " + QString::number(linecounter) + ": " + c, linecounter);
             return;
         }
 
     }
+
+    if(undefinedtokens.size()){
+        emit Error(2, "Compilação interrompida", undefinedtokens[0].GetLine());
+        return;
+    }
+
+    PrintTokensToFile("lexer.skyy");
 
     emit Done(2);
 }

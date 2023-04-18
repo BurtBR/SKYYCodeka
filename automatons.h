@@ -20,10 +20,10 @@ private:
     State limiters = nullptr;
     Token::TokenType token;
     int charcounter = 0;
-    int *datatype = nullptr;
+    Token::TokenSubtype *datatype = nullptr;
 
     //Private Methods
-    void StartAutomatons(int &keyoptype);
+    void StartAutomatons(Token::TokenSubtype &keyoptype);
 
     //Failed automaton method
     bool Automaton_FAIL(QChar);
@@ -83,8 +83,7 @@ private:
 
 public:
     Automatons();
-    Token::TokenType GetToken(QString word, int &keyoptype);
-    static QString GetTokenString(Token::TokenType tk);
+    Token::TokenType GetToken(QString word, Token::TokenSubtype &keyoptype);
 };
 
 #endif // AUTOMATONS_H

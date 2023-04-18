@@ -59,26 +59,29 @@ private:
     //Private Attributes
     TokenType tk_type = TokenType::unidentified;
     TokenSubtype tk_subtype = TokenSubtype::unidentified;
-    QMap<QString,QString>::iterator tk_position;
+    QMultiMap<QString,QString>::iterator tk_position;
     unsigned int tk_line = -1;
     unsigned int tk_column = -1;
 
 public:
     Token();
     Token(TokenType tokentype, TokenSubtype tokensubtype, unsigned int line, unsigned int column);
-    Token(TokenType tokentype, QMap<QString,QString>::iterator hashposition, unsigned int line, unsigned int column);
+    Token(TokenType tokentype, QMultiMap<QString,QString>::iterator hashposition, unsigned int line, unsigned int column);
+
+    static QString GetTokenString(TokenType tk);
+    static QString GetSubTokenString(TokenSubtype tk);
 
     //Getters
     TokenType GetTokenType();
     TokenSubtype GetTokenSubtype();
-    QMap<QString,QString>::iterator GetPosition();
+    QMultiMap<QString,QString>::iterator GetPosition();
     unsigned int GetLine();
     unsigned int GetColumn();
 
     //Setters
     void SetTokenType(TokenType tokentype);
     void SetTokenSubtype(TokenSubtype tokensubtype);
-    void SetPosition(QMap<QString,QString>::iterator position);
+    void SetPosition(QMultiMap<QString,QString>::iterator position);
     void SetLine(unsigned int line);
     void SetColumn(unsigned int column);
 };

@@ -2,13 +2,14 @@
 #define WORKERCOMPILER_H
 
 #include <QObject>
-#include <QFile>
 #include <QTextStream>
 #include <QMultiMap>
+#include <QVector>
 #include "automatons.h"
 
 //TEMPORARIO
 #include <QThread>
+#include <QFile>
 #include <QDebug>
 //TEMPORARIO
 
@@ -22,18 +23,17 @@ class WorkerCompiler : public QObject{
     Q_OBJECT
 
 private:
-
-    enum token_types{
-
-    };
-
     //Private Attributes
     QMultiMap<QString,QString> hashtable;
+    QVector<Token> tokenlist, undefinedtokens;
 
     //Private Methods
     bool LexicalAnalysis(QString &code, int &linenumber, QString &invalidchar);
     bool SyntacticAnalysis(QString &code);
-    void Tokenize(QString word, QTextStream &out, int linenumber, int columnnumber);
+    void Tokenize(QString word, int linenumber, int columnnumber);
+
+    //TEMPORARIO
+    void PrintTokensToFile(QString filename);
 
 public:
     WorkerCompiler(QObject *parent = nullptr);
