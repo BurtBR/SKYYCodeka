@@ -1,14 +1,12 @@
 #ifndef TOKEN_H
 #define TOKEN_H
 
+#include <QString>
+#include <QMultiMap>
+
 class Token{
 
-private:
-    //Private Attributes
-
 public:
-    Token();
-
     enum class TokenType{
         unidentified,   //0
         mainfunction,   //1
@@ -24,41 +22,65 @@ public:
         separator       //11
     };
 
-    enum class Keywords{
-        intsky,         //0
-        charovsky,      //1
-        floatsky,       //2
-        bolichisky,     //3
-        chernobyl,      //4
-        palavrovka,     //5
-        michwhail,      //6
-        forevisky,      //7
-        ikov,           //8
-        kalashn,        //9
-        niet,           //10
-        yebat,          //11
-        strongon,       //12
-        strongonoff     //13
+    enum class TokenSubtype{
+        unidentified,
+        intsky,
+        charovsky,
+        floatsky,
+        bolichisky,
+        chernobyl,
+        palavrovka,
+        michwhail,
+        forevisky,
+        ikov,
+        kalashn,
+        niet,
+        yebat,
+        strongon,
+        strongonoff,
+        plus,
+        minus,
+        times,
+        division,
+        attribution,
+        equalequal,
+        notequal,
+        bigger,
+        smaller,
+        biggerequal,
+        smallerequal,
+        and_op,
+        or_op,
+        plusplus,
+        minusminus
     };
 
-    enum class Operations{
-        plus,           //0
-        minus,          //1
-        times,          //2
-        division,       //3
-        attribution,    //4
-        equalequal,     //5
-        notequal,       //6
-        bigger,         //7
-        smaller,        //8
-        biggerequal,    //9
-        smallerequal,   //10
-        and_op,         //12
-        or_op,          //13
-        plusplus,       //14
-        minusminus      //15
-    };
+private:
+    //Private Attributes
+    TokenType tk_type = TokenType::unidentified;
+    TokenSubtype tk_subtype = TokenSubtype::unidentified;
+    QMap<QString,QString>::iterator tk_position;
+    unsigned int tk_line = -1;
+    unsigned int tk_column = -1;
 
+public:
+    Token();
+    Token(TokenType tokentype, TokenSubtype tokensubtype, unsigned int line, unsigned int column);
+    Token(TokenType tokentype, QMap<QString,QString>::iterator hashposition, unsigned int line, unsigned int column);
+
+    //Getters
+    TokenType GetTokenType();
+    TokenSubtype GetTokenSubtype();
+    QMap<QString,QString>::iterator GetPosition();
+    unsigned int GetLine();
+    unsigned int GetColumn();
+
+    //Setters
+    void SetTokenType(TokenType tokentype);
+    void SetTokenSubtype(TokenSubtype tokensubtype);
+    void SetPosition(QMap<QString,QString>::iterator position);
+    void SetLine(unsigned int line);
+    void SetColumn(unsigned int column);
 };
 
 #endif // TOKEN_H

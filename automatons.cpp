@@ -187,7 +187,7 @@ bool Automatons::Automaton_Reserved_bolichisky(QChar c){
         reservedWords = &Automaton_FAIL;
         if(c == 'y'){
             token = Token::TokenType::keyword;
-            *datatype = (int)Token::Keywords::bolichisky;
+            *datatype = (int)Token::TokenSubtype::bolichisky;
             return true;
         }
         break;
@@ -248,7 +248,7 @@ bool Automatons::Automaton_Reserved_ch_arovsky(QChar c){
         reservedWords = &Automaton_FAIL;
         if(c == 'y'){
             token = Token::TokenType::keyword;
-            *datatype = (int)Token::Keywords::charovsky;
+            *datatype = (int)Token::TokenSubtype::charovsky;
             return true;
         }
         break;
@@ -287,7 +287,7 @@ bool Automatons::Automaton_Reserved_ch_ernobyl(QChar c){
         reservedWords = &Automaton_FAIL;
         if(c == 'l'){
             token = Token::TokenType::keyword;
-            *datatype = (int)Token::Keywords::chernobyl;
+            *datatype = (int)Token::TokenSubtype::chernobyl;
             return true;
         }
         break;
@@ -339,7 +339,7 @@ bool Automatons::Automaton_Reserved_f_loatsky(QChar c){
         reservedWords = &Automaton_FAIL;
         if(c == 'y'){
             token = Token::TokenType::keyword;
-            *datatype = (int)Token::Keywords::floatsky;
+            *datatype = (int)Token::TokenSubtype::floatsky;
             return true;
         }
         break;
@@ -382,7 +382,7 @@ bool Automatons::Automaton_Reserved_f_orevisky(QChar c){
         reservedWords = &Automaton_FAIL;
         if(c == 'y'){
             token = Token::TokenType::keyword;
-            *datatype = (int)Token::Keywords::forevisky;
+            *datatype = (int)Token::TokenSubtype::forevisky;
             return true;
         }
         break;
@@ -416,7 +416,7 @@ bool Automatons::Automaton_Reserved_i_kov(QChar c){
         reservedWords = &Automaton_FAIL;
         if(c == 'v'){
             token = Token::TokenType::keyword;
-            *datatype = (int)Token::Keywords::ikov;
+            *datatype = (int)Token::TokenSubtype::ikov;
             return true;
         }
         break;
@@ -447,7 +447,7 @@ bool Automatons::Automaton_Reserved_i_ntsky(QChar c){
         reservedWords = &Automaton_FAIL;
         if(c == 'y'){
             token = Token::TokenType::keyword;
-            *datatype = (int)Token::Keywords::intsky;
+            *datatype = (int)Token::TokenSubtype::intsky;
             return true;
         }
         break;
@@ -486,7 +486,7 @@ bool Automatons::Automaton_Reserved_kalashn(QChar c){
         reservedWords = &Automaton_FAIL;
         if(c == 'n'){
             token = Token::TokenType::keyword;
-            *datatype = (int)Token::Keywords::kalashn;
+            *datatype = (int)Token::TokenSubtype::kalashn;
             return true;
         }
         break;
@@ -587,7 +587,7 @@ bool Automatons::Automaton_Reserved_m_ickwhail(QChar c){
         reservedWords = &Automaton_FAIL;
         if(c == 'l'){
             token = Token::TokenType::keyword;
-            *datatype = (int)Token::Keywords::michwhail;
+            *datatype = (int)Token::TokenSubtype::michwhail;
             return true;
         }
         break;
@@ -612,7 +612,7 @@ bool Automatons::Automaton_Reserved_niet(QChar c){
     case 3:
         if(c == 't'){
             token = Token::TokenType::keyword;
-            *datatype = (int)Token::Keywords::niet;
+            *datatype = (int)Token::TokenSubtype::niet;
             return true;
         }
         break;
@@ -662,7 +662,7 @@ bool Automatons::Automaton_Reserved_palavrovka(QChar c){
         reservedWords = &Automaton_FAIL;
         if(c == 'a'){
             token = Token::TokenType::keyword;
-            *datatype = (int)Token::Keywords::palavrovka;
+            *datatype = (int)Token::TokenSubtype::palavrovka;
             return true;
         }
         break;
@@ -704,7 +704,7 @@ bool Automatons::Automaton_Reserved_strongon(QChar c){
     case 7:
         if(c == 'n'){
             token = Token::TokenType::keyword;
-            *datatype = (int)Token::Keywords::strongon;
+            *datatype = (int)Token::TokenSubtype::strongon;
             return true;
         }
         break;
@@ -733,7 +733,7 @@ bool Automatons::Automaton_Reserved_strongon_off(QChar c){
         reservedWords = &Automaton_FAIL;
         if(c == 'f'){
             token = Token::TokenType::keyword;
-            *datatype = (int)Token::Keywords::strongonoff;
+            *datatype = (int)Token::TokenSubtype::strongonoff;
             return true;
         }
         break;
@@ -764,7 +764,7 @@ bool Automatons::Automaton_Reserved_yebat(QChar c){
         reservedWords = &Automaton_FAIL;
         if(c == 't'){
             token = Token::TokenType::keyword;
-            *datatype = (int)Token::Keywords::yebat;
+            *datatype = (int)Token::TokenSubtype::yebat;
             return true;
         }
         break;
@@ -974,31 +974,31 @@ bool Automatons::Automaton_Operator_0(QChar c){
     switch(c.toLatin1()){
     case '+':
         token = Token::TokenType::operation;
-        *datatype = (int)Token::Operations::plus;
+        *datatype = (int)Token::TokenSubtype::plus;
         operatorSymbol = &Automaton_Operator_Plus;
         return true;
         break;
     case '-':
         token = Token::TokenType::operation;
-        *datatype = (int)Token::Operations::minus;
+        *datatype = (int)Token::TokenSubtype::minus;
         operatorSymbol = &Automaton_Operator_Minus;
         return true;
         break;
     case '*':
         token = Token::TokenType::operation;
-        *datatype = (int)Token::Operations::times;
+        *datatype = (int)Token::TokenSubtype::times;
         operatorSymbol = &Automaton_FAIL;
         return true;
         break;
     case '/':
         token = Token::TokenType::operation;
-        *datatype = (int)Token::Operations::division;
+        *datatype = (int)Token::TokenSubtype::division;
         operatorSymbol = &Automaton_FAIL;
         return true;
         break;
     case '=':
         token = Token::TokenType::operation;
-        *datatype = (int)Token::Operations::attribution;
+        *datatype = (int)Token::TokenSubtype::attribution;
         operatorSymbol = &Automaton_Operator_Equal;
         return true;
         break;
@@ -1013,13 +1013,13 @@ bool Automatons::Automaton_Operator_0(QChar c){
         break;
     case '>':
         token = Token::TokenType::operation;
-        *datatype = (int)Token::Operations::bigger;
+        *datatype = (int)Token::TokenSubtype::bigger;
         operatorSymbol = &Automaton_Operator_bigger;
         return true;
         break;
     case '<':
         token = Token::TokenType::operation;
-        *datatype = (int)Token::Operations::smaller;
+        *datatype = (int)Token::TokenSubtype::smaller;
         operatorSymbol = &Automaton_Operator_smaller;
         return true;
         break;
@@ -1037,7 +1037,7 @@ bool Automatons::Automaton_Operator_Plus(QChar c){
 
     if(c == '+'){
         token = Token::TokenType::operation;
-        *datatype = (int)Token::Operations::plusplus;
+        *datatype = (int)Token::TokenSubtype::plusplus;
         return true;
     }
 
@@ -1050,7 +1050,7 @@ bool Automatons::Automaton_Operator_Minus(QChar c){
 
     if(c == '-'){
         token = Token::TokenType::operation;
-        *datatype = (int)Token::Operations::minusminus;
+        *datatype = (int)Token::TokenSubtype::minusminus;
         return true;
     }
 
@@ -1063,7 +1063,7 @@ bool Automatons::Automaton_Operator_Equal(QChar c){
 
     if(c == '='){
         token = Token::TokenType::operation;
-        *datatype = (int)Token::Operations::equalequal;
+        *datatype = (int)Token::TokenSubtype::equalequal;
         return true;
     }
 
@@ -1075,7 +1075,7 @@ bool Automatons::Automaton_Operator_Not(QChar c){
     operatorSymbol = &Automaton_FAIL;
     if(c == '='){
         token = Token::TokenType::operation;
-        *datatype = (int)Token::Operations::notequal;
+        *datatype = (int)Token::TokenSubtype::notequal;
         return true;
     }
 
@@ -1087,7 +1087,7 @@ bool Automatons::Automaton_Operator_And(QChar c){
     operatorSymbol = &Automaton_FAIL;
     if(c == '&'){
         token = Token::TokenType::operation;
-        *datatype = (int)Token::Operations::and_op;
+        *datatype = (int)Token::TokenSubtype::and_op;
         return true;
     }
 
@@ -1099,7 +1099,7 @@ bool Automatons::Automaton_Operator_Or(QChar c){
     operatorSymbol = &Automaton_FAIL;
     if(c == '|'){
         token = Token::TokenType::operation;
-        *datatype = (int)Token::Operations::or_op;
+        *datatype = (int)Token::TokenSubtype::or_op;
         return true;
     }
 
@@ -1111,7 +1111,7 @@ bool Automatons::Automaton_Operator_bigger(QChar c){
     operatorSymbol = &Automaton_FAIL;
     if(c == '='){
         token = Token::TokenType::operation;
-        *datatype = (int)Token::Operations::biggerequal;
+        *datatype = (int)Token::TokenSubtype::biggerequal;
         return true;
     }
 
@@ -1123,7 +1123,7 @@ bool Automatons::Automaton_Operator_smaller(QChar c){
     operatorSymbol = &Automaton_FAIL;
     if(c == '='){
         token = Token::TokenType::operation;
-        *datatype = (int)Token::Operations::smallerequal;
+        *datatype = (int)Token::TokenSubtype::smallerequal;
         return true;
     }
 
