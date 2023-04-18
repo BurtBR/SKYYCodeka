@@ -206,56 +206,56 @@ void WorkerCompiler::Tokenize(QString word, QTextStream &out, int linenumber, in
 
     Automatons lexers;
     int datatype = -1;
-    Tokens currenttoken = lexers.GetToken(word, datatype);
+    Token::TokenType currenttoken = lexers.GetToken(word, datatype);
     QString tokenoutput = "<";
 
     switch(currenttoken){
-    case Tokens::unidentified:
+    case Token::TokenType::unidentified:
         emit DisplayInfo("Blyat!!! Sequência desconhecida na linha " + QString::number(linenumber) + ": "+ word, 0);
         tokenoutput.append(QString::number((int)currenttoken) + "," + word);
         break;
 
-    case Tokens::mainfunction:
+    case Token::TokenType::mainfunction:
         tokenoutput.append(QString::number((int)currenttoken) + ",");
         break;
 
-    case Tokens::keyword:
+    case Token::TokenType::keyword:
         tokenoutput.append(QString::number((int)currenttoken) + "," + QString::number(datatype));
         break;
 
-    case Tokens::identifier:
+    case Token::TokenType::identifier:
         tokenoutput.append(QString::number((int)currenttoken) + "," + word);
         break;
 
-    case Tokens::constant:
+    case Token::TokenType::constant:
         tokenoutput.append(QString::number((int)currenttoken) + "," + word);
         break;
 
-    case Tokens::operation:
+    case Token::TokenType::operation:
         tokenoutput.append(QString::number((int)currenttoken) + "," + QString::number(datatype));
         break;
 
-    case Tokens::begincode:
+    case Token::TokenType::begincode:
         tokenoutput.append(QString::number((int)currenttoken) + ",");
         break;
 
-    case Tokens::endcode:
+    case Token::TokenType::endcode:
         tokenoutput.append(QString::number((int)currenttoken) + ",");
         break;
 
-    case Tokens::beginargument:
+    case Token::TokenType::beginargument:
         tokenoutput.append(QString::number((int)currenttoken) + ",");
         break;
 
-    case Tokens::endargument:
+    case Token::TokenType::endargument:
         tokenoutput.append(QString::number((int)currenttoken) + ",");
         break;
 
-    case Tokens::eol:
+    case Token::TokenType::eol:
         tokenoutput.append(QString::number((int)currenttoken) + ",");
         break;
 
-    case Tokens::separator:
+    case Token::TokenType::separator:
         tokenoutput.append(QString::number((int)currenttoken) + ",");
         break;
 
