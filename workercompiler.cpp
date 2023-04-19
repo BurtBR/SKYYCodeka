@@ -4,7 +4,6 @@ WorkerCompiler::WorkerCompiler(QObject *parent) : QObject{parent}{
 
 }
 
-//TEMPORARIO
 void WorkerCompiler::PrintTokensToFile(QString filename){
 
     QFile fp(filename);
@@ -123,6 +122,18 @@ bool WorkerCompiler::LexicalAnalysis(QString &code, int &linenumber, QString &in
                 break;
 
             case '|': //can only be ||
+                word += c;
+                stream >> c;
+                columnnumber++;
+                word += c;
+                if(c != '|'){
+                    invalidchar = (word);
+                    return false;
+                    break;
+                }else{
+                    Tokenize(word, linenumber, columnnumber - 2);
+                    word.clear();
+                }
                 break;
 
             case '&': //can only be &&
@@ -259,6 +270,11 @@ void WorkerCompiler::Compile(QString text){
 
     QString c;
     int linecounter = 1;
+
+    //Clear All Lists
+    undefinedtokens.clear();
+    tokenlist.clear();
+    hashtable.clear();
 
     if(!LexicalAnalysis(text, linecounter, c)){
 

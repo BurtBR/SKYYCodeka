@@ -2,6 +2,7 @@
 #define WORKERCOMPILER_H
 
 #include <QObject>
+#include <QFile>
 #include <QTextStream>
 #include <QMultiMap>
 #include <QVector>
@@ -9,7 +10,6 @@
 
 //TEMPORARIO
 #include <QThread>
-#include <QFile>
 #include <QDebug>
 //TEMPORARIO
 
