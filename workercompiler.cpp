@@ -18,7 +18,7 @@ void WorkerCompiler::PrintTokensToFile(QString filename){
         tokentext = "<" + Token::GetTokenString(tokenlist[i].GetTokenType()) + ",";
 
         if( (tokenlist[i].GetTokenType() == Token::TokenType::constant) || (tokenlist[i].GetTokenType() == Token::TokenType::identifier) )
-            tokentext.append(QString::number((uint64_t)(&(*tokenlist[i].GetPosition())),16).toUpper() + ",");
+            tokentext.append(tokenlist[i].GetKey() + ",");
         else if((tokenlist[i].GetTokenType() == Token::TokenType::keyword) || (tokenlist[i].GetTokenType() == Token::TokenType::operation))
             tokentext.append(Token::GetSubTokenString(tokenlist[i].GetTokenSubtype()) + ",");
         else
@@ -253,7 +253,6 @@ void WorkerCompiler::Tokenize(QString word, int linenumber, int columnnumber){
     Automatons lexers;
     Token::TokenSubtype datatype = Token::TokenSubtype::unidentified;
     Token::TokenType currenttoken = lexers.GetToken(word, datatype);
-    QMultiMap<QString,QString>::iterator positioniterator;
 
     switch(currenttoken){
     case Token::TokenType::unidentified:
@@ -264,14 +263,11 @@ void WorkerCompiler::Tokenize(QString word, int linenumber, int columnnumber){
     case Token::TokenType::constant:
     case Token::TokenType::identifier:
 
-        positioniterator = hashtable.find(word);
-
         //If the identifier/constant isn't on hashtable, insert it
-        if(positioniterator == hashtable.end()){
-            positioniterator = hashtable.insert(word, word);
-        }
+        if(!hashtable.contains(word))
+            hashtable.insert(word, word);
 
-        tokenlist.append(Token(currenttoken, positioniterator, linenumber, columnnumber));
+        tokenlist.append(Token(currenttoken, word, linenumber, columnnumber));
         break;
 
     default:

@@ -4,6 +4,10 @@
 #include <QString>
 #include <QMultiMap>
 
+//TEMPORARIO
+#include <QDebug>
+//TEMPORARIO
+
 class Token{
 
 public:
@@ -60,14 +64,14 @@ private:
     //Private Attributes
     TokenType tk_type = TokenType::unidentified;
     TokenSubtype tk_subtype = TokenSubtype::unidentified;
-    QMultiMap<QString,QString>::iterator tk_position;
+    QString tk_key;
     unsigned int tk_line = -1;
     unsigned int tk_column = -1;
 
 public:
     Token();
     Token(TokenType tokentype, TokenSubtype tokensubtype, unsigned int line, unsigned int column);
-    Token(TokenType tokentype, QMultiMap<QString,QString>::iterator hashposition, unsigned int line, unsigned int column);
+    Token(TokenType tokentype, QString key, unsigned int line, unsigned int column);
 
     static QString GetTokenString(TokenType tk);
     static QString GetSubTokenString(TokenSubtype tk);
@@ -75,14 +79,14 @@ public:
     //Getters
     TokenType GetTokenType();
     TokenSubtype GetTokenSubtype();
-    QMultiMap<QString,QString>::iterator GetPosition();
+    QString GetKey();
     unsigned int GetLine();
     unsigned int GetColumn();
 
     //Setters
     void SetTokenType(TokenType tokentype);
     void SetTokenSubtype(TokenSubtype tokensubtype);
-    void SetPosition(QMultiMap<QString,QString>::iterator position);
+    void SetKey(QString key);
     void SetLine(unsigned int line);
     void SetColumn(unsigned int column);
 };

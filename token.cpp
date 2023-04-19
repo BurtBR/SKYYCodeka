@@ -12,9 +12,9 @@ Token::Token(TokenType tokentype, TokenSubtype tokensubtype, unsigned int line, 
     tk_column = column;
 }
 
-Token::Token(TokenType tokentype, QMultiMap<QString,QString>::iterator hashposition, unsigned int line, unsigned int column){
+Token::Token(TokenType tokentype, QString key, unsigned int line, unsigned int column){
     tk_type = tokentype;
-    tk_position = hashposition;
+    tk_key = key;
     tk_line = line;
     tk_column = column;
 }
@@ -175,7 +175,7 @@ Token::TokenType Token::GetTokenType(){return tk_type;}
 
 Token::TokenSubtype Token::GetTokenSubtype(){return tk_subtype;}
 
-QMultiMap<QString,QString>::iterator Token::GetPosition(){return tk_position;}
+QString Token::GetKey(){return tk_key;}
 
 unsigned int Token::GetLine(){return tk_line;}
 
@@ -189,7 +189,7 @@ void Token::SetTokenType(TokenType tokentype){tk_type = tokentype;}
 
 void Token::SetTokenSubtype(TokenSubtype tokensubtype){tk_subtype = tokensubtype;}
 
-void Token::SetPosition(QMultiMap<QString,QString>::iterator position){tk_position = position;}
+void Token::SetKey(QString key){tk_key = key;}
 
 void Token::SetLine(unsigned int line){tk_line = line;}
 
