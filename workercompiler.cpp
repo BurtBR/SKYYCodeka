@@ -309,6 +309,9 @@ void WorkerCompiler::Compile(QString text){
 
     }
 
+    //The text is no longer needed
+    text.clear();
+
     if(undefinedtokens.size()){
         emit Error(2, "Compilação interrompida", undefinedtokens[0].GetLine());
         return;
