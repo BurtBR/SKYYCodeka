@@ -10,8 +10,10 @@ void WorkerCompiler::PrintTokensToFile(QString filename){
     QTextStream out(&fp);
     QString tokentext;
 
-    if(!fp.open(QFile::WriteOnly))
+    if(!fp.open(QFile::WriteOnly)){
+        emit DisplayInfo("Falha ao gerar arquivo de análise léxica");
         return;
+    }
 
     for(int i=0; i<tokenlist.size() ;i++){
 
