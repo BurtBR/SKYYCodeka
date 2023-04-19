@@ -122,6 +122,13 @@ bool WorkerCompiler::LexicalAnalysis(QString &code, int &linenumber, QString &in
                 break;
 
             case '|': //can only be ||
+
+                //Tokenize any word before it
+                if(word.size()){
+                    Tokenize(word, linenumber, (columnnumber - word.size() - 1) );
+                    word.clear();
+                }
+
                 word += c;
                 stream >> c;
                 columnnumber++;
@@ -137,6 +144,13 @@ bool WorkerCompiler::LexicalAnalysis(QString &code, int &linenumber, QString &in
                 break;
 
             case '&': //can only be &&
+
+                //Tokenize any word before it
+                if(word.size()){
+                    Tokenize(word, linenumber, (columnnumber - word.size() - 1) );
+                    word.clear();
+                }
+
                 word += c;
                 stream >> c;
                 columnnumber++;
