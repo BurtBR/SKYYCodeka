@@ -125,6 +125,9 @@ QString Token::GetSubTokenString(TokenSubtype tk){
     case TokenSubtype::division:
         return "division";
         break;
+    case TokenSubtype::pow:
+        return "pow";
+        break;
     case TokenSubtype::attribution:
         return "attribution";
         break;

@@ -77,6 +77,7 @@ private:
     bool Automaton_Operator_Or(QChar c);
     bool Automaton_Operator_bigger(QChar c);
     bool Automaton_Operator_smaller(QChar c);
+    bool Automaton_Operator_pow(QChar c);
 
     //Symbol Automaton
     bool Automaton_Symbol_0(QChar c);

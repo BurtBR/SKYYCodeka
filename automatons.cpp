@@ -976,6 +976,9 @@ bool Automatons::Automaton_Operator_0(QChar c){
         operatorSymbol = &Automaton_Operator_smaller;
         return true;
         break;
+    case 'p':
+        operatorSymbol = &Automaton_Operator_pow;
+        break;
     default:
         operatorSymbol = &Automaton_FAIL;
         break;
@@ -1081,6 +1084,30 @@ bool Automatons::Automaton_Operator_smaller(QChar c){
     }
 
     return false;
+}
+
+bool Automatons::Automaton_Operator_pow(QChar c){
+
+    switch(charcounter){
+    case 1:
+        if(c != 'o')
+            operatorSymbol = &Automaton_FAIL;
+        break;
+    case 2:
+        operatorSymbol = &Automaton_FAIL;
+        if(c == 'w'){
+            token = Token::TokenType::operation;
+            *datatype = Token::TokenSubtype::pow;
+            return true;
+        }
+        break;
+    default:
+        operatorSymbol = &Automaton_FAIL;
+        break;
+    }
+
+    return false;
+
 }
 //--------------END AUTOMATON------------
 

@@ -42,6 +42,7 @@ public:
         minus,
         times,
         division,
+        pow,
         attribution,
         equalequal,
         notequal,
