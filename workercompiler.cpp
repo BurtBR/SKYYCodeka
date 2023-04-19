@@ -263,7 +263,14 @@ void WorkerCompiler::Tokenize(QString word, int linenumber, int columnnumber){
 
     case Token::TokenType::constant:
     case Token::TokenType::identifier:
-        positioniterator = hashtable.insert(word, word);
+
+        positioniterator = hashtable.find(word);
+
+        //If the identifier/constant isn't on hashtable, insert it
+        if(positioniterator == hashtable.end()){
+            positioniterator = hashtable.insert(word, word);
+        }
+
         tokenlist.append(Token(currenttoken, positioniterator, linenumber, columnnumber));
         break;
 
