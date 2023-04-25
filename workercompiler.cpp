@@ -11,7 +11,7 @@ void WorkerCompiler::PrintTokensToFile(QString filename){
     QString tokentext;
 
     if(!fp.open(QFile::WriteOnly)){
-        emit DisplayInfo("Falha ao gerar arquivo de análise léxica");
+        emit DisplayInfo("Falha ao gerar arquivo de análise léxica", 0);
         return;
     }
 
