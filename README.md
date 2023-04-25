@@ -69,6 +69,7 @@ truotsky      |
 \<return_function\> | \<var_type\> \<identifier\> \<arguments\> \<begin_code\> [\<code\>] \<return_statement\> \<end_code\>
 \<void_function\> | \<void\> \<identifier\> \<arguments\> \<block\>
 \<arguments\> | \<begin_arg\> [\<arg_list\>] \<end_arg\>
+\<arg_list\> | (\<var_type\> \<identifier\> {\<separator\> \<var_type\> \<identifier\>}) \| ε
 \<block\> | \<begin_code\> [\<code\>] \<end_code\>
 \<code\> | {\<var_declaration\> \| \<loop_block\> \| \<ifelse_statement\> \| (\<attribution\> \<eol\>) \| (\<function_call\> \<eol\)> \| \<return_statement\>}
 \<ifelse_statement\> | \<if\> \<begin_arg\> \<value\> \<end_arg\> \<block\> [\<else_statement\>]
