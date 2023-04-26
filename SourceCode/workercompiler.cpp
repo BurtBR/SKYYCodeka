@@ -255,6 +255,7 @@ void WorkerCompiler::Tokenize(QString word, int linenumber, int columnnumber){
     Automatons lexers;
     Token::TokenSubtype datatype = Token::TokenSubtype::unidentified;
     Token::TokenType currenttoken = lexers.GetToken(word, datatype);
+    QString hashkey = word;
 
     switch(currenttoken){
     case Token::TokenType::unidentified:
@@ -265,11 +266,14 @@ void WorkerCompiler::Tokenize(QString word, int linenumber, int columnnumber){
     case Token::TokenType::constant:
     case Token::TokenType::identifier:
 
-        //If the identifier/constant isn't on hashtable, insert it
-        if(!hashtable.contains(word))
-            hashtable.insert(word, word);
+        if(hashkey[0] == '\"')
+            hashkey = "@str" + QString::number(tokenlist.size());
 
-        tokenlist.append(Token(currenttoken, word, linenumber, columnnumber));
+        //If the identifier/constant isn't on hashtable, insert it
+        if(!hashtable.contains(hashkey))
+            hashtable.insert(hashkey, word);
+
+        tokenlist.append(Token(currenttoken, hashkey, linenumber, columnnumber));
         break;
 
     default:
