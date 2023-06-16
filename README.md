@@ -100,7 +100,7 @@ truotsky      |
 \<begin_arg\> | "("
 \<end_arg\> | ")"
 \<begin_str\> | """
-\<end_str\>  """
+\<end_str\> | """
 \<separator\> | ","
 \<eol\> | ";"
 \<equal\> | "="
