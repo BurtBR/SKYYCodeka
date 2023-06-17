@@ -83,7 +83,7 @@ truotsky      |
 \<float\> | \<integer\> \<float_separator\> \<integer\>
 \<integer\> | \<digit\> \| (\<digit_nonzero\> {\<digit\>})
 \<function_call\> | \<call\> \<identifier\> \<arguments\> \<eol\>
-\<function_definition\> | \<function_return\> | \<function_void\>
+\<function_definition\> | \<function_return\> \| \<function_void\>
 \<function_return\> | \<newfunction\> \<var_type\> \<identifier\> \<arguments\> \<code_block\>
 \<function_void\> | \<void\> \<identifier\> \<arguments\> \<code_block\>
 \<identifier\> | \<letter\> {\<character\>}
