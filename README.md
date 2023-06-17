@@ -74,7 +74,7 @@ truotsky      |
 \<var_declaration\> | \<var_type\> \<identifier\> {\<more_declaration\>} \<eol\>
 \<more_declaration\> | \<separator\> \<var_declaration\>
 \<loop_block\> | \<for\> \<begin_arg\> \<value\> \<end_arg\> \<code_block\>
-\<ifelse_statement\> | \<if\> \<begin_arg\> \<value\> \<end_arg\> \<code_block\> {\<else_statement\>}
+\<ifelse_statement\> | \<if\> \<begin_arg\> \<value\> \<end_arg\> \<code_block\> [\<else_statement\>]
 \<else_statement\> | \<else\> (\<ifelse_statement\> \| \<code_block\>)
 \<attribution\> | \<identifier\> \<equal\> \<value\> \<eol\>
 \<value\> | \<identifier\> \| \<number\> \| \<operation\> \| \<logical\> \| \<string\> \| \<function_call\> \| (\<not\> \<value\>)
@@ -83,7 +83,9 @@ truotsky      |
 \<float\> | \<integer\> \<float_separator\> \<integer\>
 \<integer\> | \<digit\> \| (\<digit_nonzero\> {\<digit\>})
 \<function_call\> | \<call\> \<identifier\> \<arguments\> \<eol\>
-\<function_definition\> | \<newfunction\> \<identifier\> \<arguments\> \<code_block\>
+\<function_definition\> | \<function_return\> | \<function_void\>
+\<function_return\> | \<newfunction\> \<var_type\> \<identifier\> \<arguments\> \<code_block\>
+\<function_void\> | \<void\> \<identifier\> \<arguments\> \<code_block\>
 \<identifier\> | \<letter\> {\<character\>}
 \<character\> | \<letter\> \| \<digit\> \| \<underline\>
 \<string\> | \<begin_str\> {(* any unicode char *)} \<end_str\>
@@ -108,6 +110,7 @@ truotsky      |
 \<float_separator\> | "."
 \<operator\> | "+" \| "-" \| "*" \| "/" \| "&&" \| "\|\|" \| "==" \| "!=" \| "\>=" \| "\<=" \| "\<" \| "\>" \| "pow"
 \<var_type\> | "intsky" \| "charovsky" \| "floatsky" \| "bolichisky" \| "palavrovka"
+\<void\> | "chernobyl"
 \<digit\> | 	"0" \| \<digit_nonzero\>
 \<digit_nonzero\> | "1" \| "2" \| "3" \| "4" \| "5" \| "6" \| "7" \| "8" \| "9"
 \<letter\> | "a" \| "b" \| "c" \| "d" \| "e" \| "f" \| "g" \| "h" \| "i" \| "j" \| "k" \| "l" \| "m" \| "n" \| "o" \| "p" \| "q" \| "r" \| "s" \| "t" \| "u" \| "v" \| "w" \| "x" \| "y" \| "z" \| "A" \| "B" \| "C" \| "D" \| "E" \| "F" \| "G" \| "H" \| "I" \| "J" \| "K" \| "L" \| "M" \| "N" \| "O" \| "P" \| "Q" \| "R" \| "S" \| "T" \| "U" \| "V" \| "W" \| "X" \| "Y" \| "Z"
