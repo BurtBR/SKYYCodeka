@@ -70,7 +70,9 @@ truotsky      |
 \<arg_list\> | \<var_type\> \<identifier\> {\<more_arguments\>}
 \<more_arguments\> | \<separator\> \<arg_list\>
 \<code_block\> | \<begin_code\> \<code\> \<end_code\>
+\<code_block_return\> | \<begin_code\> \<code\> \<return_statement\> \<end_code\>
 \<code\> | {\<var_declaration\> \| \<loop_block\> \| \<ifelse_statement\> \| \<attribution\> \| \<function_call\>}
+\<return_statement\> | \<return\> \<value\> \<eol\>
 \<var_declaration\> | \<var_type\> \<identifier\> {\<more_declaration\>} \<eol\>
 \<more_declaration\> | \<separator\> \<var_declaration\>
 \<loop_block\> | \<for\> \<begin_arg\> \<value\> \<end_arg\> \<code_block\>
@@ -84,7 +86,7 @@ truotsky      |
 \<integer\> | \<digit\> \| (\<digit_nonzero\> {\<digit\>})
 \<function_call\> | \<call\> \<identifier\> \<arguments\> \<eol\>
 \<function_definition\> | \<function_return\> \| \<function_void\>
-\<function_return\> | \<newfunction\> \<var_type\> \<identifier\> \<arguments\> \<code_block\>
+\<function_return\> | \<newfunction\> \<var_type\> \<identifier\> \<arguments\> \<code_block_return\>
 \<function_void\> | \<void\> \<identifier\> \<arguments\> \<code_block\>
 \<identifier\> | \<letter\> {\<character\>}
 \<character\> | \<letter\> \| \<digit\> \| \<underline\>
@@ -96,6 +98,7 @@ truotsky      |
 \<if\> | "ikov"
 \<else\> | "kalashn"
 \<logical\> | "strongon" \| "strongonoff"
+\<return\> | "yebat"
 \<not\> | "niet"
 \<begin_code\> | "{"
 \<end_code\> | "}"
