@@ -73,7 +73,7 @@ truotsky      |
 \<code_block_return\> | \<begin_code\> \<code\> \<return_statement\> \<end_code\>
 \<code\> | {\<var_declaration\> \| \<loop_block\> \| \<ifelse_statement\> \| \<attribution\> \| \<function_call\>}
 \<return_statement\> | \<return\> \<value\> \<eol\>
-\<var_declaration\> | \<var_type\> \<identifier\> {\<more_declaration\>} \<eol\>
+\<var_declaration\> | \<var_type\> \<identifier\> [\<more_declaration\>] \<eol\>
 \<more_declaration\> | \<separator\> \<identifier\> {\<more_declaration\>}
 \<loop_block\> | \<for\> \<begin_arg\> \<value\> \<end_arg\> \<code_block\>
 \<ifelse_statement\> | \<if\> \<begin_arg\> \<value\> \<end_arg\> \<code_block\> [\<else_statement\>]
