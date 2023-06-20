@@ -1,66 +1,61 @@
+# PALAVRAS RESERVADAS
+**Código** | **Descrição**
+:---------|:---------
+motherland 	| função principal (main)
+moscow 		| definição de função com retorno
+chernobyl 	| definição de função sem retorno
+forevisky 	| bloco de repetição
+tovarish 	| chamada de função
+ikov 		| bloco condicional
+kalashn 	| bloco condicional else
+strongon 	| valor lógico verdadeiro
+strongonoff | valor lógico falso
+yebat 		| chamada de retorno da função
+niet 		| operador lógico de negação
+
 # TIPOS DE DADOS
-**em C**  | **SKYY**
-:------|:----------
-int     | intsky
-char    | charovsky
-float   | floatsky
-bool    | bolichisky
-void    | chernobyl
-string  | palavrovka
+**Código** | **Descrição**
+:--------|:--------
+intsky | inteiro de 4 bytes
+charovsky | caractere de 1 byte
+floatsky | ponto flutuante de 4 bytes
+bolichisky | valor lógico booleano
+palavrovka | vetor de caracteres (string)
 
-# BLOCOS DE CÓDIGO
-**em C**  | **SKYY**
-:------|:----------
-main    | motherland
-while   | mickwhail
-for     | forevisky
-if      | ikov
-else    | kalashn
-return  | yebat
+# OPERADORES
+**Código** | **Descrição**
+:---------|:---------
++ 	| soma
+- 	| subtração
+\* 	| multiplicação
+/ 	| divisão
+&& 	| operação lógica AND
+|| 	| operação lógica OR
+== 	| operação lógica IGUAL A
+!= 	| operação lógica DIFERENTE DE
+>= 	| operação lógica MAIOR OU IGUAL
+<= 	| operação lógica MENOR OU IGUAL
+< 	| operação lógica MENOR
+> 	| operação lógica MAIOR
+niet| operação lógica NOT
+pow | elevado à potência
 
-# OPERAÇÕES
-**em C**  | **SKYY**
-:------|:----------
-$+$ | $+$
-$-$ | $-$
-$*$ | $*$
-*/* | */*
-*=* | *=*
-*==* | *==*
-!*=* | !*=*
-*>* | *>*
-*<* | *<*
-*>=* | *>=*
-*<=* | *<=*
-!(not) | niet
-&& | &&
-\|\| | \|\|
-
-# OUTROS
-**em C**  | **SKYY**
-:------|:----------
-; (EOL) | ;
-
-# NÃO NECESSÁRIOS
-**em C** | **SKYY**
-:------|:----------
-\#define  | 
-true      | strongon
-false     | strongonoff 
-
-# PALAVRAS
-**Palavra**  | **Significado**
-:------|:----------
-tchekutchka   |
-pollitra      |
-stolichnaya   | Marca de vodka
-za zdorôvie!  | brinde(bebida)
-sergay        |
-primakov      |
-truotsky      |
+# CARACTERES ESPECIAIS
+**Código** | **Descrição**
+:---------|:---------
+{ 	| inicio de bloco de código
+} 	| fim de bloco de código
+( 	| inicio de argumentos de função
+) 	| fim de argumentos de função
+" 	| inicio e fim de constantes do tipo vetor de caracteres (strings)
+= 	| atribuição 
+. 	| ponto flutuante
+, 	| separador de argumentos
+; 	| fim de instrução
+\ 	| comentários
 
 # ENBF
-**Símbolo**  | **Digivolve para**
+**Token**  | **Derivação**
 :------|:----------
 \<program\> | {\<beforemain\>} \<mainfunction\> {\<aftermain\>}
 \<beforemain\> | {\<var_declaration\> \| \<function_definition\>}
@@ -123,948 +118,94 @@ truotsky      |
 ## Exemplo 1
 
 ```
-intsky motherland(){
-  
-  charovisky c = 69;
-  intsky i;
-  
-  forevisky(i=0; i<10 ;i++){
-    c = c + 1;
-  }
+intsky copovisky;
 
-  yebat 0;
+chernobyl enchecopovisky(){
+    ikov(copovisky < 100){
+        copovisky = 100;
+    }
 }
-```
-```
-<program>
-│
-└─<main>
-  │
-  └─<var_type>
-  | |
-  | └─ intsky
-  |
-  └─<main_id>
-  | |
-  | └─ motherland
-  |
-  └─<arguments>
-  | |
-  | └─<begin_arg>
-  | | |
-  | | └─ (
-  | |
-  | └─<arg_list>
-  | | |
-  | | └─ {}
-  | |
-  | └─<end_arg>
-  |   |
-  |   └─ )
-  |
-  └─<begin_code>
-  | |
-  | └─ {
-  |
-  └─<code>
-  | |
-  | └─<var_declaration>
-  | | |
-  | | └─<var_type>
-  | | | |
-  | | | └─ charovsky
-  | | |
-  | | └─<var_list>
-  | | | |
-  | | | └─<attribution>
-  | | |   |
-  | | |   └─<identifier>
-  | | |   | |
-  | | |   | └─<letter>
-  | | |   |   |
-  | | |   |   └─ c
-  | | |   |
-  | | |   └─<equal>
-  | | |   | |
-  | | |   | └─ =
-  | | |   |
-  | | |   └─<value>
-  | | |     |
-  | | |     └─<number>
-  | | |       |
-  | | |       └─<digit_nonzero>
-  | | |       | |
-  | | |       | └─ 6
-  | | |       |
-  | | |       └─<digit>
-  | | |         |
-  | | |         └─ 9
-  | | |
-  | | └─<eol>
-  | |   |
-  | |   └─ ;
-  | |
-  | └─<var_declaration>
-  | | |
-  | | └─<var_type>
-  | | | |
-  | | | └─ intsky
-  | | |
-  | | └─<var_list>
-  | | | |
-  | | | └─<identifier>
-  | | |   |
-  | | |   └─<letter>
-  | | |     |
-  | | |     └─ i
-  | | |
-  | | └─<eol>
-  | |   |
-  | |   └─ ;
-  | |
-  | └─<loop_block>
-  |   |
-  |   └─<for_statement>
-  |     |
-  |     └─<for>
-  |     | |
-  |     | └─ forevisky
-  |     |
-  |     └─<begin_arg>
-  |     | |
-  |     | └─ (
-  |     |
-  |     └─<attribution>
-  |     | |
-  |     | └─<identifier>
-  |     | | |
-  |     | | └─<letter>
-  |     | |   |
-  |     | |   └─ i
-  |     | |
-  |     | └─<equal>
-  |     | | |
-  |     | | └─ =
-  |     | |
-  |     | └─<value>
-  |     |   |
-  |     |   └─<number>
-  |     |     |
-  |     |     └─<digit>
-  |     |       |
-  |     |       └─ 0
-  |     |
-  |     └─<eol>
-  |     | |
-  |     | └─ ;
-  |     |
-  |     └─<value>
-  |     | |
-  |     | └─<operation>
-  |     |   |
-  |     |   └─<value>
-  |     |   | |
-  |     |   | └─<identifier>
-  |     |   |   |
-  |     |   |   └─<letter>
-  |     |   |     |
-  |     |   |     └─ i
-  |     |   |
-  |     |   └─<operator>
-  |     |   | |
-  |     |   | └─ <
-  |     |   |
-  |     |   └─<value>
-  |     |     |
-  |     |     └─<numbber>
-  |     |       |
-  |     |       └─<digit_nonzero>
-  |     |       | |
-  |     |       | └─ 1
-  |     |       |
-  |     |       └─<digit>
-  |     |         |
-  |     |         └─ 0
-  |     |
-  |     └─<eol>
-  |     | |
-  |     | └─ ;
-  |     |
-  |     └─<attribution>
-  |     | |
-  |     | └─<increment>
-  |     |   |
-  |     |   └─<postincrement>
-  |     |     |
-  |     |     └─<identifier>
-  |     |     | |
-  |     |     | └─<letter>
-  |     |     |   |
-  |     |     |   └─i
-  |     |     |
-  |     |     └─<plusplus>
-  |     |       |
-  |     |       └─ ++
-  |     |
-  |     └─<end_arg>
-  |     | |
-  |     | └─ )
-  |     |
-  |     └─<block>
-  |       |
-  |       └─<begin_code>
-  |       | |
-  |       | └─ {
-  |       |
-  |       └─<code>
-  |       | |
-  |       | └─<attribution>
-  |       | | |
-  |       | | └─<identifier>
-  |       | | | |
-  |       | | | └─<letter>
-  |       | | |   |
-  |       | | |   └─ c
-  |       | | |
-  |       | | └─<equal>
-  |       | | | |
-  |       | | | └─ =
-  |       | | |
-  |       | | └─<value>
-  |       | |   |
-  |       | |   └─<operation>
-  |       | |     |
-  |       | |     └─<value>
-  |       | |     | |
-  |       | |     | └─<identifier>
-  |       | |     |   |
-  |       | |     |   └─<letter>
-  |       | |     |     |
-  |       | |     |     └─ c
-  |       | |     |
-  |       | |     └─<operator>
-  |       | |     | |
-  |       | |     | └─ +
-  |       | |     |
-  |       | |     └─<value>
-  |       | |       |
-  |       | |       └─<number>
-  |       | |         |
-  |       | |         └─<digit>
-  |       | |           |
-  |       | |           └─ 1
-  |       | |
-  |       | └─<eol>
-  |       |   |
-  |       |   └─ ;
-  |       |
-  |       └─<end_code>
-  |         |
-  |         └─ }
-  |
-  └─<return_statement>
-  | |
-  | └─<return>
-  | | |
-  | | └─ yebat
-  | |
-  | └─<value>
-  | | |
-  | | └─<number>
-  | |   |
-  | |   └─<digit>
-  | |     |
-  | |     └─ 0
-  | |
-  | └─<eol>
-  |   |
-  |   └─ ;
-  |
-  └─<end_code>
-    |
-    └─ }
+
+moscow intsky beber(){
+    intsky outrocopo;
+    
+    ikov(copovisky > 0){
+        outrocopo = copovisky - 1;
+    }kalashn ikov(copovisky == 0){
+        outrocopo = 0;
+    }
+    
+    yebat outrocopo;
+}
+
+motherland(){
+    copovisky = 0;
+
+    tovarish enchecopovisky();
+
+    forevisky(copovisky > 0){
+        tovarish beber();
+    }
+}
 ```
 
 ## Exemplo 2
-
 ```
-palavrovka camarada;
-
-bolichisky verifica(){
-  
-  ikov(camarada == "Boris"){
-    yebat strongon;
-  }kalashn ikov(camarada == "Kalashnikov"){
-    yebat strongon;
-  }
-  
-  yebat strongonoff;
-}
-
-intsky motherland{
-
-  camarada = "Boris";
-  
-  verifica();
-
-  yebat 0;
+motherland(){
+    intsky a;
+    a = 3;
 }
 ```
 
 ```
 <program>
-|
-└─<var_declaration>
-| |
-| └─<var_type>
-| | |
-| | └─ palavrovka
-| |
-| └─<var_list>
-| | |
-| | └─<identifier>
-| |   |
-| |   └─<letter>
-| |   | |
-| |   | └─ c
-| |   |
-| |   └─<character>
-| |   | |
-| |   | └─<letter>
-| |   |   |
-| |   |   └─ a
-| |   |
-| |   └─<character>
-| |   | |
-| |   | └─<letter>
-| |   |   |
-| |   |   └─ m
-| |   |
-| |   └─<character>
-| |   | |
-| |   | └─<letter>
-| |   |   |
-| |   |   └─ a
-| |   |
-| |   └─<character>
-| |   | |
-| |   | └─<letter>
-| |   |   |
-| |   |   └─ r
-| |   |
-| |   └─<character>
-| |   | |
-| |   | └─<letter>
-| |   |   |
-| |   |   └─ a
-| |   |
-| |   └─<character>
-| |   | |
-| |   | └─<letter>
-| |   |   |
-| |   |   └─ d
-| |   |
-| |   └─<character>
-| |     |
-| |     └─<letter>
-| |       |
-| |       └─a
-| |
-| └─<eol>
-|   |
-|   └─ ;
-|
-└─<function>
-| |
-| └─<return_function>
-|   |
-|   └─<var_type>
-|   | |
-|   | └─ bolichisky
-|   |
-|   └─<identifier>
-|   | |
-|   | └─<letter>
-|   | | |
-|   | | └─ v
-|   | |
-|   | └─<character>
-|   | | |
-|   | | └─<letter>
-|   | |   |
-|   | |   └─ e
-|   | |
-|   | └─<character>
-|   | | |
-|   | | └─<letter>
-|   | |   |
-|   | |   └─ r
-|   | |
-|   | └─<character>
-|   | | |
-|   | | └─<letter>
-|   | |   |
-|   | |   └─ i
-|   | |
-|   | └─<character>
-|   | | |
-|   | | └─<letter>
-|   | |   |
-|   | |   └─ f
-|   | |
-|   | └─<character>
-|   | | |
-|   | | └─<letter>
-|   | |   |
-|   | |   └─ i
-|   | |
-|   | └─<character>
-|   | | |
-|   | | └─<letter>
-|   | |   |
-|   | |   └─ c
-|   | |
-|   | └─<character>
-|   |   |
-|   |   └─<letter>
-|   |     |
-|   |     └─ a
-|   |
-|   └─<arguments>
-|   | |
-|   | └─<begin_arg>
-|   | | |
-|   | | └─ (
-|   | |
-|   | └─<end_arg>
-|   |   |
-|   |   └─ )
-|   |
-|   └─<begin_code>
-|   | |
-|   | └─ {
-|   |
-|   └─<code>
-|   | |
-|   | └─<ifelse_statement>
-|   |   |
-|   |   └─<if>
-|   |   | |
-|   |   | └─ ikov
-|   |   |
-|   |   └─<begin_arg>
-|   |   | |
-|   |   | └─ (
-|   |   |
-|   |   └─<operation>
-|   |   | |
-|   |   | └─<value>
-|   |   | | |
-|   |   | | └─<identifier>
-|   |   | |   |
-|   |   | |   └─<letter>
-|   |   | |   | |
-|   |   | |   | └─ c
-|   |   | |   |
-|   |   | |   └─<character>
-|   |   | |   | |
-|   |   | |   | └─<letter>
-|   |   | |   |   |
-|   |   | |   |   └─ a
-|   |   | |   |
-|   |   | |   └─<character>
-|   |   | |   | |
-|   |   | |   | └─<letter>
-|   |   | |   |   |
-|   |   | |   |   └─ m
-|   |   | |   |
-|   |   | |   └─<character>
-|   |   | |   | |
-|   |   | |   | └─<letter>
-|   |   | |   |   |
-|   |   | |   |   └─ a
-|   |   | |   |
-|   |   | |   └─<character>
-|   |   | |   | |
-|   |   | |   | └─<letter>
-|   |   | |   |   |
-|   |   | |   |   └─ r
-|   |   | |   |
-|   |   | |   └─<character>
-|   |   | |   | |
-|   |   | |   | └─<letter>
-|   |   | |   |   |
-|   |   | |   |   └─ a
-|   |   | |   |
-|   |   | |   └─<character>
-|   |   | |   | |
-|   |   | |   | └─<letter>
-|   |   | |   |   |
-|   |   | |   |   └─ d
-|   |   | |   |
-|   |   | |   └─<character>
-|   |   | |     |
-|   |   | |     └─<letter>
-|   |   | |       |
-|   |   | |       └─ a
-|   |   | |
-|   |   | └─<operator>
-|   |   | | |
-|   |   | | └─ ==
-|   |   | |
-|   |   | └─<value>
-|   |   |   |
-|   |   |   └─<string>
-|   |   |     |
-|   |   |     └─<begin_str>
-|   |   |     | |
-|   |   |     | └─ "
-|   |   |     |
-|   |   |     └─<character>
-|   |   |     | |
-|   |   |     | └─<letter>
-|   |   |     |   |
-|   |   |     |   └─ B
-|   |   |     |
-|   |   |     └─<character>
-|   |   |     | |
-|   |   |     | └─<letter>
-|   |   |     |   |
-|   |   |     |   └─ o
-|   |   |     |
-|   |   |     └─<character>
-|   |   |     | |
-|   |   |     | └─<letter>
-|   |   |     |   |
-|   |   |     |   └─ r
-|   |   |     | 
-|   |   |     └─<character>
-|   |   |     | |
-|   |   |     | └─<letter>
-|   |   |     |   |
-|   |   |     |   └─ i
-|   |   |     |
-|   |   |     └─<character>
-|   |   |     | |
-|   |   |     | └─<letter>
-|   |   |     |   |
-|   |   |     |   └─ s
-|   |   |     |
-|   |   |     └─<end_str>
-|   |   |       |
-|   |   |       └─ "
-|   |   |
-|   |   └─<end_arg>
-|   |   | |
-|   |   | └─ )
-|   |   |
-|   |   └─<block>
-|   |   | |
-|   |   | └─<begin_code>
-|   |   | | |
-|   |   | | └─ {
-|   |   | |
-|   |   | └─<code>
-|   |   | | |
-|   |   | | └─<return_statement>
-|   |   | |   |
-|   |   | |   └─<return>
-|   |   | |   | |
-|   |   | |   | └─ yebat
-|   |   | |   |
-|   |   | |   └─<value>
-|   |   | |   | |
-|   |   | |   | └─<logical>
-|   |   | |   |   |
-|   |   | |   |   └─ strongon
-|   |   | |   |
-|   |   | |   └─<eol>
-|   |   | |     |
-|   |   | |     └─ ;
-|   |   | |
-|   |   | └─<end_code>
-|   |   |   |
-|   |   |   └─ }
-|   |   |
-|   |   └─<else_statement>
-|   |     |
-|   |     └─<else>
-|   |     | |
-|   |     | └─ kalashn
-|   |     |
-|   |     └─<ifelse_statement>
-|   |       |
-|   |       └─<if>
-|   |       | |
-|   |       | └─ ikov
-|   |       |
-|   |       └─<begin_arg>
-|   |       | |
-|   |       | └─ (
-|   |       |
-|   |       └─<operation>
-|   |       | |
-|   |       | └─<value>
-|   |       | | |
-|   |       | | └─<identifier>
-|   |       | |   |
-|   |       | |   └─<letter>
-|   |       | |   | |
-|   |       | |   | └─ c
-|   |       | |   |
-|   |       | |   └─<character>
-|   |       | |   | |
-|   |       | |   | └─<letter>
-|   |       | |   |   |
-|   |       | |   |   └─ a
-|   |       | |   └─<character>
-|   |       | |   | |
-|   |       | |   | └─<letter>
-|   |       | |   |   |
-|   |       | |   |   └─ m
-|   |       | |   └─<character>
-|   |       | |   | |
-|   |       | |   | └─<letter>
-|   |       | |   |   |
-|   |       | |   |   └─ a
-|   |       | |   └─<character>
-|   |       | |   | |
-|   |       | |   | └─<letter>
-|   |       | |   |   |
-|   |       | |   |   └─ r
-|   |       | |   └─<character>
-|   |       | |   | |
-|   |       | |   | └─<letter>
-|   |       | |   |   |
-|   |       | |   |   └─ a
-|   |       | |   └─<character>
-|   |       | |   | |
-|   |       | |   | └─<letter>
-|   |       | |   |   |
-|   |       | |   |   └─ d
-|   |       | |   └─<character>
-|   |       | |     |
-|   |       | |     └─<letter>
-|   |       | |       |
-|   |       | |       └─ a
-|   |       | |
-|   |       | └─<operator>
-|   |       | | |
-|   |       | | └─ ==
-|   |       | |
-|   |       | └─<value>
-|   |       |   |
-|   |       |   └─<string>
-|   |       |     |
-|   |       |     └─<begin_str>
-|   |       |     | |
-|   |       |     | └─ "
-|   |       |     |
-|   |       |     └─<character>
-|   |       |     | |
-|   |       |     | └─<letter>
-|   |       |     |   |
-|   |       |     |   └─ K
-|   |       |     └─<character>
-|   |       |     | |
-|   |       |     | └─<letter>
-|   |       |     |   |
-|   |       |     |   └─ a
-|   |       |     └─<character>
-|   |       |     | |
-|   |       |     | └─<letter>
-|   |       |     |   |
-|   |       |     |   └─ l
-|   |       |     └─<character>
-|   |       |     | |
-|   |       |     | └─<letter>
-|   |       |     |   |
-|   |       |     |   └─ a
-|   |       |     └─<character>
-|   |       |     | |
-|   |       |     | └─<letter>
-|   |       |     |   |
-|   |       |     |   └─ s
-|   |       |     └─<character>
-|   |       |     | |
-|   |       |     | └─<letter>
-|   |       |     |   |
-|   |       |     |   └─ h
-|   |       |     └─<character>
-|   |       |     | |
-|   |       |     | └─<letter>
-|   |       |     |   |
-|   |       |     |   └─ n
-|   |       |     └─<character>
-|   |       |     | |
-|   |       |     | └─<letter>
-|   |       |     |   |
-|   |       |     |   └─ i
-|   |       |     └─<character>
-|   |       |     | |
-|   |       |     | └─<letter>
-|   |       |     |   |
-|   |       |     |   └─ k
-|   |       |     └─<character>
-|   |       |     | |
-|   |       |     | └─<letter>
-|   |       |     |   |
-|   |       |     |   └─ o
-|   |       |     └─<character>
-|   |       |     | |
-|   |       |     | └─<letter>
-|   |       |     |   |
-|   |       |     |   └─ v
-|   |       |     |
-|   |       |     └─<end_str>
-|   |       |       |
-|   |       |       └─ "
-|   |       |
-|   |       └─<end_arg>
-|   |       | |
-|   |       | └─ )
-|   |       |
-|   |       └─<block>
-|   |         |
-|   |         └─<begin_code>
-|   |         | |
-|   |         | └─ {
-|   |         |
-|   |         └─<code>
-|   |         | |
-|   |         | └─<return_statement>
-|   |         |   |
-|   |         |   └─<return>
-|   |         |   | |
-|   |         |   | └─ yebat
-|   |         |   |
-|   |         |   └─<value>
-|   |         |   | |
-|   |         |   | └─<logical>
-|   |         |   |   |
-|   |         |   |   └─<strongon>
-|   |         |   |
-|   |         |   └─<eol>
-|   |         |     |
-|   |         |     └─ ;
-|   |         |
-|   |         └─<end_code>
-|   |           |
-|   |           └─ }
-|   |
-|   └─<return_statement>
-|   | |
-|   | └─<return>
-|   | | |
-|   | | └─ yebat
-|   | |
-|   | └─<value>
-|   | | |
-|   | | └─<logical>
-|   | |   |
-|   | |   └─ strongonoff
-|   | |
-|   | └─<eol>
-|   |   |
-|   |   └─ ;
-|   |
-|   └─<end_code>
-|     |
-|     └─ }
-|
-└─<main>
-  |
-  └─<var_type>
-  | |
-  | └─ intsky
-  |
-  └─<main_id>
-  | |
-  | └─ motherland
-  |
-  └─<arguments>
-  | |
-  | └─<begin_arg>
-  | | |
-  | | └─ (
-  | |
-  | └─<end_arg>
-  |   |
-  |   └─ )
-  |
-  └─<begin_code>
-  | |
-  | └─ {
-  |
-  └─<code>
-  | |
-  | └─<attribution>
-  | | |
-  | | └─<identifier>
-  | | | |
-  | | | └─<letter>
-  | | | | |
-  | | | | └─ c
-  | | | |
-  | | | └─<character>
-  | | | | |
-  | | | | └─<letter>
-  | | | |   |
-  | | | |   └─ a
-  | | | └─<character>
-  | | | | |
-  | | | | └─<letter>
-  | | | |   |
-  | | | |   └─ m
-  | | | └─<character>
-  | | | | |
-  | | | | └─<letter>
-  | | | |   |
-  | | | |   └─ a
-  | | | └─<character>
-  | | | | |
-  | | | | └─<letter>
-  | | | |   |
-  | | | |   └─ r
-  | | | └─<character>
-  | | | | |
-  | | | | └─<letter>
-  | | | |   |
-  | | | |   └─ a
-  | | | └─<character>
-  | | | | |
-  | | | | └─<letter>
-  | | | |   |
-  | | | |   └─ d
-  | | | └─<character>
-  | | |   |
-  | | |   └─<letter>
-  | | |     |
-  | | |     └─ a
-  | | |
-  | | └─<equal>
-  | | | |
-  | | | └─ =
-  | | |
-  | | └─<value>
-  | |   |
-  | |   └─<string>
-  | |     |
-  | |     └─<begin_str>
-  | |     | |
-  | |     | └─ "
-  | |     |
-  | |     └─<character>
-  | |     | |
-  | |     | └─<letter>
-  | |     |   |
-  | |     |   └─ B
-  | |     └─<character>
-  | |     | |
-  | |     | └─<letter>
-  | |     |   |
-  | |     |   └─ o
-  | |     └─<character>
-  | |     | |
-  | |     | └─<letter>
-  | |     |   |
-  | |     |   └─ r
-  | |     └─<character>
-  | |     | |
-  | |     | └─<letter>
-  | |     |   |
-  | |     |   └─ i
-  | |     └─<character>
-  | |     | |
-  | |     | └─<letter>
-  | |     |   |
-  | |     |   └─ s
-  | |     |
-  | |     └─<end_str>
-  | |       |
-  | |       └─ "
-  | |
-  | └─<eol>
-  | | |
-  | | └─ ;
-  | |
-  | └─<function_call>
-  | | |
-  | | └─<identifier>
-  | | | |
-  | | | └─<letter>
-  | | | | |
-  | | | | └─ v
-  | | | |
-  | | | └─<character>
-  | | | | |
-  | | | | └─<letter>
-  | | | |   |
-  | | | |   └─ e
-  | | | └─<character>
-  | | | | |
-  | | | | └─<letter>
-  | | | |   |
-  | | | |   └─ r
-  | | | └─<character>
-  | | | | |
-  | | | | └─<letter>
-  | | | |   |
-  | | | |   └─ i
-  | | | └─<character>
-  | | | | |
-  | | | | └─<letter>
-  | | | |   |
-  | | | |   └─ f
-  | | | └─<character>
-  | | | | |
-  | | | | └─<letter>
-  | | | |   |
-  | | | |   └─ i
-  | | | └─<character>
-  | | | | |
-  | | | | └─<letter>
-  | | | |   |
-  | | | |   └─ c
-  | | | └─<character>
-  | | |   |
-  | | |   └─<letter>
-  | | |     |
-  | | |     └─ a
-  | | |
-  | | └─<arguments>
-  | |   |
-  | |   └─<begin_arg>
-  | |   | |
-  | |   | └─ (
-  | |   |
-  | |   └─<end_arg>
-  | |     |
-  | |     └─ )
-  | |
-  | └─<eol>
-  |   |
-  |   └─ ;
-  |
-  └─<return_statement>
-  | |
-  | └─<return>
-  | | |
-  | | └─ yebat
-  | |
-  | └─<value>
-  | | |
-  | | └─<number>
-  | |   |
-  | |   └─<digit>
-  | |     |
-  | |     └─ 0
-  | |
-  | └─<eol>
-  |   |
-  |   └─ ;
-  |
-  └─<end_code>
-    |
-    └─ }
+    └<mainfunction>
+        └<main_id>
+        |   └"motherland"
+        |
+        └<arguments>
+        |   └<begin_arg>
+        |   |   └"("
+        |   |
+        |   └<arg_list>
+        |   |   └"vazio"
+        |   |
+        |   └<end_arg>
+        |       └")"
+        |
+        └<code_block>
+            └<begin_code>
+            |   └"{"
+            |
+            └<code>
+            |   └<var_declaration>
+            |   |   └<var_type>
+            |   |   |   └"intsky"
+            |   |   |
+            |   |   └<identifier>
+            |   |   |   └<letter>
+            |   |   |       └"a"
+            |   |   |
+            |   |   └<eol>
+            |   |       └";"
+            |   |
+            |   └<attribution>
+            |       └<identifier>
+            |       |   └<letter>
+            |       |       └"a"
+            |       |
+            |       └<equal>
+            |       |   └"="
+            |       |
+            |       └<value>
+            |       |   └<number>
+            |       |       └<integer>
+            |       |           └<digit>
+            |       |               └"3"
+            |       |
+            |       └<eol>
+            |           └";"
+            |
+            └<end_code>
+                └"}"
 ```
