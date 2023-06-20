@@ -25,18 +25,18 @@ palavrovka | vetor de caracteres (string)
 # OPERADORES
 **Código** | **Descrição**
 :---------|:---------
-+ 	| soma
-- 	| subtração
+\+ 	| soma
+\- 	| subtração
 \* 	| multiplicação
 / 	| divisão
 && 	| operação lógica AND
 || 	| operação lógica OR
 == 	| operação lógica IGUAL A
 != 	| operação lógica DIFERENTE DE
->= 	| operação lógica MAIOR OU IGUAL
-<= 	| operação lógica MENOR OU IGUAL
-< 	| operação lógica MENOR
-> 	| operação lógica MAIOR
+\>= 	| operação lógica MAIOR OU IGUAL
+\<= 	| operação lógica MENOR OU IGUAL
+\< 	| operação lógica MENOR
+\> 	| operação lógica MAIOR
 niet| operação lógica NOT
 pow | elevado à potência
 
