@@ -12,6 +12,7 @@ strongon 	| valor lógico verdadeiro
 strongonoff | valor lógico falso
 yebat 		| chamada de retorno da função
 niet 		| operador lógico de negação
+pow			| operador elevado a potência
 
 # TIPOS DE DADOS
 **Código** | **Descrição**
