@@ -29,7 +29,7 @@ private:
 
     //Private Methods
     bool LexicalAnalysis(QString &code, int &linenumber, QString &invalidchar);
-    bool SyntacticAnalysis(QString &code);
+    bool SyntacticAnalysis();
     void Tokenize(QString word, int linenumber, int columnnumber);
 
     //TEMPORARIO

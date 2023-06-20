@@ -250,6 +250,11 @@ bool WorkerCompiler::LexicalAnalysis(QString &code, int &linenumber, QString &in
     return true;
 }
 
+bool WorkerCompiler::SyntacticAnalysis(){
+
+    return true;
+}
+
 void WorkerCompiler::Tokenize(QString word, int linenumber, int columnnumber){
 
     Automatons lexers;
@@ -320,6 +325,11 @@ void WorkerCompiler::Compile(QString text){
     }
 
     PrintTokensToFile("lexer.skyy");
+
+    if(!SyntacticAnalysis()){
+        emit Error(2, "Falha na sintaxe", 1);
+        return;
+    }
 
     emit Done(2);
 }

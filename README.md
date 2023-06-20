@@ -30,7 +30,7 @@ palavrovka | vetor de caracteres (string)
 \* 	| multiplicação
 / 	| divisão
 && 	| operação lógica AND
-|| 	| operação lógica OR
+\|\| 	| operação lógica OR
 == 	| operação lógica IGUAL A
 != 	| operação lógica DIFERENTE DE
 \>= 	| operação lógica MAIOR OU IGUAL
