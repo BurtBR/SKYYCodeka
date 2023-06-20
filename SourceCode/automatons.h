@@ -42,12 +42,14 @@ private:
     bool Automaton_Reserved_i_ntsky(QChar c);
     bool Automaton_Reserved_kalashn(QChar c);
     bool Automaton_Reserved_m(QChar c);
-    bool Automaton_Reserved_m_otherland(QChar c);
-    bool Automaton_Reserved_m_ickwhail(QChar c);
+    bool Automaton_Reserved_mo(QChar c);
+    bool Automaton_Reserved_mo_scow(QChar c);
+    bool Automaton_Reserved_mo_therland(QChar c);
     bool Automaton_Reserved_niet(QChar c);
     bool Automaton_Reserved_palavrovka(QChar c);
     bool Automaton_Reserved_strongon(QChar c);
     bool Automaton_Reserved_strongon_off(QChar c);
+    bool Automaton_Reserved_tovarish(QChar c);
     bool Automaton_Reserved_yebat(QChar c);
 
     //Identifier Automaton

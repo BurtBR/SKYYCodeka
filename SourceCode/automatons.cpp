@@ -90,6 +90,9 @@ bool Automatons::Automaton_Reserved_0(QChar c){
     case 's':
         reservedWords = &Automaton_Reserved_strongon;
         break;
+    case 't':
+        reservedWords = &Automaton_Reserved_tovarish;
+        break;
     case 'y':
         reservedWords = &Automaton_Reserved_yebat;
         break;
@@ -454,22 +457,51 @@ bool Automatons::Automaton_Reserved_kalashn(QChar c){
 bool Automatons::Automaton_Reserved_m(QChar c){
 
     if(c == 'o')
-        reservedWords = &Automaton_Reserved_m_otherland;
-    else if(c == 'i')
-        reservedWords = &Automaton_Reserved_m_ickwhail;
+        reservedWords = &Automaton_Reserved_mo;
     else
         reservedWords = &Automaton_FAIL;
 
     return false;
 }
 
-bool Automatons::Automaton_Reserved_m_otherland(QChar c){
+bool Automatons::Automaton_Reserved_mo(QChar c){
+    if(c == 's')
+        reservedWords = &Automaton_Reserved_mo_scow;
+    else if(c == 't')
+        reservedWords = &Automaton_Reserved_mo_therland;
+    else
+        reservedWords = &Automaton_FAIL;
 
+    return false;
+}
+
+bool Automatons::Automaton_Reserved_mo_scow(QChar c){
     switch(charcounter){
-    case 2:
-        if(c != 't')
+    case 3:
+        if(c != 'c')
             reservedWords = &Automaton_FAIL;
         break;
+    case 4:
+        if(c != 'o')
+            reservedWords = &Automaton_FAIL;
+        break;
+    case 5:
+        if(c == 'w'){
+            token = Token::TokenType::keyword;
+            *datatype = Token::TokenSubtype::moscow;
+            return true;
+        }
+        break;
+    default:
+        reservedWords = &Automaton_FAIL;
+        break;
+    }
+    return false;
+}
+
+bool Automatons::Automaton_Reserved_mo_therland(QChar c){
+
+    switch(charcounter){
     case 3:
         if(c != 'h')
             reservedWords = &Automaton_FAIL;
@@ -498,49 +530,6 @@ bool Automatons::Automaton_Reserved_m_otherland(QChar c){
         reservedWords = &Automaton_FAIL;
         if(c == 'd'){
             token = Token::TokenType::mainfunction;
-            return true;
-        }
-        break;
-    default:
-        reservedWords = &Automaton_FAIL;
-        break;
-    }
-
-    return false;
-}
-
-bool Automatons::Automaton_Reserved_m_ickwhail(QChar c){
-
-    switch(charcounter){
-    case 2:
-        if(c != 'c')
-            reservedWords = &Automaton_FAIL;
-        break;
-    case 3:
-        if(c != 'k')
-            reservedWords = &Automaton_FAIL;
-        break;
-    case 4:
-        if(c != 'w')
-            reservedWords = &Automaton_FAIL;
-        break;
-    case 5:
-        if(c != 'h')
-            reservedWords = &Automaton_FAIL;
-        break;
-    case 6:
-        if(c != 'a')
-            reservedWords = &Automaton_FAIL;
-        break;
-    case 7:
-        if(c != 'i')
-            reservedWords = &Automaton_FAIL;
-        break;
-    case 8:
-        reservedWords = &Automaton_FAIL;
-        if(c == 'l'){
-            token = Token::TokenType::keyword;
-            *datatype = Token::TokenSubtype::michwhail;
             return true;
         }
         break;
@@ -687,6 +676,47 @@ bool Automatons::Automaton_Reserved_strongon_off(QChar c){
         if(c == 'f'){
             token = Token::TokenType::keyword;
             *datatype = Token::TokenSubtype::strongonoff;
+            return true;
+        }
+        break;
+    default:
+        reservedWords = &Automaton_FAIL;
+        break;
+    }
+
+    return false;
+}
+
+bool Automatons::Automaton_Reserved_tovarish(QChar c){
+    switch(charcounter){
+    case 1:
+        if(c != 'o')
+            reservedWords = &Automaton_FAIL;
+        break;
+    case 2:
+        if(c != 'v')
+            reservedWords = &Automaton_FAIL;
+        break;
+    case 3:
+        if(c != 'a')
+            reservedWords = &Automaton_FAIL;
+        break;
+    case 4:
+        if(c != 'r')
+            reservedWords = &Automaton_FAIL;
+        break;
+    case 5:
+        if(c != 'i')
+            reservedWords = &Automaton_FAIL;
+        break;
+    case 6:
+        if(c != 's')
+            reservedWords = &Automaton_FAIL;
+        break;
+    case 7:
+        if(c == 'h'){
+            token = Token::TokenType::keyword;
+            *datatype = Token::TokenSubtype::tovarish;
             return true;
         }
         break;

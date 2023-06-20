@@ -88,9 +88,6 @@ QString Token::GetSubTokenString(TokenSubtype tk){
     case TokenSubtype::palavrovka:
         return "palavrovka";
         break;
-    case TokenSubtype::michwhail:
-        return "michwhail";
-        break;
     case TokenSubtype::forevisky:
         return "forevisky";
         break;
@@ -111,6 +108,12 @@ QString Token::GetSubTokenString(TokenSubtype tk){
         break;
     case TokenSubtype::strongonoff:
         return "strongonoff";
+        break;
+    case TokenSubtype::moscow:
+        return "moscow";
+        break;
+    case TokenSubtype::tovarish:
+        return "tovarish";
         break;
     case TokenSubtype::plus:
         return "plus";
