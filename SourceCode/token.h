@@ -79,7 +79,7 @@ private:
 public:
     Token();
     Token(TokenType tokentype, TokenSubtype tokensubtype, unsigned int line, unsigned int column);
-    Token(TokenType tokentype, QString hashkey, unsigned int line, unsigned int column);
+    Token(TokenType tokentype, TokenSubtype tokensubtype, QString hashkey, unsigned int line, unsigned int column);
 
     static QString GetTokenString(TokenType tk);
     static QString GetSubTokenString(TokenSubtype tk);
@@ -88,6 +88,7 @@ public:
     TokenType GetTokenType();
     TokenSubtype GetTokenSubtype();
     QString GetData();
+    QString GetData(TokenDataType datatype);
     unsigned int GetLine();
     unsigned int GetColumn();
 

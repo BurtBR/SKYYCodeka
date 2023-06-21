@@ -886,6 +886,7 @@ bool Automatons::Automaton_Float_After(QChar c){
 
     if(c >= '0' && c <= '9'){
         token = Token::TokenType::constant;
+        *datatype = Token::TokenSubtype::floatsky;
         return true;
     }else{
         floatNumber = &Automaton_FAIL;
@@ -903,10 +904,12 @@ bool Automatons::Automaton_Integer_0(QChar c){
     if((c > '0') && (c <= '9')){
         integerNumber = &Automaton_Integer_1;
         token = Token::TokenType::constant;
+        *datatype = Token::TokenSubtype::intsky;
         return true;
     }else if(c == '0'){
         integerNumber = &Automaton_FAIL;
         token = Token::TokenType::constant;
+        *datatype = Token::TokenSubtype::intsky;
         return true;
     }
 
@@ -918,6 +921,7 @@ bool Automatons::Automaton_Integer_1(QChar c){
 
     if((c >= '0') && (c <= '9')){
         token = Token::TokenType::constant;
+        *datatype = Token::TokenSubtype::intsky;
         return true;
     }
 
@@ -942,6 +946,7 @@ bool Automatons::Automaton_String_1(QChar c){
     if(c == '\"'){
         stringWord = &Automaton_FAIL;
         token = Token::TokenType::constant;
+        *datatype = Token::TokenSubtype::palavrovka;
         return true;
     }
 

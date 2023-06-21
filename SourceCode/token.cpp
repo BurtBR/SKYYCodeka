@@ -11,8 +11,9 @@ Token::Token(TokenType tokentype, TokenSubtype tokensubtype, unsigned int line, 
     tk_column = column;
 }
 
-Token::Token(TokenType tokentype, QString hashkey, unsigned int line, unsigned int column){
+Token::Token(TokenType tokentype, TokenSubtype tokensubtype, QString hashkey, unsigned int line, unsigned int column){
     tk_type = tokentype;
+    tk_subtype = tokensubtype;
     tk_line = line;
     tk_column = column;
 
@@ -179,6 +180,24 @@ Token::TokenType Token::GetTokenType(){return tk_type;}
 Token::TokenSubtype Token::GetTokenSubtype(){return tk_subtype;}
 
 QString Token::GetData(){return tk_data;}
+
+QString Token::GetData(TokenDataType datatype){
+
+    QStringList datalist = tk_data.split('\n'), dataline;
+
+    if(tk_data.size()){
+        for(int i=0; i<datalist.size(); i++){
+            dataline = datalist[i].split('=');
+            if(dataline.size() == 2){
+                if(dataline.at(0).toInt() == (int)datatype){
+                    return dataline.at(1);
+                }
+            }
+        }
+    }
+
+    return QString();
+}
 
 unsigned int Token::GetLine(){return tk_line;}
 
