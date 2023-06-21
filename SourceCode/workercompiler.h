@@ -5,7 +5,7 @@
 #include <QFile>
 #include <QTextStream>
 #include <QMultiHash>
-#include <QVector>
+#include <QQueue>
 #include <QStack>
 #include "automatons.h"
 #include "syntaxtree.h"
@@ -27,7 +27,7 @@ class WorkerCompiler : public QObject{
 private:
     //Private Attributes
     QMultiHash<QString,QString> hashtable;
-    QVector<Token> tokenlist, undefinedtokens;
+    QQueue<Token> tokenlist, undefinedtokens;
     SyntaxTree syntaxtree;
 
 
