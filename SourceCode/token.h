@@ -61,18 +61,26 @@ public:
         minusminus
     };
 
+    //Private Data Type Enum Class
+    enum class TokenDataType{
+        key,
+        var_type,
+        scope
+    };
+
 private:
+
     //Private Attributes
     TokenType tk_type = TokenType::unidentified;
     TokenSubtype tk_subtype = TokenSubtype::unidentified;
-    QString tk_key;
+    QString tk_data;
     unsigned int tk_line = -1;
     unsigned int tk_column = -1;
 
 public:
     Token();
     Token(TokenType tokentype, TokenSubtype tokensubtype, unsigned int line, unsigned int column);
-    Token(TokenType tokentype, QString key, unsigned int line, unsigned int column);
+    Token(TokenType tokentype, QString hashkey, unsigned int line, unsigned int column);
 
     static QString GetTokenString(TokenType tk);
     static QString GetSubTokenString(TokenSubtype tk);
@@ -87,7 +95,7 @@ public:
     //Setters
     void SetTokenType(TokenType tokentype);
     void SetTokenSubtype(TokenSubtype tokensubtype);
-    void SetKey(QString key);
+    void SetData(QString data);
     void SetLine(unsigned int line);
     void SetColumn(unsigned int column);
 };

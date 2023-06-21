@@ -327,7 +327,7 @@ void WorkerCompiler::Compile(QString text){
     PrintTokensToFile("lexer.skyy");
 
     if(!SyntacticAnalysis()){
-        emit Error(2, "Falha na sintaxe", 1);
+        emit Error(2, "Falha na sintaxe, compilação interrompida", 1);
         return;
     }
 
