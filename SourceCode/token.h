@@ -94,7 +94,7 @@ public:
     //Setters
     void SetTokenType(TokenType tokentype);
     void SetTokenSubtype(TokenSubtype tokensubtype);
-    void SetData(QString data);
+    void SetData(TokenDataType datatype, QString data);
     void SetLine(unsigned int line);
     void SetColumn(unsigned int column);
 };
