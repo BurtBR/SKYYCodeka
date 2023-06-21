@@ -4,9 +4,11 @@
 #include <QObject>
 #include <QFile>
 #include <QTextStream>
-#include <QMultiMap>
+#include <QMultiHash>
 #include <QVector>
+#include <QStack>
 #include "automatons.h"
+#include "syntaxtree.h"
 
 //TEMPORARIO
 #include <QThread>
@@ -24,19 +26,23 @@ class WorkerCompiler : public QObject{
 
 private:
     //Private Attributes
-    QMultiMap<QString,QString> hashtable;
+    QMultiHash<QString,QString> hashtable;
     QVector<Token> tokenlist, undefinedtokens;
+    SyntaxTree syntaxtree;
+
 
     //Private Methods
     bool LexicalAnalysis(QString &code, int &linenumber, QString &invalidchar);
     bool SyntacticAnalysis();
     void Tokenize(QString word, int linenumber, int columnnumber);
+    void InsertTokenToHash(Token tk, QString hashkey, const QString &value);
 
     //TEMPORARIO
     void PrintTokensToFile(QString filename);
 
 public:
     WorkerCompiler(QObject *parent = nullptr);
+    ~WorkerCompiler();
 
 public slots:
     void Compile(QString text);

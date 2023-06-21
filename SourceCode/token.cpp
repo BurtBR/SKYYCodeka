@@ -14,10 +14,15 @@ Token::Token(TokenType tokentype, TokenSubtype tokensubtype, unsigned int line, 
 Token::Token(TokenType tokentype, TokenSubtype tokensubtype, QString hashkey, unsigned int line, unsigned int column){
     tk_type = tokentype;
     tk_subtype = tokensubtype;
+    tk_hashkey = hashkey;
     tk_line = line;
     tk_column = column;
+}
 
-    SetData(TokenDataType::key, hashkey);
+bool Token::IsNonTerminal(){
+    if(tk_type == TokenType::nonterminal)
+        return true;
+    return false;
 }
 
 QString Token::GetTokenString(Token::TokenType tk){
@@ -179,25 +184,7 @@ Token::TokenType Token::GetTokenType(){return tk_type;}
 
 Token::TokenSubtype Token::GetTokenSubtype(){return tk_subtype;}
 
-QString Token::GetData(){return tk_data;}
-
-QString Token::GetData(TokenDataType datatype){
-
-    QStringList datalist = tk_data.split('\n'), dataline;
-
-    if(tk_data.size()){
-        for(int i=0; i<datalist.size(); i++){
-            dataline = datalist[i].split('=');
-            if(dataline.size() == 2){
-                if(dataline.at(0).toInt() == (int)datatype){
-                    return dataline.at(1);
-                }
-            }
-        }
-    }
-
-    return QString();
-}
+QString Token::GetHashKey(){return tk_hashkey;}
 
 unsigned int Token::GetLine(){return tk_line;}
 
@@ -211,38 +198,7 @@ void Token::SetTokenType(TokenType tokentype){tk_type = tokentype;}
 
 void Token::SetTokenSubtype(TokenSubtype tokensubtype){tk_subtype = tokensubtype;}
 
-void Token::SetData(TokenDataType datatype, QString data){
-
-    QStringList datalist = tk_data.split('\n'), dataline;
-    bool datafound = false;
-
-    if(tk_data.size()){
-
-        for(int i=0; i<datalist.size(); i++){
-            dataline = datalist[i].split('=');
-            if(dataline.size() == 2){
-                if(dataline.at(0).toInt() == (int)datatype){
-                    datalist[i] = (dataline.at(0) + "=" + data);
-                    datafound = true;
-                    break;
-                }
-            }
-        }
-
-        if(!datafound){
-            datalist.append(QString::number((int)datatype) + "=" + data);
-        }
-
-        tk_data.clear();
-        tk_data.append(datalist.at(0));
-        for(int i=1; i<datalist.size() ;i++){
-            tk_data.append("\n" + datalist.at(i));
-        }
-
-    }else{
-        tk_data = QString::number((int)datatype) + "=" + data;
-    }
-}
+void Token::SetHashKey(QString hashkey){tk_hashkey = hashkey;}
 
 void Token::SetLine(unsigned int line){tk_line = line;}
 

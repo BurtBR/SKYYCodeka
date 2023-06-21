@@ -23,7 +23,8 @@ public:
         beginargument,  //8
         endargument,    //9
         eol,            //10
-        separator       //11
+        separator,      //11
+        nonterminal
     };
 
     enum class TokenSubtype{
@@ -58,12 +59,14 @@ public:
         and_op,
         or_op,
         plusplus,
-        minusminus
+        minusminus,
+        nont_program
     };
 
     enum class TokenDataType{
-        key,
-        var_type,
+        value,
+        tk_type,
+        tk_subtype,
         scope
     };
 
@@ -72,7 +75,7 @@ private:
     //Private Attributes
     TokenType tk_type = TokenType::unidentified;
     TokenSubtype tk_subtype = TokenSubtype::unidentified;
-    QString tk_data;
+    QString tk_hashkey;
     unsigned int tk_line = -1;
     unsigned int tk_column = -1;
 
@@ -80,6 +83,7 @@ public:
     Token();
     Token(TokenType tokentype, TokenSubtype tokensubtype, unsigned int line, unsigned int column);
     Token(TokenType tokentype, TokenSubtype tokensubtype, QString hashkey, unsigned int line, unsigned int column);
+    bool IsNonTerminal();
 
     static QString GetTokenString(TokenType tk);
     static QString GetSubTokenString(TokenSubtype tk);
@@ -87,15 +91,14 @@ public:
     //Getters
     TokenType GetTokenType();
     TokenSubtype GetTokenSubtype();
-    QString GetData();
-    QString GetData(TokenDataType datatype);
+    QString GetHashKey();
     unsigned int GetLine();
     unsigned int GetColumn();
 
     //Setters
     void SetTokenType(TokenType tokentype);
     void SetTokenSubtype(TokenSubtype tokensubtype);
-    void SetData(TokenDataType datatype, QString data);
+    void SetHashKey(QString hashkey);
     void SetLine(unsigned int line);
     void SetColumn(unsigned int column);
 };

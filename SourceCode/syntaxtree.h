@@ -6,7 +6,8 @@
 class SyntaxTree{
 
 private:
-
+    SyntaxTreeNode root;
+    SyntaxTreeNode *currentnode;
 
 public:
     SyntaxTree();

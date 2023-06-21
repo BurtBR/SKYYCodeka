@@ -4,6 +4,10 @@ WorkerCompiler::WorkerCompiler(QObject *parent) : QObject{parent}{
 
 }
 
+WorkerCompiler::~WorkerCompiler(){
+
+}
+
 void WorkerCompiler::PrintTokensToFile(QString filename){
 
     QFile fp(filename);
@@ -19,19 +23,9 @@ void WorkerCompiler::PrintTokensToFile(QString filename){
 
         tokentext = "<" + Token::GetTokenString(tokenlist[i].GetTokenType()) + ",";
         tokentext.append(Token::GetSubTokenString(tokenlist[i].GetTokenSubtype()) + ",");
-        tokentext.append(tokenlist[i].GetData() + ",");
+        tokentext.append(tokenlist[i].GetHashKey() + ",");
         tokentext.append(QString::number(tokenlist[i].GetLine()) + ",");
         tokentext.append(QString::number(tokenlist[i].GetColumn()) + ">\n");
-
-        /*if( (tokenlist[i].GetTokenType() == Token::TokenType::constant) || (tokenlist[i].GetTokenType() == Token::TokenType::identifier) )
-            tokentext.append(tokenlist[i].GetData() + ",");
-        else if((tokenlist[i].GetTokenType() == Token::TokenType::keyword) || (tokenlist[i].GetTokenType() == Token::TokenType::operation))
-            tokentext.append(Token::GetSubTokenString(tokenlist[i].GetTokenSubtype()) + ",");
-        else
-            tokentext.append(",");
-
-        tokentext.append(QString::number(tokenlist[i].GetLine()) + ",");
-        tokentext.append(QString::number(tokenlist[i].GetColumn()) + ">\n");*/
 
         out << tokentext;
     }
@@ -279,8 +273,7 @@ void WorkerCompiler::Tokenize(QString word, int linenumber, int columnnumber){
             hashkey = "@str" + QString::number(tokenlist.size());
 
         //If the identifier/constant isn't on hashtable, insert it
-        if(!hashtable.contains(hashkey))
-            hashtable.insert(hashkey, word);
+        InsertTokenToHash(Token(currenttoken, datatype, hashkey, linenumber, columnnumber), hashkey, word);
 
         tokenlist.append(Token(currenttoken, datatype, hashkey, linenumber, columnnumber));
         break;
@@ -289,6 +282,27 @@ void WorkerCompiler::Tokenize(QString word, int linenumber, int columnnumber){
         tokenlist.append(Token(currenttoken, datatype, linenumber, columnnumber));
         break;
     }
+}
+
+void WorkerCompiler::InsertTokenToHash(Token tk, QString hashkey, const QString &value){
+
+    QString dataaux;
+
+    if(!hashtable.contains(hashkey)){
+
+        qDebug() << "Append " << value;
+
+        dataaux = QString::number((int)Token::TokenDataType::tk_type) + "=" + QString::number((int)tk.GetTokenType()) + "\n";
+        dataaux.append(QString::number((int)Token::TokenDataType::tk_subtype) + "=" + QString::number((int)tk.GetTokenSubtype()));
+
+        if(tk.GetTokenType() == Token::TokenType::constant){
+            dataaux.append("\n" + QString::number((int)Token::TokenDataType::value) + "=" + value);
+        }
+
+        qDebug() << dataaux;
+        hashtable.insert(hashkey, dataaux);
+    }
+
 }
 
 //---------------------------SLOTS---------------------------

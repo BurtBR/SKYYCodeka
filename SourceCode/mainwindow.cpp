@@ -378,6 +378,10 @@ void MainWindow::WorkerError(int type, QString message, int errorline){
     case 3: //Run Error
         break;
 
+    case 4: //Memory Allocation
+        errorMessage.append(message);
+        break;
+
     default: //Unknown Error
         errorMessage.append("Erro desconhecido!");
         break;
