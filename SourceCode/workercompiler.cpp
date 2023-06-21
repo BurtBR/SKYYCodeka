@@ -20,7 +20,7 @@ void WorkerCompiler::PrintTokensToFile(QString filename){
         tokentext = "<" + Token::GetTokenString(tokenlist[i].GetTokenType()) + ",";
 
         if( (tokenlist[i].GetTokenType() == Token::TokenType::constant) || (tokenlist[i].GetTokenType() == Token::TokenType::identifier) )
-            tokentext.append(tokenlist[i].GetKey() + ",");
+            tokentext.append(tokenlist[i].GetData() + ",");
         else if((tokenlist[i].GetTokenType() == Token::TokenType::keyword) || (tokenlist[i].GetTokenType() == Token::TokenType::operation))
             tokentext.append(Token::GetSubTokenString(tokenlist[i].GetTokenSubtype()) + ",");
         else

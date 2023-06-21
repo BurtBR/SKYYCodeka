@@ -61,7 +61,6 @@ public:
         minusminus
     };
 
-    //Private Data Type Enum Class
     enum class TokenDataType{
         key,
         var_type,
@@ -88,7 +87,7 @@ public:
     //Getters
     TokenType GetTokenType();
     TokenSubtype GetTokenSubtype();
-    QString GetKey();
+    QString GetData();
     unsigned int GetLine();
     unsigned int GetColumn();
 

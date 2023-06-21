@@ -178,7 +178,7 @@ Token::TokenType Token::GetTokenType(){return tk_type;}
 
 Token::TokenSubtype Token::GetTokenSubtype(){return tk_subtype;}
 
-QString Token::GetKey(){return tk_data;}
+QString Token::GetData(){return tk_data;}
 
 unsigned int Token::GetLine(){return tk_line;}
 
