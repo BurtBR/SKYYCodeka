@@ -12,7 +12,7 @@ void WorkerCompiler::PrintTokensToFile(QString filename){
 
     QFile fp(filename);
     QTextStream out(&fp);
-    QString tokentext;
+    QString tokentext ,straux;
 
     if(!fp.open(QFile::WriteOnly)){
         emit DisplayInfo("Falha ao gerar arquivo de análise léxica", 0);
@@ -25,8 +25,15 @@ void WorkerCompiler::PrintTokensToFile(QString filename){
         tokentext.append(Token::GetSubTokenString(tokenlist[i].GetTokenSubtype()) + ",");
         tokentext.append(tokenlist[i].GetHashKey() + ",");
         tokentext.append(QString::number(tokenlist[i].GetLine()) + ",");
-        tokentext.append(QString::number(tokenlist[i].GetColumn()) + ">\n");
+        tokentext.append(QString::number(tokenlist[i].GetColumn()) + ">");
 
+        if(hashtable.contains(tokenlist[i].GetHashKey())){
+            tokentext.append(" STORED: ");
+            straux = hashtable.value(tokenlist[i].GetHashKey());
+            tokentext.append(GetDataFromString(straux, Token::TokenDataType::value));
+        }
+
+        tokentext.append("\n");
         out << tokentext;
     }
 
@@ -290,19 +297,63 @@ void WorkerCompiler::InsertTokenToHash(Token tk, QString hashkey, const QString 
 
     if(!hashtable.contains(hashkey)){
 
-        qDebug() << "Append " << value;
+        SetDataToString(dataaux, Token::TokenDataType::tk_type, QString::number((int)tk.GetTokenType()));
+        SetDataToString(dataaux, Token::TokenDataType::tk_subtype, QString::number((int)tk.GetTokenSubtype()));
+        if(tk.GetTokenType() == Token::TokenType::constant)
+            SetDataToString(dataaux, Token::TokenDataType::value, value);
 
-        dataaux = QString::number((int)Token::TokenDataType::tk_type) + "=" + QString::number((int)tk.GetTokenType()) + "\n";
-        dataaux.append(QString::number((int)Token::TokenDataType::tk_subtype) + "=" + QString::number((int)tk.GetTokenSubtype()));
-
-        if(tk.GetTokenType() == Token::TokenType::constant){
-            dataaux.append("\n" + QString::number((int)Token::TokenDataType::value) + "=" + value);
-        }
-
-        qDebug() << dataaux;
         hashtable.insert(hashkey, dataaux);
     }
 
+}
+
+QString WorkerCompiler::GetDataFromString(const QString &strdata, Token::TokenDataType datatype){
+    QStringList datalist = strdata.split('\n'), dataline;
+
+    if(strdata.size()){
+        for(int i=0; i<datalist.size(); i++){
+            dataline = datalist[i].split('=');
+            if(dataline.size() == 2){
+                if(dataline.at(0).toInt() == (int)datatype){
+                    return dataline.at(1);
+                }
+            }
+        }
+    }
+
+    return QString();
+}
+
+void WorkerCompiler::SetDataToString(QString &strdata, Token::TokenDataType datatype, const QString &value){
+    QStringList datalist = strdata.split('\n'), dataline;
+    bool datafound = false;
+
+    if(strdata.size()){
+
+        for(int i=0; i<datalist.size(); i++){
+            dataline = datalist[i].split('=');
+            if(dataline.size() == 2){
+                if(dataline.at(0).toInt() == (int)datatype){
+                    datalist[i] = (dataline.at(0) + "=" + value);
+                    datafound = true;
+                    break;
+                }
+            }
+        }
+
+        if(!datafound){
+            datalist.append(QString::number((int)datatype) + "=" + value);
+        }
+
+        strdata.clear();
+        strdata.append(datalist.at(0));
+        for(int i=1; i<datalist.size() ;i++){
+            strdata.append("\n" + datalist.at(i));
+        }
+
+    }else{
+        strdata = QString::number((int)datatype) + "=" + value;
+    }
 }
 
 //---------------------------SLOTS---------------------------
