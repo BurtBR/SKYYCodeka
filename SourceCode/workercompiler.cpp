@@ -257,6 +257,11 @@ bool WorkerCompiler::LexicalAnalysis(QString &code, int &linenumber, QString &in
 
 bool WorkerCompiler::SyntacticAnalysis(){
 
+    if(!tokenlist.size())
+        return true;
+
+
+
     return true;
 }
 

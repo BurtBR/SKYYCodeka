@@ -64,6 +64,9 @@ QString Token::GetTokenString(Token::TokenType tk){
     case Token::TokenType::separator:
         return "separator";
         break;
+    case Token::TokenType::nonterminal:
+        return "nonterminal";
+        break;
     default:
         break;
     }
@@ -169,6 +172,78 @@ QString Token::GetSubTokenString(TokenSubtype tk){
         break;
     case TokenSubtype::minusminus:
         return "minusminus";
+        break;
+    case TokenSubtype::nont_program:
+        return "program";
+        break;
+    case TokenSubtype::nont_beforemain:
+        return "beforemain";
+        break;
+    case TokenSubtype::nont_aftermain:
+        return "aftermain";
+        break;
+    case TokenSubtype::nont_mainfunction:
+        return "mainfuction";
+        break;
+    case TokenSubtype::nont_arguments:
+        return "arguments";
+        break;
+    case TokenSubtype::nont_arglist:
+        return "arg_list";
+        break;
+    case TokenSubtype::nont_more_arguments:
+        return "more_arguments";
+        break;
+    case TokenSubtype::nont_code_block:
+        return "code_block";
+        break;
+    case TokenSubtype::nont_code_block_return:
+        return "code_block_return";
+        break;
+    case TokenSubtype::nont_code:
+        return "code";
+        break;
+    case TokenSubtype::nont_return_statement:
+        return "return_statement";
+        break;
+    case TokenSubtype::nont_var_declaration:
+        return "var_declaration";
+        break;
+    case TokenSubtype::nont_more_declaration:
+        return "more_declaration";
+        break;
+    case TokenSubtype::nont_loop_block:
+        return "loop_block";
+        break;
+    case TokenSubtype::nont_ifelsestatement:
+        return "ifelsestatement";
+        break;
+    case TokenSubtype::nont_elsestatement:
+        return "elsestatement";
+        break;
+    case TokenSubtype::nont_attribution:
+        return "attribution";
+        break;
+    case TokenSubtype::nont_value:
+        return "value";
+        break;
+    case TokenSubtype::nont_operation:
+        return "operation";
+        break;
+    case TokenSubtype::nont_number:
+        return "number";
+        break;
+    case TokenSubtype::nont_functioncall:
+        return "functioncall";
+        break;
+    case TokenSubtype::nont_function_definition:
+        return "function_definition";
+        break;
+    case TokenSubtype::nont_function_return:
+        return "function_return";
+        break;
+    case TokenSubtype::nont_function_void:
+        return "function_void";
         break;
     default:
         break;
