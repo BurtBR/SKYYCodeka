@@ -527,7 +527,7 @@ bool SyntaxTreeNode::Derivation(QQueue<Token> &streamtoken, QString &message){
                 childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_operation, -1, -1)));
                 return true;
                 break;
-            case Token::TokenSubtype::moscow:
+            case Token::TokenSubtype::tovarish:
                 childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_functioncall, -1, -1)));
                 return true;
                 break;
