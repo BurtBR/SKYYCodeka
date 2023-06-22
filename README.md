@@ -65,7 +65,7 @@ pow | elevado à potência
 \<arguments\> | \<begin_arg\> [\<arg_list\>] \<end_arg\>
 \<arg_list\> | \<var_type\> \<identifier\> {\<more_arguments\>}
 \<more_arguments\> | \<separator\> \<arg_list\>
-\<code_block\> | \<begin_code\> \<code\> \<end_code\>
+\<code_block\> | \<begin_code\> [\<code\>] \<end_code\>
 \<code_block_return\> | \<begin_code\> \<code\> \<return_statement\> \<end_code\>
 \<code\> | {\<var_declaration\> \| \<loop_block\> \| \<ifelse_statement\> \| \<attribution\> \| \<function_call\>}
 \<return_statement\> | \<return\> \<value\> \<eol\>

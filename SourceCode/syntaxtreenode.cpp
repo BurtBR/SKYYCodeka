@@ -227,15 +227,35 @@ bool SyntaxTreeNode::Derivation(QQueue<Token> &streamtoken, QString &message){
             message = "Esperado tipo de variável do argumento, recebeu " + Token::GetTokenString(streamtoken.first().GetTokenType());
             break;
         }
-
         break;
 
     case Token::TokenSubtype::nont_more_arguments:
-
+        switch(streamtoken.first().GetTokenType()){
+        case Token::TokenType::separator:
+            childs.append(SyntaxTreeNode(this, streamtoken.first()));
+            childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_arglist, -1, -1)));
+            break;
+        case Token::TokenType::endargument:
+            DeleteSelf();
+            return true;
+            break;
+        default:
+            message = "Esperado separador, recebeu " + Token::GetTokenString(streamtoken.first().GetTokenType());
+            break;
+        }
         break;
 
     case Token::TokenSubtype::nont_code_block:
-
+        switch(streamtoken.first().GetTokenType()){
+        case Token::TokenType::begincode:
+            childs.append(SyntaxTreeNode(this, streamtoken.first()));
+            childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_code, -1, -1)));
+            childs.append(SyntaxTreeNode(this, Token(Token::TokenType::endcode, Token::TokenSubtype::unidentified, -1, -1)));
+            break;
+        default:
+            message = "Esperado inicio de bloco de código \"{\", recebeu " + Token::GetTokenString(streamtoken.first().GetTokenType());
+            break;
+        }
         break;
 
     case Token::TokenSubtype::nont_code_block_return:
