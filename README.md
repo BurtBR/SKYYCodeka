@@ -76,8 +76,8 @@ pow | elevado à potência
 \<else_statement\> | \<else\> \<more_else\>
 \<more_else\> | (\<ifelse_statement\> \| \<code_block\>)
 \<attribution\> | \<identifier\> \<equal\> \<value\> \<eol\>
-\<value\> | \<identifier\> \| \<number\> \| \<operation\> \| \<logical\> \| \<string\> \| \<function_call\> \| (\<not\> \<value\>)
-\<operation\> | \<value\> \<operator\> \<value\>
+\<value\> | (\<identifier\> \| \<number\> \| \<logical\> \| \<string\> \| \<function_call\> \| (\<not\> \<value\>))  \<operation\>
+\<operation\> | {\<operator\> \<value\>}
 \<number\> | \<float\> \| \<integer\>
 \<float\> | \<integer\> \<float_separator\> \<integer\>
 \<integer\> | \<digit\> \| (\<digit_nonzero\> {\<digit\>})

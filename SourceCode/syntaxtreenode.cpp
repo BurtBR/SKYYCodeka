@@ -459,14 +459,52 @@ bool SyntaxTreeNode::Derivation(QQueue<Token> &streamtoken, QString &message){
         break;
 
     case Token::TokenSubtype::nont_more_else:
+        switch(streamtoken.first().GetTokenType()){
+        case Token::TokenType::keyword:
+            switch(streamtoken.first().GetTokenSubtype()){
+            case Token::TokenSubtype::ikov:
+                childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_ifelsestatement, -1, -1)));
+                return true;
+                break;
+            default:
+                message = "Esperado ikov, recebeu " + Token::GetSubTokenString(streamtoken.first().GetTokenSubtype());
+                break;
+            }
+            break;
+        case Token::TokenType::begincode:
+            childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_code_block, -1, -1)));
+            return true;
+            break;
+        default:
+            message = "Esperado bloco condicional ikov ou bloco de código, recebeu " + Token::GetTokenString(streamtoken.first().GetTokenType());
+            break;
+        }
         break;
 
     case Token::TokenSubtype::nont_attribution:
+        switch(streamtoken.first().GetTokenType()){
+        case Token::TokenType::identifier:
+            childs.append(SyntaxTreeNode(this, streamtoken.first()));
+            childs.append(SyntaxTreeNode(this, Token(Token::TokenType::operation, Token::TokenSubtype::attribution, -1, -1)));
+            childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_value, -1, -1)));
+            childs.append(SyntaxTreeNode(this, Token(Token::TokenType::eol, Token::TokenSubtype::unidentified, -1, -1)));
+            return true;
+            break;
+        default:
+            message = "Esperado atribuição, recebeu " + Token::GetTokenString(streamtoken.first().GetTokenType());
+            break;
+        }
 
         break;
 
     case Token::TokenSubtype::nont_value:
-
+        switch(streamtoken.first().GetTokenType()){
+        case Token::TokenType::identifier:
+            break;
+        default:
+            message = "Esperado valor, recebeu " + Token::GetTokenString(streamtoken.first().GetTokenType());
+            break;
+        }
         break;
 
     case Token::TokenSubtype::nont_operation:
