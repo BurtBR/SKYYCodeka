@@ -44,6 +44,7 @@ void WorkerCompiler::PrintSyntaxTreeToFile(QString filename){
     QFile fp(filename);
     QTextStream out(&fp);
     SyntaxTreeNode *nodeaux = &syntaxtree;
+    int level = 0;
 
     nodeaux->ResetIndex();
 
@@ -53,9 +54,11 @@ void WorkerCompiler::PrintSyntaxTreeToFile(QString filename){
     }
 
     while(nodeaux){
+        for(int i=0; i<level ;i++)
+            out << "\t";
         out << "<" << Token::GetTokenString(nodeaux->GetNodeToken().GetTokenType()) << ",";
         out << Token::GetSubTokenString(nodeaux->GetNodeToken().GetTokenSubtype()) << ">\n";
-        nodeaux = nodeaux->Next();
+        nodeaux = nodeaux->Next(level);
     }
 
     fp.close();

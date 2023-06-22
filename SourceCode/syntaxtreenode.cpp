@@ -69,6 +69,27 @@ SyntaxTreeNode *SyntaxTreeNode::Next(){
     return nullptr;
 }
 
+SyntaxTreeNode *SyntaxTreeNode::Next(int &level){
+
+    if(!HasChilds()){
+        if(parent){
+            level--;
+            return parent->Next(level);
+        }
+        return nullptr;
+    }
+
+    if((lastchildindex+1) < childs.size()){
+        level++;
+        return &childs[++lastchildindex];
+    }else if(parent){
+        level--;
+        return parent->Next(level);
+    }
+
+    return nullptr;
+}
+
 SyntaxTreeNode *SyntaxTreeNode::NextNonTerminal(){
 
     SyntaxTreeNode *nodeaux = Next();

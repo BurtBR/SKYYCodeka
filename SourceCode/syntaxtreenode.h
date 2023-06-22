@@ -25,6 +25,7 @@ public:
     SyntaxTreeNode *DeleteSelf();
     bool HasChilds();
     SyntaxTreeNode *Next();
+    SyntaxTreeNode *Next(int &level);
     SyntaxTreeNode *NextNonTerminal();
     bool Derivation(QQueue<Token> &streamtoken, QString &message);
     void ResetIndex();
