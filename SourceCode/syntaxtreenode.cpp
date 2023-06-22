@@ -424,6 +424,7 @@ bool SyntaxTreeNode::Derivation(QQueue<Token> &streamtoken, QString &message){
                 childs.append(SyntaxTreeNode(this, Token(Token::TokenType::endargument, Token::TokenSubtype::unidentified, -1, -1)));
                 childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_code_block, -1, -1)));
                 childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_elsestatement, -1, -1)));
+                childs.append(SyntaxTreeNode(this, Token(Token::TokenType::eol, Token::TokenSubtype::unidentified, -1, -1)));
                 return true;
                 break;
             default:
@@ -438,7 +439,26 @@ bool SyntaxTreeNode::Derivation(QQueue<Token> &streamtoken, QString &message){
         break;
 
     case Token::TokenSubtype::nont_elsestatement:
+        switch(streamtoken.first().GetTokenType()){
+        case Token::TokenType::keyword:
+            switch(streamtoken.first().GetTokenSubtype()){
+            case Token::TokenSubtype::kalashn:
+                childs.append(SyntaxTreeNode(this, streamtoken.first()));
+                childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_more_else, -1, -1)));
+                return true;
+                break;
+            default:
+                message = "Esperado kalashn, recebeu " + Token::GetSubTokenString(streamtoken.first().GetTokenSubtype());
+                break;
+            }
+            break;
+        default:
+            message = "Esperado bloco condicional else, recebeu " + Token::GetTokenString(streamtoken.first().GetTokenType());
+            break;
+        }
+        break;
 
+    case Token::TokenSubtype::nont_more_else:
         break;
 
     case Token::TokenSubtype::nont_attribution:

@@ -221,6 +221,9 @@ QString Token::GetSubTokenString(TokenSubtype tk){
     case TokenSubtype::nont_elsestatement:
         return "elsestatement";
         break;
+    case TokenSubtype::nont_more_else:
+        return "more_else";
+        break;
     case TokenSubtype::nont_attribution:
         return "attribution";
         break;
