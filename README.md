@@ -62,7 +62,7 @@ pow | elevado à potência
 \<beforemain\> | {\<var_declaration\> \| \<function_definition\>}
 \<aftermain\> | {\<var_declaration\> \| \<function_definition\>}
 \<mainfunction\> | \<main_id\> \<arguments\> \<code_block\>
-\<arguments\> | \<begin_arg\> \<arg_list\> \<end_arg\>
+\<arguments\> | \<begin_arg\> [\<arg_list\>] \<end_arg\>
 \<arg_list\> | \<var_type\> \<identifier\> {\<more_arguments\>}
 \<more_arguments\> | \<separator\> \<arg_list\>
 \<code_block\> | \<begin_code\> \<code\> \<end_code\>

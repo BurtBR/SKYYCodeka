@@ -88,6 +88,7 @@ bool SyntaxTreeNode::Derivation(QQueue<Token> &streamtoken, QString &message){
     if(!nodetoken.IsNonTerminal()){
         if(streamtoken.first().GetTokenType() == nodetoken.GetTokenType() &&
            streamtoken.first().GetTokenSubtype() == nodetoken.GetTokenSubtype()){
+            nodetoken = streamtoken.first();
             streamtoken.removeFirst();
             return true;
         }else{
@@ -173,14 +174,59 @@ bool SyntaxTreeNode::Derivation(QQueue<Token> &streamtoken, QString &message){
         break;
 
     case Token::TokenSubtype::nont_mainfunction:
-
+        switch(streamtoken.first().GetTokenType()){
+        case Token::TokenType::mainfunction:
+            childs.append(SyntaxTreeNode(this, streamtoken.first()));
+            childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_arguments, -1, -1)));
+            childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_code_block, -1, -1)));
+            return true;
+            break;
+        default:
+            message = "Esperado declaração da função motherland, recebeu " + Token::GetTokenString(streamtoken.first().GetTokenType());
+            break;
+        }
         break;
 
     case Token::TokenSubtype::nont_arguments:
-
+        switch(streamtoken.first().GetTokenType()){
+        case Token::TokenType::beginargument:
+            childs.append(SyntaxTreeNode(this, streamtoken.first()));
+            childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_arglist, -1, -1)));
+            childs.append(SyntaxTreeNode(this, Token(Token::TokenType::endargument, Token::TokenSubtype::unidentified, -1, -1)));
+            return true;
+            break;
+        default:
+            message = "Esperado inicio de argumento \"(\", recebeu " + Token::GetTokenString(streamtoken.first().GetTokenType());
+            break;
+        }
         break;
 
     case Token::TokenSubtype::nont_arglist:
+        switch(streamtoken.first().GetTokenType()){
+        case Token::TokenType::keyword:
+            switch(streamtoken.first().GetTokenSubtype()){
+            case Token::TokenSubtype::intsky:
+            case Token::TokenSubtype::charovsky:
+            case Token::TokenSubtype::floatsky:
+            case Token::TokenSubtype::bolichisky:
+            case Token::TokenSubtype::palavrovka:
+                childs.append(SyntaxTreeNode(this, streamtoken.first()));
+                childs.append(SyntaxTreeNode(this, Token(Token::TokenType::identifier, Token::TokenSubtype::unidentified, -1, -1)));
+                childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_more_arguments, -1, -1)));
+                break;
+            default:
+                message = "Esperado tipo de variável do argumento, recebeu " + Token::GetSubTokenString(streamtoken.first().GetTokenSubtype());
+                break;
+            }
+            break;
+        case Token::TokenType::endargument:
+            DeleteSelf();
+            return true;
+            break;
+        default:
+            message = "Esperado tipo de variável do argumento, recebeu " + Token::GetTokenString(streamtoken.first().GetTokenType());
+            break;
+        }
 
         break;
 
