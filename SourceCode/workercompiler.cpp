@@ -297,7 +297,10 @@ bool WorkerCompiler::SyntacticAnalysis(){
         nodeaux = nodeaux->Next();
     }
 
-    return true;
+    if(!nodeaux)
+        return true;
+
+    return false;
 }
 
 void WorkerCompiler::Tokenize(QString word, int linenumber, int columnnumber){

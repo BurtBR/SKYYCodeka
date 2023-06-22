@@ -19,7 +19,6 @@ SOURCES += \
     linenumberarea.cpp \
     main.cpp \
     mainwindow.cpp \
-    syntaxtree.cpp \
     syntaxtreenode.cpp \
     token.cpp \
     workercompiler.cpp \
@@ -31,7 +30,6 @@ HEADERS += \
     dialogpopup.h \
     linenumberarea.h \
     mainwindow.h \
-    syntaxtree.h \
     syntaxtreenode.h \
     token.h \
     workercompiler.h \
