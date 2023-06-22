@@ -67,9 +67,6 @@ QString Token::GetTokenString(Token::TokenType tk){
     case Token::TokenType::nonterminal:
         return "nonterminal";
         break;
-    case Token::TokenType::endprogram:
-        return "endprogram";
-        break;
     default:
         break;
     }
@@ -181,9 +178,6 @@ QString Token::GetSubTokenString(TokenSubtype tk){
         break;
     case TokenSubtype::nont_beforemain:
         return "beforemain";
-        break;
-    case TokenSubtype::nont_aftermain:
-        return "aftermain";
         break;
     case TokenSubtype::nont_mainfunction:
         return "mainfuction";

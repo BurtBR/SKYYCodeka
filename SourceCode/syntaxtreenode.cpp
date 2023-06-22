@@ -128,7 +128,6 @@ bool SyntaxTreeNode::Derivation(QQueue<Token> &streamtoken, QString &message){
     case Token::TokenSubtype::nont_program:
         childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_beforemain, -1, -1)));
         childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_mainfunction, -1, -1)));
-        childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_aftermain, -1, -1)));
         return true;
         break;
 
@@ -162,39 +161,6 @@ bool SyntaxTreeNode::Derivation(QQueue<Token> &streamtoken, QString &message){
         case Token::TokenType::mainfunction:
             DeleteSelf();
             return true;
-            break;
-        default:
-            message = "Esperado declaração de função ou variável, recebeu " + Token::GetTokenString(streamtoken.first().GetTokenType());
-            break;
-        }
-        break;
-
-    case Token::TokenSubtype::nont_aftermain:
-        switch(streamtoken.first().GetTokenType()){
-        case Token::TokenType::endprogram:
-            DeleteSelf();
-            return true;
-            break;
-        case Token::TokenType::keyword:
-            switch(streamtoken.first().GetTokenSubtype()){
-            case Token::TokenSubtype::moscow:
-            case Token::TokenSubtype::chernobyl:
-                childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_function_definition, -1, -1)));
-                childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_aftermain, -1, -1)));
-                return true;
-                break;
-            case Token::TokenSubtype::intsky:
-            case Token::TokenSubtype::charovsky:
-            case Token::TokenSubtype::floatsky:
-            case Token::TokenSubtype::bolichisky:
-            case Token::TokenSubtype::palavrovka:
-                childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_var_declaration, -1, -1)));
-                childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_aftermain, -1, -1)));
-                return true;
-                break;
-            default:
-                break;
-            }
             break;
         default:
             message = "Esperado declaração de função ou variável, recebeu " + Token::GetTokenString(streamtoken.first().GetTokenType());

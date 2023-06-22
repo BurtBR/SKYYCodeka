@@ -58,9 +58,8 @@ pow | elevado à potência
 # ENBF
 **Token**  | **Derivação**
 :------|:----------
-\<program\> | {\<beforemain\>} \<mainfunction\> {\<aftermain\>}
+\<program\> | {\<beforemain\>} \<mainfunction\>
 \<beforemain\> | \<var_declaration\> \| \<function_definition\>
-\<aftermain\> | \<var_declaration\> \| \<function_definition\>
 \<mainfunction\> | \<main_id\> \<arguments\> \<code_block\>
 \<arguments\> | \<begin_arg\> [\<arg_list\>] \<end_arg\>
 \<arg_list\> | \<var_type\> \<identifier\> {\<more_arguments\>}

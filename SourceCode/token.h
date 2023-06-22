@@ -63,7 +63,6 @@ public:
         minusminus,
         nont_program,
         nont_beforemain,
-        nont_aftermain,
         nont_mainfunction,
         nont_arguments,
         nont_arglist,

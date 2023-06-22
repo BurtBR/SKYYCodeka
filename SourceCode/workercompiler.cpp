@@ -57,7 +57,8 @@ void WorkerCompiler::PrintSyntaxTreeToFile(QString filename){
         for(int i=0; i<level ;i++)
             out << "\t";
         out << "<" << Token::GetTokenString(nodeaux->GetNodeToken().GetTokenType()) << ",";
-        out << Token::GetSubTokenString(nodeaux->GetNodeToken().GetTokenSubtype()) << ">\n";
+        out << Token::GetSubTokenString(nodeaux->GetNodeToken().GetTokenSubtype()) << ",";
+        out << nodeaux->GetTokenHashKey() << ">\n";
         nodeaux = nodeaux->Next(level);
     }
 
@@ -286,8 +287,7 @@ bool WorkerCompiler::SyntacticAnalysis(){
 
     QString strmessage;
     SyntaxTreeNode *nodeaux;
-
-    tokenlist.append(Token(Token::TokenType::endprogram, Token::TokenSubtype::unidentified, tokenlist.last().GetLine(), -1));
+    int lastline = tokenlist.last().GetLine();
 
     syntaxtree = SyntaxTreeNode();
     syntaxtree.SetTokenType(Token::TokenType::nonterminal);
@@ -302,16 +302,21 @@ bool WorkerCompiler::SyntacticAnalysis(){
         nodeaux = nodeaux->Next();
     }
 
-    if(tokenlist.size() == 1){
-        if(tokenlist.first().GetTokenType() == Token::TokenType::endprogram){
-            if(!nodeaux){
-                tokenlist.removeFirst();
-                return true;
-            }
-        }
+    if(tokenlist.size()){
+        emit DisplayInfo("Código extra após finalizar o programa!", 0);
+        return false;
     }
 
-    return false;
+    if(nodeaux){
+        if(nodeaux->GetNodeToken().GetTokenSubtype() == Token::TokenSubtype::nont_beforemain)
+            emit DisplayInfo("Eperava função motherland ao fim do código", 0);
+        else
+            emit DisplayInfo("Eperava " + Token::GetSubTokenString(nodeaux->GetNodeToken().GetTokenSubtype()) + " ao fim do código", 0);
+        tokenlist.append(Token(Token::TokenType::unidentified, Token::TokenSubtype::unidentified, lastline, 1));
+        return false;
+    }
+
+    return true;
 }
 
 void WorkerCompiler::Tokenize(QString word, int linenumber, int columnnumber){
