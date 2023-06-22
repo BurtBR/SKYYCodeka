@@ -380,6 +380,9 @@ bool WorkerCompiler::SemanticAnalysis(){
     if(!SemanticHashInit())
         return false;
 
+    if(!SemanticVerifyOperationTypes())
+        return false;
+
     return true;
 }
 
@@ -461,6 +464,65 @@ bool WorkerCompiler::SemanticHashInit(){
 
         nodeaux = nodeaux->Next(level);
     };
+
+    return true;
+}
+
+bool WorkerCompiler::SemanticVerifyOperationTypes(){
+
+    SyntaxTreeNode *nodeaux = &syntaxtree;
+    int level = 0, levelaux;
+    QMultiHash<QString,QString>::iterator iterator;
+    Token::TokenSubtype currentvartype = Token::TokenSubtype::unidentified;
+
+    nodeaux->ResetIndex();
+
+    while(nodeaux){
+
+        switch(nodeaux->GetNodeToken().GetTokenSubtype()){
+        case Token::TokenSubtype::nont_value:
+        case Token::TokenSubtype::nont_attribution:
+            levelaux = level;
+            nodeaux = nodeaux->Next(level);
+            currentvartype = nodeaux->GetNodeToken().GetTokenSubtype();
+            while(level > levelaux){
+                switch(nodeaux->GetNodeToken().GetTokenSubtype()){
+                case Token::TokenSubtype::returnfuntion:
+                    iterator = hashtable.find(nodeaux->GetTokenHashKey());
+                    if(iterator != hashtable.end()){
+                        if(GetDataFromString(iterator.value(), Token::TokenDataType::returntype).toInt() != (int)currentvartype){
+                            emit Error(2, "Operação entre variáveis de tipos incompatíveis", nodeaux->GetNodeToken().GetLine());
+                            return false;
+                        }
+                    }
+                    break;
+                case Token::TokenSubtype::intsky:
+                case Token::TokenSubtype::charovsky:
+                case Token::TokenSubtype::floatsky:
+                case Token::TokenSubtype::bolichisky:
+                case Token::TokenSubtype::palavrovka:
+                    if(currentvartype != nodeaux->GetNodeToken().GetTokenSubtype()){
+                        emit Error(2, "Operação entre variáveis de tipos incompatíveis", nodeaux->GetNodeToken().GetLine());
+                        return false;
+                    }
+                    break;
+                case Token::TokenSubtype::voidfunction:
+                    emit Error(2, "Operação entre variáveis de tipos incompatíveis", nodeaux->GetNodeToken().GetLine());
+                    return false;
+                    break;
+                default:
+                    break;
+                }
+
+                nodeaux = nodeaux->Next(level);
+            }
+            break;
+        default:
+            break;
+        }
+
+        nodeaux = nodeaux->Next(level);
+    }
 
     return true;
 }

@@ -36,6 +36,7 @@ private:
     bool SyntacticAnalysis();
     bool SemanticAnalysis();
     bool SemanticHashInit();
+    bool SemanticVerifyOperationTypes();
     void Tokenize(QString word, int linenumber, int columnnumber);
     void InsertTokenToHash(Token tk, QString hashkey, const QString &value);
     QString GetDataFromString(const QString &strdata, Token::TokenDataType datatype);
