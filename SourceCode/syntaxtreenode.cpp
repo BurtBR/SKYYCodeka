@@ -280,6 +280,10 @@ bool SyntaxTreeNode::Derivation(QQueue<Token> &streamtoken, QString &message){
         switch(streamtoken.first().GetTokenType()){
         case Token::TokenType::keyword:
             switch(streamtoken.first().GetTokenSubtype()){
+            case Token::TokenSubtype::yebat:
+                DeleteSelf();
+                return true;
+                break;
             case Token::TokenSubtype::forevisky:
                 childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_loop_block, -1, -1)));
                 childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_code, -1, -1)));
@@ -290,7 +294,7 @@ bool SyntaxTreeNode::Derivation(QQueue<Token> &streamtoken, QString &message){
                 childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_code, -1, -1)));
                 return true;
                 break;
-            case Token::TokenSubtype::moscow:
+            case Token::TokenSubtype::tovarish:
                 childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_functioncall, -1, -1)));
                 childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_code, -1, -1)));
                 return true;
@@ -424,7 +428,6 @@ bool SyntaxTreeNode::Derivation(QQueue<Token> &streamtoken, QString &message){
                 childs.append(SyntaxTreeNode(this, Token(Token::TokenType::endargument, Token::TokenSubtype::unidentified, -1, -1)));
                 childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_code_block, -1, -1)));
                 childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_elsestatement, -1, -1)));
-                childs.append(SyntaxTreeNode(this, Token(Token::TokenType::eol, Token::TokenSubtype::unidentified, -1, -1)));
                 return true;
                 break;
             default:
@@ -448,12 +451,13 @@ bool SyntaxTreeNode::Derivation(QQueue<Token> &streamtoken, QString &message){
                 return true;
                 break;
             default:
-                message = "Esperado kalashn, recebeu " + Token::GetSubTokenString(streamtoken.first().GetTokenSubtype());
-                break;
+                DeleteSelf();
+                return true;
             }
             break;
         default:
-            message = "Esperado bloco condicional else, recebeu " + Token::GetTokenString(streamtoken.first().GetTokenType());
+            DeleteSelf();
+            return true;
             break;
         }
         break;
@@ -530,6 +534,11 @@ bool SyntaxTreeNode::Derivation(QQueue<Token> &streamtoken, QString &message){
             childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_operation, -1, -1)));
             return true;
             break;
+        case Token::TokenType::constant:
+            childs.append(SyntaxTreeNode(this, streamtoken.first()));
+            childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_operation, -1, -1)));
+            return true;
+            break;
         default:
             message = "Esperado valor, recebeu " + Token::GetTokenString(streamtoken.first().GetTokenType());
             break;
@@ -561,6 +570,10 @@ bool SyntaxTreeNode::Derivation(QQueue<Token> &streamtoken, QString &message){
                 message = "Esperado operador, recebeu " + Token::GetSubTokenString(streamtoken.first().GetTokenSubtype());
                 break;
             }
+            break;
+        case Token::TokenType::endargument:
+            DeleteSelf();
+            return true;
             break;
         case Token::TokenType::eol:
             DeleteSelf();
@@ -624,7 +637,6 @@ bool SyntaxTreeNode::Derivation(QQueue<Token> &streamtoken, QString &message){
             switch(streamtoken.first().GetTokenSubtype()){
             case Token::TokenSubtype::moscow:
                 childs.append(SyntaxTreeNode(this, streamtoken.first()));
-                childs.append(SyntaxTreeNode(this, Token(Token::TokenType::keyword, Token::TokenSubtype::unidentified, -1, -1)));
                 childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_return_type, -1, -1)));
                 childs.append(SyntaxTreeNode(this, Token(Token::TokenType::identifier, Token::TokenSubtype::unidentified, -1, -1)));
                 childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_arguments, -1, -1)));
@@ -643,13 +655,49 @@ bool SyntaxTreeNode::Derivation(QQueue<Token> &streamtoken, QString &message){
         break;
 
     case Token::TokenSubtype::nont_return_type:
+        switch(streamtoken.first().GetTokenType()){
+        case Token::TokenType::keyword:
+            switch(streamtoken.first().GetTokenSubtype()){
+            case Token::TokenSubtype::intsky:
+            case Token::TokenSubtype::charovsky:
+            case Token::TokenSubtype::floatsky:
+            case Token::TokenSubtype::bolichisky:
+            case Token::TokenSubtype::palavrovka:
+                childs.append(SyntaxTreeNode(this, streamtoken.first()));
+                return true;
+                break;
+            default:
+                message = "Esperado tipo de variável, recebeu " + Token::GetSubTokenString(streamtoken.first().GetTokenSubtype());
+                break;
+            }
+            break;
+        default:
+            message = "Esperado tipo de variável, recebeu " + Token::GetTokenString(streamtoken.first().GetTokenType());
+            break;
+        }
         break;
 
     case Token::TokenSubtype::nont_function_void:
-
+        switch(streamtoken.first().GetTokenType()){
+        case Token::TokenType::keyword:
+            switch(streamtoken.first().GetTokenSubtype()){
+            case Token::TokenSubtype::chernobyl:
+                childs.append(SyntaxTreeNode(this, streamtoken.first()));
+                childs.append(SyntaxTreeNode(this, Token(Token::TokenType::identifier, Token::TokenSubtype::unidentified, -1, -1)));
+                childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_arguments, -1, -1)));
+                childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_code_block, -1, -1)));
+                return true;
+                break;
+            default:
+                message = "Esperado tipo de declaração de função chernobyl, recebeu " + Token::GetSubTokenString(streamtoken.first().GetTokenSubtype());
+                break;
+            }
+        default:
+            break;
+        }
         break;
-
     default:
+        message = "Esperado tipo de declaração de função chernobyl, recebeu " + Token::GetTokenString(streamtoken.first().GetTokenType());
         break;
     }
 
