@@ -233,9 +233,6 @@ QString Token::GetSubTokenString(TokenSubtype tk){
     case TokenSubtype::nont_operation:
         return "operation";
         break;
-    case TokenSubtype::nont_number:
-        return "number";
-        break;
     case TokenSubtype::nont_functioncall:
         return "functioncall";
         break;
@@ -244,6 +241,9 @@ QString Token::GetSubTokenString(TokenSubtype tk){
         break;
     case TokenSubtype::nont_function_return:
         return "function_return";
+        break;
+    case TokenSubtype::nont_return_type:
+        return "return_type";
         break;
     case TokenSubtype::nont_function_void:
         return "function_void";

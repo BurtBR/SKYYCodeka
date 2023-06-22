@@ -80,10 +80,10 @@ public:
         nont_attribution,
         nont_value,
         nont_operation,
-        nont_number,
         nont_functioncall,
         nont_function_definition,
         nont_function_return,
+        nont_return_type,
         nont_function_void,
     };
 

@@ -83,7 +83,8 @@ pow | elevado à potência
 \<integer\> | \<digit\> \| (\<digit_nonzero\> {\<digit\>})
 \<function_call\> | \<call\> \<identifier\> \<arguments\> \<eol\>
 \<function_definition\> | \<function_return\> \| \<function_void\>
-\<function_return\> | \<newfunction\> \<var_type\> \<identifier\> \<arguments\> \<code_block_return\>
+\<function_return\> | \<newfunction\> \<return_type\> \<identifier\> \<arguments\> \<code_block_return\>
+\<return_type\> | \<var_type\>
 \<function_void\> | \<void\> \<identifier\> \<arguments\> \<code_block\>
 \<identifier\> | \<letter\> {\<character\>}
 \<character\> | \<letter\> \| \<digit\> \| \<underline\>
