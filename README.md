@@ -72,7 +72,7 @@ pow | elevado à potência
 \<var_declaration\> | \<var_type\> \<identifier\> [\<more_declaration\>] \<eol\>
 \<more_declaration\> | \<separator\> \<identifier\> {\<more_declaration\>}
 \<loop_block\> | \<for\> \<begin_arg\> \<value\> \<end_arg\> \<code_block\>
-\<ifelse_statement\> | \<if\> \<begin_arg\> \<value\> \<end_arg\> \<code_block\> [\<else_statement\>]
+\<ifelse_statement\> | \<if\> \<begin_arg\> \<value\> \<end_arg\> \<code_block\> [\<else_statement\>] \<eol\>
 \<else_statement\> | \<else\> (\<ifelse_statement\> \| \<code_block\>)
 \<attribution\> | \<identifier\> \<equal\> \<value\> \<eol\>
 \<value\> | \<identifier\> \| \<number\> \| \<operation\> \| \<logical\> \| \<string\> \| \<function_call\> \| (\<not\> \<value\>)

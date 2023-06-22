@@ -213,6 +213,7 @@ bool SyntaxTreeNode::Derivation(QQueue<Token> &streamtoken, QString &message){
                 childs.append(SyntaxTreeNode(this, streamtoken.first()));
                 childs.append(SyntaxTreeNode(this, Token(Token::TokenType::identifier, Token::TokenSubtype::unidentified, -1, -1)));
                 childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_more_arguments, -1, -1)));
+                return true;
                 break;
             default:
                 message = "Esperado tipo de variável do argumento, recebeu " + Token::GetSubTokenString(streamtoken.first().GetTokenSubtype());
@@ -234,6 +235,7 @@ bool SyntaxTreeNode::Derivation(QQueue<Token> &streamtoken, QString &message){
         case Token::TokenType::separator:
             childs.append(SyntaxTreeNode(this, streamtoken.first()));
             childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_arglist, -1, -1)));
+            return true;
             break;
         case Token::TokenType::endargument:
             DeleteSelf();
@@ -251,6 +253,7 @@ bool SyntaxTreeNode::Derivation(QQueue<Token> &streamtoken, QString &message){
             childs.append(SyntaxTreeNode(this, streamtoken.first()));
             childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_code, -1, -1)));
             childs.append(SyntaxTreeNode(this, Token(Token::TokenType::endcode, Token::TokenSubtype::unidentified, -1, -1)));
+            return true;
             break;
         default:
             message = "Esperado inicio de bloco de código \"{\", recebeu " + Token::GetTokenString(streamtoken.first().GetTokenType());
@@ -259,15 +262,86 @@ bool SyntaxTreeNode::Derivation(QQueue<Token> &streamtoken, QString &message){
         break;
 
     case Token::TokenSubtype::nont_code_block_return:
-
+        switch(streamtoken.first().GetTokenType()){
+        case Token::TokenType::begincode:
+            childs.append(SyntaxTreeNode(this, streamtoken.first()));
+            childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_code, -1, -1)));
+            childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_return_statement, -1, -1)));
+            childs.append(SyntaxTreeNode(this, Token(Token::TokenType::endcode, Token::TokenSubtype::unidentified, -1, -1)));
+            return true;
+            break;
+        default:
+            message = "Esperado inicio de bloco de código \"{\", recebeu " + Token::GetTokenString(streamtoken.first().GetTokenType());
+            break;
+        }
         break;
 
     case Token::TokenSubtype::nont_code:
-
+        switch(streamtoken.first().GetTokenType()){
+        case Token::TokenType::keyword:
+            switch(streamtoken.first().GetTokenSubtype()){
+            case Token::TokenSubtype::forevisky:
+                childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_loop_block, -1, -1)));
+                childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_code, -1, -1)));
+                return true;
+                break;
+            case Token::TokenSubtype::ikov:
+                childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_ifelsestatement, -1, -1)));
+                childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_code, -1, -1)));
+                return true;
+                break;
+            case Token::TokenSubtype::moscow:
+                childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_functioncall, -1, -1)));
+                childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_code, -1, -1)));
+                return true;
+                break;
+            case Token::TokenSubtype::intsky:
+            case Token::TokenSubtype::charovsky:
+            case Token::TokenSubtype::floatsky:
+            case Token::TokenSubtype::bolichisky:
+            case Token::TokenSubtype::palavrovka:
+                childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_var_declaration, -1, -1)));
+                childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_code, -1, -1)));
+                return true;
+            default:
+                message = "Esperado tipo de variável, chamada de função, bloco de repetição ou ifelse, recebeu " + Token::GetSubTokenString(streamtoken.first().GetTokenSubtype());
+                break;
+            }
+            break;
+        case Token::TokenType::identifier:
+            childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_attribution, -1, -1)));
+            childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_code, -1, -1)));
+            return true;
+            break;
+        case Token::TokenType::endcode:
+            DeleteSelf();
+            return true;
+            break;
+        default:
+            message = "Esperado declaração, loop, ifelse, atribuição ou chamada de função, recebeu " + Token::GetTokenString(streamtoken.first().GetTokenType());
+            break;
+        }
         break;
 
     case Token::TokenSubtype::nont_return_statement:
-
+        switch(streamtoken.first().GetTokenType()){
+        case Token::TokenType::keyword:
+            switch(streamtoken.first().GetTokenSubtype()){
+            case Token::TokenSubtype::yebat:
+                childs.append(SyntaxTreeNode(this, streamtoken.first()));
+                childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_value, -1, -1)));
+                childs.append(SyntaxTreeNode(this, Token(Token::TokenType::eol, Token::TokenSubtype::unidentified, -1, -1)));
+                return true;
+                break;
+            default:
+                message = "Esperado yebat, recebeu " + Token::GetSubTokenString(streamtoken.first().GetTokenSubtype());
+                break;
+            }
+            break;
+        default:
+            message = "Esperado declaração de retorno, recebeu " + Token::GetTokenString(streamtoken.first().GetTokenType());
+            break;
+        }
         break;
 
     case Token::TokenSubtype::nont_var_declaration:
@@ -286,10 +360,12 @@ bool SyntaxTreeNode::Derivation(QQueue<Token> &streamtoken, QString &message){
                 return true;
                 break;
             default:
+                message = "Esperado tipo de variável, recebeu " + Token::GetSubTokenString(streamtoken.first().GetTokenSubtype());
                 break;
             }
             break;
         default:
+            message = "Esperado declaração de variável, recebeu " + Token::GetTokenString(streamtoken.first().GetTokenType());
             break;
         }
         break;
@@ -307,17 +383,58 @@ bool SyntaxTreeNode::Derivation(QQueue<Token> &streamtoken, QString &message){
             return true;
             break;
         default:
+            message = "Esperado separador ou \";\", recebeu " + Token::GetTokenString(streamtoken.first().GetTokenType());
             break;
         }
 
         break;
 
     case Token::TokenSubtype::nont_loop_block:
+        switch(streamtoken.first().GetTokenType()){
+        case Token::TokenType::keyword:
+            switch(streamtoken.first().GetTokenSubtype()){
+            case Token::TokenSubtype::forevisky:
+                childs.append(SyntaxTreeNode(this, streamtoken.first()));
+                childs.append(SyntaxTreeNode(this, Token(Token::TokenType::beginargument, Token::TokenSubtype::unidentified, -1, -1)));
+                childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_value, -1, -1)));
+                childs.append(SyntaxTreeNode(this, Token(Token::TokenType::endargument, Token::TokenSubtype::unidentified, -1, -1)));
+                childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_code_block, -1, -1)));
+                return true;
+                break;
+            default:
+                message = "Esperado forevisky, recebeu " + Token::GetSubTokenString(streamtoken.first().GetTokenSubtype());
+                break;
+            }
+            break;
+        default:
+            message = "Esperado bloco de repetição, recebeu " + Token::GetTokenString(streamtoken.first().GetTokenType());
+            break;
+        }
 
         break;
 
     case Token::TokenSubtype::nont_ifelsestatement:
-
+        switch(streamtoken.first().GetTokenType()){
+        case Token::TokenType::keyword:
+            switch(streamtoken.first().GetTokenSubtype()){
+            case Token::TokenSubtype::ikov:
+                childs.append(SyntaxTreeNode(this, streamtoken.first()));
+                childs.append(SyntaxTreeNode(this, Token(Token::TokenType::beginargument, Token::TokenSubtype::unidentified, -1, -1)));
+                childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_value, -1, -1)));
+                childs.append(SyntaxTreeNode(this, Token(Token::TokenType::endargument, Token::TokenSubtype::unidentified, -1, -1)));
+                childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_code_block, -1, -1)));
+                childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_elsestatement, -1, -1)));
+                return true;
+                break;
+            default:
+                message = "Esperado ikov, recebeu " + Token::GetSubTokenString(streamtoken.first().GetTokenSubtype());
+                break;
+            }
+            break;
+        default:
+            message = "Esperado bloco condicional, recebeu " + Token::GetTokenString(streamtoken.first().GetTokenType());
+            break;
+        }
         break;
 
     case Token::TokenSubtype::nont_elsestatement:
