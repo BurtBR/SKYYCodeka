@@ -8,7 +8,7 @@
 #include <QQueue>
 #include <QStack>
 #include "automatons.h"
-#include "syntaxtree.h"
+#include "syntaxtreenode.h"
 
 //TEMPORARIO
 #include <QThread>

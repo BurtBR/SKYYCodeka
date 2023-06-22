@@ -67,6 +67,9 @@ QString Token::GetTokenString(Token::TokenType tk){
     case Token::TokenType::nonterminal:
         return "nonterminal";
         break;
+    case Token::TokenType::endprogram:
+        return "endprogram";
+        break;
     default:
         break;
     }

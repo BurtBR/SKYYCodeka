@@ -284,6 +284,8 @@ bool WorkerCompiler::SyntacticAnalysis(){
     QString strmessage;
     SyntaxTreeNode *nodeaux;
 
+    tokenlist.append(Token(Token::TokenType::endprogram, Token::TokenSubtype::unidentified, tokenlist.last().GetLine(), -1));
+
     syntaxtree = SyntaxTreeNode();
     syntaxtree.SetTokenType(Token::TokenType::nonterminal);
     syntaxtree.SetTokenSubtype(Token::TokenSubtype::nont_program);
@@ -297,8 +299,14 @@ bool WorkerCompiler::SyntacticAnalysis(){
         nodeaux = nodeaux->Next();
     }
 
-    if(!nodeaux)
-        return true;
+    if(tokenlist.size() == 1){
+        if(tokenlist.first().GetTokenType() == Token::TokenType::endprogram){
+            if(!nodeaux){
+                tokenlist.removeFirst();
+                return true;
+            }
+        }
+    }
 
     return false;
 }

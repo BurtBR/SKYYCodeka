@@ -113,6 +113,10 @@ bool SyntaxTreeNode::Derivation(QQueue<Token> &streamtoken, QString &message){
 
     case Token::TokenSubtype::nont_beforemain:
         switch(streamtoken.first().GetTokenType()){
+        case Token::TokenType::endprogram:
+            DeleteSelf();
+            return true;
+            break;
         case Token::TokenType::keyword:
             switch(streamtoken.first().GetTokenSubtype()){
             case Token::TokenSubtype::moscow:
@@ -146,6 +150,10 @@ bool SyntaxTreeNode::Derivation(QQueue<Token> &streamtoken, QString &message){
 
     case Token::TokenSubtype::nont_aftermain:
         switch(streamtoken.first().GetTokenType()){
+        case Token::TokenType::endprogram:
+            DeleteSelf();
+            return true;
+            break;
         case Token::TokenType::keyword:
             switch(streamtoken.first().GetTokenSubtype()){
             case Token::TokenSubtype::moscow:

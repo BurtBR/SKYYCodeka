@@ -24,7 +24,8 @@ public:
         endargument,    //9
         eol,            //10
         separator,      //11
-        nonterminal
+        nonterminal,
+        endprogram
     };
 
     enum class TokenSubtype{
