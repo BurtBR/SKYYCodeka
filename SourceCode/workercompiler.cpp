@@ -65,6 +65,61 @@ void WorkerCompiler::PrintSyntaxTreeToFile(QString filename){
     fp.close();
 }
 
+void WorkerCompiler::PrintHashToFile(QString filename){
+
+    QFile fp(filename);
+    QTextStream out(&fp);
+    QMultiHash<QString,QString>::iterator iterator = hashtable.begin();
+    QStringList data, line;
+
+    if(!fp.open(QFile::WriteOnly)){
+        emit DisplayInfo("Falha ao gerar arquivo de análise sintática", 0);
+        return;
+    }
+
+    while(iterator != hashtable.end()){
+        out << iterator.key() << ":\n";
+
+        data = iterator.value().split("\n");
+
+        for(int i=0; i<data.size() ;i++){
+            line = data[i].split("=");
+            if(line.size()){
+
+                out << Token::GetTokenDataString((Token::TokenDataType)line.at(0).toInt()) << "=";
+
+                switch((Token::TokenDataType)line.at(0).toInt()){
+                case Token::TokenDataType::scope:
+                    out << "scope=" << line.at(1) << "\n";
+                    break;
+                case Token::TokenDataType::tk_subtype:
+                    out << Token::GetSubTokenString((Token::TokenSubtype)line.at(1).toInt()) << "\n";
+                    break;
+                case Token::TokenDataType::tk_type:
+                    out << Token::GetTokenString((Token::TokenType)line.at(1).toInt()) << "\n";
+                    break;
+                case Token::TokenDataType::value:
+                    out << line.at(1) << "\n";
+                    break;
+                case Token::TokenDataType::returntype:
+                    out << Token::GetSubTokenString((Token::TokenSubtype)line.at(1).toInt()) << "\n";
+                    break;
+                case Token::TokenDataType::attributestypes:
+                    out << line.at(1) << "\n";
+                    break;
+                default:
+                    break;
+                }
+            }
+        }
+
+        out << "\n\n";
+        iterator++;
+    }
+
+    fp.close();
+}
+
 bool WorkerCompiler::LexicalAnalysis(QString &code, int &linenumber, QString &invalidchar){
 
     QTextStream stream(&code);
@@ -295,6 +350,7 @@ bool WorkerCompiler::SyntacticAnalysis(){
 
     nodeaux = &syntaxtree;
     while(tokenlist.size() && nodeaux){
+
         if(!nodeaux->Derivation(tokenlist, strmessage)){
             emit DisplayInfo(strmessage, 0);
             return false;
@@ -315,6 +371,96 @@ bool WorkerCompiler::SyntacticAnalysis(){
         tokenlist.append(Token(Token::TokenType::unidentified, Token::TokenSubtype::unidentified, lastline, 1));
         return false;
     }
+
+    return true;
+}
+
+bool WorkerCompiler::SemanticAnalysis(){
+
+    if(!SemanticHashInit())
+        return false;
+
+    return true;
+}
+
+bool WorkerCompiler::SemanticHashInit(){
+    SyntaxTreeNode *nodeaux = &syntaxtree;
+    int level = 0;
+    QMultiHash<QString,QString>::iterator iterator;
+    Token::TokenSubtype currentvartype = Token::TokenSubtype::unidentified;
+
+    nodeaux->ResetIndex();
+
+    while(nodeaux){
+        switch(nodeaux->GetNodeToken().GetTokenSubtype()){
+        case Token::TokenSubtype::nont_var_declaration:
+            nodeaux = nodeaux->Next(level);
+            currentvartype = nodeaux->GetNodeToken().GetTokenSubtype();
+            while(nodeaux->GetNodeToken().GetTokenType() != Token::TokenType::eol){
+                nodeaux = nodeaux->Next(level);
+                iterator = hashtable.find(nodeaux->GetTokenHashKey());
+                if(GetDataFromString(iterator.value(), Token::TokenDataType::tk_subtype).toInt() != (int)Token::TokenSubtype::unidentified){
+                    emit Error(2, "Multiplas definições de " + nodeaux->GetTokenHashKey(), nodeaux->GetNodeToken().GetLine());
+                    return false;
+                }
+                if(iterator != hashtable.end()){
+                    SetDataToString(iterator.value(), Token::TokenDataType::tk_subtype, QString::number((int)currentvartype));
+                    nodeaux->SetTokenSubtype(currentvartype);
+                }
+                nodeaux = nodeaux->Next(level);
+            }
+            break;
+
+        case Token::TokenSubtype::nont_function_return:
+            nodeaux = nodeaux->Next(level);
+            nodeaux = nodeaux->Next(level);
+            nodeaux = nodeaux->Next(level);
+            currentvartype = nodeaux->GetNodeToken().GetTokenSubtype();
+            nodeaux = nodeaux->Next(level);
+            iterator = hashtable.find(nodeaux->GetTokenHashKey());
+            if(iterator != hashtable.end()){
+                if(GetDataFromString(iterator.value(), Token::TokenDataType::tk_subtype).toInt() != (int)Token::TokenSubtype::unidentified){
+                    emit Error(2, "Multiplas definições de " + nodeaux->GetTokenHashKey(), nodeaux->GetNodeToken().GetLine());
+                    return false;
+                }
+                SetDataToString(iterator.value(), Token::TokenDataType::tk_subtype, QString::number((int)Token::TokenSubtype::returnfuntion));
+                SetDataToString(iterator.value(), Token::TokenDataType::returntype, QString::number((int)currentvartype));
+                nodeaux->SetTokenSubtype(Token::TokenSubtype::returnfuntion);
+
+            }
+            break;
+
+        case Token::TokenSubtype::nont_function_void:
+            nodeaux = nodeaux->Next(level);
+            nodeaux = nodeaux->Next(level);
+            iterator = hashtable.find(nodeaux->GetTokenHashKey());
+            if(iterator != hashtable.end()){
+                if(GetDataFromString(iterator.value(), Token::TokenDataType::tk_subtype).toInt() != (int)Token::TokenSubtype::unidentified){
+                    emit Error(2, "Multiplas definições de " + nodeaux->GetTokenHashKey(), nodeaux->GetNodeToken().GetLine());
+                    return false;
+                }
+                SetDataToString(iterator.value(), Token::TokenDataType::tk_subtype, QString::number((int)Token::TokenSubtype::voidfunction));
+                nodeaux->SetTokenSubtype(Token::TokenSubtype::voidfunction);
+            }
+            break;
+
+        default:
+            break;
+        }
+
+        switch(nodeaux->GetNodeToken().GetTokenType()){
+        case Token::TokenType::identifier:
+            iterator = hashtable.find(nodeaux->GetTokenHashKey());
+            if(iterator != hashtable.end()){
+                nodeaux->SetTokenSubtype((Token::TokenSubtype)GetDataFromString(iterator.value(), Token::TokenDataType::tk_subtype).toInt());
+            }
+            break;
+        default:
+            break;
+        }
+
+        nodeaux = nodeaux->Next(level);
+    };
 
     return true;
 }
@@ -460,7 +606,13 @@ void WorkerCompiler::Compile(QString text){
         return;
     }
 
+    if(!SemanticAnalysis()){
+        return;
+    }
+
     PrintSyntaxTreeToFile("syntax.skyy");
+
+    PrintHashToFile("hash.skyy");
 
     emit Done(2);
 }

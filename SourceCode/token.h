@@ -61,6 +61,8 @@ public:
         or_op,
         plusplus,
         minusminus,
+        returnfuntion,
+        voidfunction,
         nont_program,
         nont_beforemain,
         nont_mainfunction,
@@ -91,7 +93,9 @@ public:
         value,
         tk_type,
         tk_subtype,
-        scope
+        scope,
+        returntype,
+        attributestypes
     };
 
 private:
@@ -111,6 +115,7 @@ public:
 
     static QString GetTokenString(TokenType tk);
     static QString GetSubTokenString(TokenSubtype tk);
+    static QString GetTokenDataString(TokenDataType tk);
 
     //Getters
     TokenType GetTokenType();

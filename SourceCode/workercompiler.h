@@ -34,6 +34,8 @@ private:
     //Private Methods
     bool LexicalAnalysis(QString &code, int &linenumber, QString &invalidchar);
     bool SyntacticAnalysis();
+    bool SemanticAnalysis();
+    bool SemanticHashInit();
     void Tokenize(QString word, int linenumber, int columnnumber);
     void InsertTokenToHash(Token tk, QString hashkey, const QString &value);
     QString GetDataFromString(const QString &strdata, Token::TokenDataType datatype);
@@ -42,6 +44,7 @@ private:
     //TEMPORARIO
     void PrintTokensToFile(QString filename);
     void PrintSyntaxTreeToFile(QString filename);
+    void PrintHashToFile(QString filename);
 
 public:
     WorkerCompiler(QObject *parent = nullptr);

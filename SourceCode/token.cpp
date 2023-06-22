@@ -173,6 +173,12 @@ QString Token::GetSubTokenString(TokenSubtype tk){
     case TokenSubtype::minusminus:
         return "minusminus";
         break;
+    case TokenSubtype::returnfuntion:
+        return "returnfunction";
+        break;
+    case TokenSubtype::voidfunction:
+        return "voidfunction";
+        break;
     case TokenSubtype::nont_program:
         return "program";
         break;
@@ -244,6 +250,34 @@ QString Token::GetSubTokenString(TokenSubtype tk){
         break;
     case TokenSubtype::nont_function_void:
         return "function_void";
+        break;
+    default:
+        break;
+    }
+
+    return QString();
+}
+
+QString Token::GetTokenDataString(TokenDataType tk){
+
+    switch(tk){
+    case TokenDataType::scope:
+        return "scope";
+        break;
+    case TokenDataType::tk_subtype:
+        return "tk_subtype";
+        break;
+    case TokenDataType::tk_type:
+        return "tk_type";
+        break;
+    case TokenDataType::value:
+        return "value";
+        break;
+    case TokenDataType::returntype:
+        return "returntype";
+        break;
+    case TokenDataType::attributestypes:
+        return "attributestypes";
         break;
     default:
         break;
