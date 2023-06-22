@@ -2,6 +2,7 @@
 #define SYNTAXTREENODE_H
 
 #include <QVector>
+#include <QQueue>
 #include "token.h"
 
 class SyntaxTreeNode{
@@ -21,11 +22,14 @@ public:
     SyntaxTreeNode ChildAt(int index);
     void AppendToken(const Token &tk);
     void DeleteTokenAt(int index);
-    void DeleteSelf();
+    SyntaxTreeNode *DeleteSelf();
     bool HasChilds();
+    SyntaxTreeNode *Next();
+    SyntaxTreeNode *NextNonTerminal();
+    bool Derivation(QQueue<Token> &streamtoken, QString &message);
+    void ResetIndex();
 
     //Getters
-    SyntaxTreeNode *GetParent();
     Token GetNodeToken();
     SyntaxTreeNode *GetChild(int index);
     QString GetTokenHashKey();

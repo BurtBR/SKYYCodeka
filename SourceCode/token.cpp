@@ -71,7 +71,7 @@ QString Token::GetTokenString(Token::TokenType tk){
         break;
     }
 
-    return "";
+    return QString();
 }
 
 QString Token::GetSubTokenString(TokenSubtype tk){
@@ -249,7 +249,7 @@ QString Token::GetSubTokenString(TokenSubtype tk){
         break;
     }
 
-    return "";
+    return QString();
 }
 
 //-----------------------------------

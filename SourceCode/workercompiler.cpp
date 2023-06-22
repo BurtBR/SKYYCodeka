@@ -40,6 +40,27 @@ void WorkerCompiler::PrintTokensToFile(QString filename){
     fp.close();
 }
 
+void WorkerCompiler::PrintSyntaxTreeToFile(QString filename){
+    QFile fp(filename);
+    QTextStream out(&fp);
+    SyntaxTreeNode *nodeaux = &syntaxtree;
+
+    nodeaux->ResetIndex();
+
+    if(!fp.open(QFile::WriteOnly)){
+        emit DisplayInfo("Falha ao gerar arquivo de análise sintática", 0);
+        return;
+    }
+
+    while(nodeaux){
+        out << "<" << Token::GetTokenString(nodeaux->GetNodeToken().GetTokenType()) << ",";
+        out << Token::GetSubTokenString(nodeaux->GetNodeToken().GetTokenSubtype()) << ">\n";
+        nodeaux = nodeaux->Next();
+    }
+
+    fp.close();
+}
+
 bool WorkerCompiler::LexicalAnalysis(QString &code, int &linenumber, QString &invalidchar){
 
     QTextStream stream(&code);
@@ -260,7 +281,21 @@ bool WorkerCompiler::SyntacticAnalysis(){
     if(!tokenlist.size())
         return true;
 
+    QString strmessage;
+    SyntaxTreeNode *nodeaux;
 
+    syntaxtree = SyntaxTreeNode();
+    syntaxtree.SetTokenType(Token::TokenType::nonterminal);
+    syntaxtree.SetTokenSubtype(Token::TokenSubtype::nont_program);
+
+    nodeaux = &syntaxtree;
+    while(tokenlist.size() && nodeaux){
+        if(!nodeaux->Derivation(tokenlist, strmessage)){
+            emit DisplayInfo(strmessage, 0);
+            return false;
+        }
+        nodeaux = nodeaux->Next();
+    }
 
     return true;
 }
@@ -401,9 +436,12 @@ void WorkerCompiler::Compile(QString text){
     PrintTokensToFile("lexer.skyy");
 
     if(!SyntacticAnalysis()){
-        emit Error(2, "Falha na sintaxe, compilação interrompida", 1);
+        PrintSyntaxTreeToFile("syntax.skyy");
+        emit Error(2, "Falha na sintaxe, compilação interrompida", tokenlist.first().GetLine());
         return;
     }
+
+    PrintSyntaxTreeToFile("syntax.skyy");
 
     emit Done(2);
 }

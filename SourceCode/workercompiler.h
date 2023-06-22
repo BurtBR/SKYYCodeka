@@ -28,7 +28,7 @@ private:
     //Private Attributes
     QMultiHash<QString,QString> hashtable;
     QQueue<Token> tokenlist, undefinedtokens;
-    SyntaxTree syntaxtree;
+    SyntaxTreeNode syntaxtree;
 
 
     //Private Methods
@@ -41,6 +41,7 @@ private:
 
     //TEMPORARIO
     void PrintTokensToFile(QString filename);
+    void PrintSyntaxTreeToFile(QString filename);
 
 public:
     WorkerCompiler(QObject *parent = nullptr);
