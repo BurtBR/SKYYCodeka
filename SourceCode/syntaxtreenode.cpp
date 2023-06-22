@@ -541,11 +541,6 @@ bool SyntaxTreeNode::Derivation(QQueue<Token> &streamtoken, QString &message){
                 break;
             case Token::TokenSubtype::strongon:
             case Token::TokenSubtype::strongonoff:
-            case Token::TokenSubtype::intsky:
-            case Token::TokenSubtype::charovsky:
-            case Token::TokenSubtype::floatsky:
-            case Token::TokenSubtype::bolichisky:
-            case Token::TokenSubtype::palavrovka:
                 childs.append(SyntaxTreeNode(this, streamtoken.first()));
                 childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_operation, -1, -1)));
                 return true;
@@ -558,7 +553,6 @@ bool SyntaxTreeNode::Derivation(QQueue<Token> &streamtoken, QString &message){
                 message = "Esperado valor ou chamada de função, recebeu " + Token::GetSubTokenString(streamtoken.first().GetTokenSubtype());
                 break;
             }
-
             break;
         case Token::TokenType::identifier:
             childs.append(SyntaxTreeNode(this, streamtoken.first()));
