@@ -2,7 +2,6 @@
 #define TOKEN_H
 
 #include <QString>
-#include <QMultiMap>
 
 class Token{
 

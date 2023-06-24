@@ -7,7 +7,6 @@
 #include <QList>
 #include <QColor>
 #include <QPainter>
-//#include "linenumberarea.h"
 
 class CodeEditor : public QPlainTextEdit{
     //Q_OBJECT macro needs to be used with QT as indicated

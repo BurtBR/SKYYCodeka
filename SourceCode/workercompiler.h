@@ -13,7 +13,6 @@
 
 //TEMPORARIO
 #include <QThread>
-#include <QDebug>
 //TEMPORARIO
 
 class WorkerCompiler : public QObject{

@@ -565,8 +565,6 @@ bool WorkerCompiler::SemanticHashInit(){
                     nodeaux = nodeaux->Next();
                 }
 
-                qDebug() << intaux << strlist.size();
-
                 if(intaux != strlist.size()){
                     emit Error(2, "Quantidade de dados incompatível: " + identifieraux, nodeaux->GetTokenLine());
                     return false;
