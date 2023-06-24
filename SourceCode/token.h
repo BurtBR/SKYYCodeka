@@ -94,7 +94,7 @@ public:
         tk_subtype,
         scope,
         returntype,
-        attributestypes
+        attributestypes,
     };
 
 private:

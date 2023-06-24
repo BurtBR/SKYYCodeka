@@ -70,7 +70,7 @@ void WorkerCompiler::PrintHashToFile(QString filename){
     QFile fp(filename);
     QTextStream out(&fp);
     QMultiHash<QString,QString>::iterator iterator = hashtable.begin();
-    QStringList data, line;
+    QStringList data, line, straux;
 
     if(!fp.open(QFile::WriteOnly)){
         emit DisplayInfo("Falha ao gerar arquivo de análise sintática", 0);
@@ -105,7 +105,12 @@ void WorkerCompiler::PrintHashToFile(QString filename){
                     out << Token::GetSubTokenString((Token::TokenSubtype)line.at(1).toInt()) << "\n";
                     break;
                 case Token::TokenDataType::attributestypes:
-                    out << line.at(1) << "\n";
+                    straux = line.at(1).split(" ");
+                    out << Token::GetSubTokenString((Token::TokenSubtype)straux.at(0).toInt());
+                    for(int j=1; j<straux.size() ;j++){
+                        out << " " << Token::GetSubTokenString((Token::TokenSubtype)straux.at(j).toInt());
+                    }
+                    out << "\n";
                     break;
                 default:
                     break;
@@ -389,8 +394,10 @@ bool WorkerCompiler::SemanticAnalysis(){
 bool WorkerCompiler::SemanticHashInit(){
     SyntaxTreeNode *nodeaux = &syntaxtree;
     Token::TokenSubtype currentvartype = Token::TokenSubtype::unidentified;
-    ScopeCode scope;
-    QString straux;
+    ScopeCode scope, scopeaux;
+    QString straux, identifieraux, vartypesaux;
+    QStringList strlist;
+    int intaux = 0;
 
     nodeaux->ResetIndex();
 
@@ -426,7 +433,9 @@ bool WorkerCompiler::SemanticHashInit(){
                     return false;
                 }
 
-                scope++;
+                scopeaux = scope++;
+                identifieraux = nodeaux->GetTokenHashKey();
+                vartypesaux.clear();
 
                 nodeaux = nodeaux->Next();
                 nodeaux = nodeaux->Next();
@@ -442,13 +451,18 @@ bool WorkerCompiler::SemanticHashInit(){
                         break;
                     case Token::TokenType::keyword:
                         currentvartype = nodeaux->GetTokenSubtype();
+                        if(!vartypesaux.size())
+                            vartypesaux.append(QString::number((int)currentvartype));
+                        else
+                            vartypesaux.append(" " + QString::number((int)currentvartype));
                         break;
                     default:
                         break;
                     }
-
                     nodeaux = nodeaux->Next();
                 }
+                if(vartypesaux.size())
+                    SetDataFromHash(identifieraux,Token::TokenDataType::attributestypes, vartypesaux, scopeaux);
                 break;
                 //END FUNCTION RETURN
 
@@ -462,7 +476,9 @@ bool WorkerCompiler::SemanticHashInit(){
                     return false;
                 }
 
-                scope++;
+                scopeaux = scope++;
+                identifieraux = nodeaux->GetTokenHashKey();
+                vartypesaux.clear();
 
                 nodeaux = nodeaux->Next();
                 nodeaux = nodeaux->Next();
@@ -478,6 +494,10 @@ bool WorkerCompiler::SemanticHashInit(){
                         break;
                     case Token::TokenType::keyword:
                         currentvartype = nodeaux->GetTokenSubtype();
+                        if(!vartypesaux.size())
+                            vartypesaux.append(QString::number((int)currentvartype));
+                        else
+                            vartypesaux.append(" " + QString::number((int)currentvartype));
                         break;
                     default:
                         break;
@@ -485,8 +505,74 @@ bool WorkerCompiler::SemanticHashInit(){
 
                     nodeaux = nodeaux->Next();
                 }
+                if(vartypesaux.size())
+                    SetDataFromHash(identifieraux,Token::TokenDataType::attributestypes, vartypesaux, scopeaux);
                 break;
                 //END VOID FUNCTION
+
+            case Token::TokenSubtype::nont_functioncall:
+                nodeaux = nodeaux->Next();
+                nodeaux = nodeaux->Next();
+
+                identifieraux = nodeaux->GetTokenHashKey();
+                straux = GetDataFromHash(nodeaux->GetTokenHashKey(), Token::TokenDataType::tk_subtype, scope);
+                if(!straux.size()){
+                    emit Error(2, "Variável não declarada: " + nodeaux->GetTokenHashKey(), nodeaux->GetTokenLine());
+                    return false;
+                }
+
+                nodeaux->SetTokenSubtype((Token::TokenSubtype) straux.toInt());
+
+                straux = GetDataFromHash(nodeaux->GetTokenHashKey(), Token::TokenDataType::attributestypes, scope);
+                if(straux.size())
+                    strlist = straux.split(" ");
+                else
+                    strlist.clear();
+                intaux = 0;
+
+                nodeaux = nodeaux->Next();
+                nodeaux = nodeaux->Next();
+                nodeaux = nodeaux->Next();
+                while(nodeaux->GetTokenType() != Token::TokenType::endargument){
+                    switch(nodeaux->GetTokenSubtype()){
+                    case Token::TokenSubtype::nont_value:
+                        nodeaux = nodeaux->Next();
+
+                        if(nodeaux->GetTokenType() == Token::TokenType::identifier){
+                            straux = GetDataFromHash(nodeaux->GetTokenHashKey(), Token::TokenDataType::tk_subtype, scope);
+                            if(!straux.size()){
+                                emit Error(2, "Variável não declarada: " + nodeaux->GetTokenHashKey(), nodeaux->GetTokenLine());
+                                return false;
+                            }
+                            nodeaux->SetTokenSubtype((Token::TokenSubtype) straux.toInt());
+                        }
+
+                        if(intaux >= strlist.size()){
+                            emit Error(2, "Quantidade de dados incompatível: " + identifieraux, nodeaux->GetTokenLine());
+                            return false;
+                        }
+
+                        if((int)nodeaux->GetTokenSubtype() != strlist.at(intaux).toInt()){
+                            emit Error(2, "Tipo incorreto de dado: " + nodeaux->GetTokenHashKey(), nodeaux->GetTokenLine());
+                            return false;
+                        }
+                        intaux++;
+                        break;
+                    default:
+                        break;
+                    }
+
+                    nodeaux = nodeaux->Next();
+                }
+
+                qDebug() << intaux << strlist.size();
+
+                if(intaux != strlist.size()){
+                    emit Error(2, "Quantidade de dados incompatível: " + identifieraux, nodeaux->GetTokenLine());
+                    return false;
+                }
+                break;
+                //END FUNCTIONCALL
 
             case Token::TokenSubtype::nont_mainfunction:
                 scope++;
