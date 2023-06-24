@@ -34,6 +34,12 @@ public:
     Token GetNodeToken();
     SyntaxTreeNode *GetChild(int index);
     QString GetTokenHashKey();
+    Token::TokenType GetTokenType();
+    Token::TokenSubtype GetTokenSubtype();
+    QString GetTokenTypeString();
+    QString GetTokenSubtypeString();
+    unsigned int GetTokenLine();
+    unsigned int GetTokenColumn();
 
     //Setters
     void SetParent(SyntaxTreeNode *node);

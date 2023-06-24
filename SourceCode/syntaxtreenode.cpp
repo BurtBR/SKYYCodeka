@@ -723,6 +723,29 @@ QString SyntaxTreeNode::GetTokenHashKey(){
     return nodetoken.GetHashKey();
 }
 
+Token::TokenType SyntaxTreeNode::GetTokenType(){
+    return nodetoken.GetTokenType();
+}
+
+Token::TokenSubtype SyntaxTreeNode::GetTokenSubtype(){
+    return nodetoken.GetTokenSubtype();
+}
+
+QString SyntaxTreeNode::GetTokenTypeString(){
+    return Token::GetTokenString(nodetoken.GetTokenType());
+}
+
+QString SyntaxTreeNode::GetTokenSubtypeString(){
+    return Token::GetSubTokenString(nodetoken.GetTokenSubtype());
+}
+
+unsigned int SyntaxTreeNode::GetTokenLine(){
+    return nodetoken.GetLine();
+}
+
+unsigned int SyntaxTreeNode::GetTokenColumn(){
+    return nodetoken.GetColumn();
+}
 
 //-----------------------------------
 //--------------Setters--------------

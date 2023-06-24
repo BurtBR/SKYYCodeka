@@ -15,10 +15,6 @@
 #include "workerfilehandler.h"
 #include "workercompiler.h"
 
-//TEMPORARIO
-#include <QDebug>
-//TEMPORARIO
-
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE

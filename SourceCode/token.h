@@ -4,10 +4,6 @@
 #include <QString>
 #include <QMultiMap>
 
-//TEMPORARIO
-#include <QDebug>
-//TEMPORARIO
-
 class Token{
 
 public:

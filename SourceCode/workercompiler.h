@@ -9,10 +9,10 @@
 #include <QStack>
 #include "automatons.h"
 #include "syntaxtreenode.h"
+#include "scopecode.h"
 
 //TEMPORARIO
 #include <QThread>
-#include <QDebug>
 //TEMPORARIO
 
 class WorkerCompiler : public QObject{
@@ -41,6 +41,9 @@ private:
     void InsertTokenToHash(Token tk, QString hashkey, const QString &value);
     QString GetDataFromString(const QString &strdata, Token::TokenDataType datatype);
     void SetDataToString(QString &strdata, Token::TokenDataType datatype, const QString &value);
+    QString GetDataFromHash(QString hashkey, Token::TokenDataType datatype, ScopeCode &scope);
+    bool SetDataFromHash(QString hashkey, Token::TokenDataType datatype, QString data, ScopeCode &scope);
+    bool InsertIdentifier(QString hashkey, Token::TokenSubtype datatype, ScopeCode &scope);
 
     //TEMPORARIO
     void PrintTokensToFile(QString filename);

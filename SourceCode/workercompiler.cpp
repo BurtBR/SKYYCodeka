@@ -90,7 +90,7 @@ void WorkerCompiler::PrintHashToFile(QString filename){
 
                 switch((Token::TokenDataType)line.at(0).toInt()){
                 case Token::TokenDataType::scope:
-                    out << "scope=" << line.at(1) << "\n";
+                    out << line.at(1) << "\n";
                     break;
                 case Token::TokenDataType::tk_subtype:
                     out << Token::GetSubTokenString((Token::TokenSubtype)line.at(1).toInt()) << "\n";
@@ -368,7 +368,7 @@ bool WorkerCompiler::SyntacticAnalysis(){
             emit DisplayInfo("Eperava função motherland ao fim do código", 0);
         else
             emit DisplayInfo("Eperava " + Token::GetSubTokenString(nodeaux->GetNodeToken().GetTokenSubtype()) + " ao fim do código", 0);
-        tokenlist.append(Token(Token::TokenType::unidentified, Token::TokenSubtype::unidentified, lastline, 1));
+        tokenlist.append(Token(Token::TokenType::unidentified, Token::TokenSubtype::unidentified, lastline, -1));
         return false;
     }
 
@@ -388,81 +388,147 @@ bool WorkerCompiler::SemanticAnalysis(){
 
 bool WorkerCompiler::SemanticHashInit(){
     SyntaxTreeNode *nodeaux = &syntaxtree;
-    int level = 0;
-    QMultiHash<QString,QString>::iterator iterator;
     Token::TokenSubtype currentvartype = Token::TokenSubtype::unidentified;
+    ScopeCode scope;
 
     nodeaux->ResetIndex();
 
     while(nodeaux){
-        switch(nodeaux->GetNodeToken().GetTokenSubtype()){
-        case Token::TokenSubtype::nont_var_declaration:
-            nodeaux = nodeaux->Next(level);
-            currentvartype = nodeaux->GetNodeToken().GetTokenSubtype();
-            while(nodeaux->GetNodeToken().GetTokenType() != Token::TokenType::eol){
-                nodeaux = nodeaux->Next(level);
-                iterator = hashtable.find(nodeaux->GetTokenHashKey());
-                if(GetDataFromString(iterator.value(), Token::TokenDataType::tk_subtype).toInt() != (int)Token::TokenSubtype::unidentified){
-                    emit Error(2, "Multiplas definições de " + nodeaux->GetTokenHashKey(), nodeaux->GetNodeToken().GetLine());
-                    return false;
-                }
-                if(iterator != hashtable.end()){
-                    SetDataToString(iterator.value(), Token::TokenDataType::tk_subtype, QString::number((int)currentvartype));
-                    nodeaux->SetTokenSubtype(currentvartype);
-                }
-                nodeaux = nodeaux->Next(level);
-            }
-            break;
 
-        case Token::TokenSubtype::nont_function_return:
-            nodeaux = nodeaux->Next(level);
-            nodeaux = nodeaux->Next(level);
-            nodeaux = nodeaux->Next(level);
-            currentvartype = nodeaux->GetNodeToken().GetTokenSubtype();
-            nodeaux = nodeaux->Next(level);
-            iterator = hashtable.find(nodeaux->GetTokenHashKey());
-            if(iterator != hashtable.end()){
-                if(GetDataFromString(iterator.value(), Token::TokenDataType::tk_subtype).toInt() != (int)Token::TokenSubtype::unidentified){
-                    emit Error(2, "Multiplas definições de " + nodeaux->GetTokenHashKey(), nodeaux->GetNodeToken().GetLine());
-                    return false;
+        switch(nodeaux->GetTokenType()){
+        case Token::TokenType::nonterminal:
+            switch(nodeaux->GetTokenSubtype()){
+            case Token::TokenSubtype::nont_var_declaration:
+                nodeaux = nodeaux->Next();
+                currentvartype = nodeaux->GetTokenSubtype();
+                while(nodeaux->GetTokenType() != Token::TokenType::eol){
+                    if(nodeaux->GetTokenType() == Token::TokenType::identifier){
+                        nodeaux->SetTokenSubtype(currentvartype);
+                        if(!InsertIdentifier(nodeaux->GetTokenHashKey(), currentvartype, scope)){
+                            emit Error(2, "Multiplas definições de " + nodeaux->GetTokenHashKey(), nodeaux->GetTokenLine());
+                            return false;
+                        }
+                    }
+                    nodeaux = nodeaux->Next();
                 }
-                SetDataToString(iterator.value(), Token::TokenDataType::tk_subtype, QString::number((int)Token::TokenSubtype::returnfuntion));
-                SetDataToString(iterator.value(), Token::TokenDataType::returntype, QString::number((int)currentvartype));
+                break;
+            case Token::TokenSubtype::nont_function_return:
+                scope++;
+                nodeaux = nodeaux->Next();
+                nodeaux = nodeaux->Next();
+                nodeaux = nodeaux->Next();
+                currentvartype = nodeaux->GetTokenSubtype();
+
+                nodeaux = nodeaux->Next();
                 nodeaux->SetTokenSubtype(Token::TokenSubtype::returnfuntion);
 
-            }
-            break;
+                nodeaux = nodeaux->Next();
+                nodeaux = nodeaux->Next();
+                nodeaux = nodeaux->Next();
+                while(nodeaux->GetTokenType() != Token::TokenType::endargument){
+                    switch(nodeaux->GetTokenType()){
+                    case Token::TokenType::identifier:
+                        nodeaux->SetTokenSubtype(currentvartype);
+                        if(!InsertIdentifier(nodeaux->GetTokenHashKey(), currentvartype, scope)){
+                            emit Error(2, "Multiplas definições de " + nodeaux->GetTokenHashKey(), nodeaux->GetTokenLine());
+                            return false;
+                        }
+                        break;
+                    case Token::TokenType::keyword:
+                        currentvartype = nodeaux->GetTokenSubtype();
+                        break;
+                    default:
+                        break;
+                    }
 
-        case Token::TokenSubtype::nont_function_void:
-            nodeaux = nodeaux->Next(level);
-            nodeaux = nodeaux->Next(level);
-            iterator = hashtable.find(nodeaux->GetTokenHashKey());
-            if(iterator != hashtable.end()){
-                if(GetDataFromString(iterator.value(), Token::TokenDataType::tk_subtype).toInt() != (int)Token::TokenSubtype::unidentified){
-                    emit Error(2, "Multiplas definições de " + nodeaux->GetTokenHashKey(), nodeaux->GetNodeToken().GetLine());
-                    return false;
+                    nodeaux = nodeaux->Next();
                 }
-                SetDataToString(iterator.value(), Token::TokenDataType::tk_subtype, QString::number((int)Token::TokenSubtype::voidfunction));
+                break;
+                //END FUNCTION RETURN
+
+            case Token::TokenSubtype::nont_function_void:
+                scope++;
+                nodeaux = nodeaux->Next();
+                nodeaux = nodeaux->Next();
+
                 nodeaux->SetTokenSubtype(Token::TokenSubtype::voidfunction);
+
+                nodeaux = nodeaux->Next();
+                nodeaux = nodeaux->Next();
+                nodeaux = nodeaux->Next();
+                while(nodeaux->GetTokenType() != Token::TokenType::endargument){
+                    switch(nodeaux->GetTokenType()){
+                    case Token::TokenType::identifier:
+                        nodeaux->SetTokenSubtype(currentvartype);
+                        if(!InsertIdentifier(nodeaux->GetTokenHashKey(), currentvartype, scope)){
+                            emit Error(2, "Multiplas definições de " + nodeaux->GetTokenHashKey(), nodeaux->GetTokenLine());
+                            return false;
+                        }
+                        break;
+                    case Token::TokenType::keyword:
+                        currentvartype = nodeaux->GetTokenSubtype();
+                        break;
+                    default:
+                        break;
+                    }
+
+                    nodeaux = nodeaux->Next();
+                }
+                break;
+                //END VOID FUNCTION
+
+            case Token::TokenSubtype::nont_mainfunction:
+                scope++;
+                nodeaux = nodeaux->Next();
+                nodeaux = nodeaux->Next();
+                nodeaux = nodeaux->Next();
+                nodeaux = nodeaux->Next();
+                while(nodeaux->GetTokenType() != Token::TokenType::endargument){
+                    switch(nodeaux->GetTokenType()){
+                    case Token::TokenType::identifier:
+                        nodeaux->SetTokenSubtype(currentvartype);
+                        if(!InsertIdentifier(nodeaux->GetTokenHashKey(), currentvartype, scope)){
+                            emit Error(2, "Multiplas definições de " + nodeaux->GetTokenHashKey(), nodeaux->GetTokenLine());
+                            return false;
+                        }
+                        break;
+                    case Token::TokenType::keyword:
+                        currentvartype = nodeaux->GetTokenSubtype();
+                        break;
+                    default:
+                        break;
+                    }
+
+                    nodeaux = nodeaux->Next();
+                }
+                break;
+                //END MAINFUNCTION
+
+            case Token::TokenSubtype::nont_loop_block:
+                scope++;
+                break;
+            case Token::TokenSubtype::nont_ifelsestatement:
+                scope++;
+                break;
+            default:
+                break;
             }
             break;
+        //END TYPE NONTERMINAL
 
-        default:
+        case Token::TokenType::endcode:
+            scope--;
             break;
-        }
 
-        switch(nodeaux->GetNodeToken().GetTokenType()){
         case Token::TokenType::identifier:
-            iterator = hashtable.find(nodeaux->GetTokenHashKey());
-            if(iterator != hashtable.end()){
-                nodeaux->SetTokenSubtype((Token::TokenSubtype)GetDataFromString(iterator.value(), Token::TokenDataType::tk_subtype).toInt());
-            }
+            nodeaux->SetTokenSubtype((Token::TokenSubtype) GetDataFromHash(nodeaux->GetTokenHashKey(), Token::TokenDataType::tk_subtype, scope).toInt());
             break;
+
         default:
             break;
         }
 
-        nodeaux = nodeaux->Next(level);
+        nodeaux = nodeaux->Next();
     };
 
     return true;
@@ -474,6 +540,7 @@ bool WorkerCompiler::SemanticVerifyOperationTypes(){
     int level = 0, levelaux;
     QMultiHash<QString,QString>::iterator iterator;
     Token::TokenSubtype currentvartype = Token::TokenSubtype::unidentified;
+    QString message;
 
     nodeaux->ResetIndex();
 
@@ -484,14 +551,14 @@ bool WorkerCompiler::SemanticVerifyOperationTypes(){
         case Token::TokenSubtype::nont_attribution:
             levelaux = level;
             nodeaux = nodeaux->Next(level);
-            currentvartype = nodeaux->GetNodeToken().GetTokenSubtype();
+            currentvartype = nodeaux->GetTokenSubtype();
             while(level > levelaux){
-                switch(nodeaux->GetNodeToken().GetTokenSubtype()){
+                switch(nodeaux->GetTokenSubtype()){
                 case Token::TokenSubtype::returnfuntion:
                     iterator = hashtable.find(nodeaux->GetTokenHashKey());
                     if(iterator != hashtable.end()){
                         if(GetDataFromString(iterator.value(), Token::TokenDataType::returntype).toInt() != (int)currentvartype){
-                            emit Error(2, "Operação entre variáveis de tipos incompatíveis", nodeaux->GetNodeToken().GetLine());
+                            emit Error(2, "Operação entre variáveis de tipos incompatíveis", nodeaux->GetTokenLine());
                             return false;
                         }
                     }
@@ -501,13 +568,16 @@ bool WorkerCompiler::SemanticVerifyOperationTypes(){
                 case Token::TokenSubtype::floatsky:
                 case Token::TokenSubtype::bolichisky:
                 case Token::TokenSubtype::palavrovka:
-                    if(currentvartype != nodeaux->GetNodeToken().GetTokenSubtype()){
-                        emit Error(2, "Operação entre variáveis de tipos incompatíveis", nodeaux->GetNodeToken().GetLine());
+                    if(currentvartype != nodeaux->GetTokenSubtype()){
+                        message = "Operação entre variáveis de tipos incompatíveis " +
+                                  Token::GetSubTokenString(currentvartype) + " e " +
+                                  nodeaux->GetTokenSubtypeString();
+                        emit Error(2, message, nodeaux->GetTokenLine());
                         return false;
                     }
                     break;
                 case Token::TokenSubtype::voidfunction:
-                    emit Error(2, "Operação entre variáveis de tipos incompatíveis", nodeaux->GetNodeToken().GetLine());
+                    emit Error(2, "Operação entre variáveis de tipos incompatíveis", nodeaux->GetTokenLine());
                     return false;
                     break;
                 default:
@@ -541,14 +611,16 @@ void WorkerCompiler::Tokenize(QString word, int linenumber, int columnnumber){
         break;
 
     case Token::TokenType::constant:
-    case Token::TokenType::identifier:
-
         if(hashkey[0] == '\"')
             hashkey = "@str" + QString::number(tokenlist.size());
 
         //If the identifier/constant isn't on hashtable, insert it
         InsertTokenToHash(Token(currenttoken, datatype, hashkey, linenumber, columnnumber), hashkey, word);
 
+        tokenlist.append(Token(currenttoken, datatype, hashkey, linenumber, columnnumber));
+        break;
+
+    case Token::TokenType::identifier:
         tokenlist.append(Token(currenttoken, datatype, hashkey, linenumber, columnnumber));
         break;
 
@@ -623,6 +695,62 @@ void WorkerCompiler::SetDataToString(QString &strdata, Token::TokenDataType data
     }
 }
 
+QString WorkerCompiler::GetDataFromHash(QString hashkey, Token::TokenDataType datatype, ScopeCode &scope){
+
+    QList<QString> itemlist = hashtable.values(hashkey);
+
+    for(int i=0; i<itemlist.size() ;i++){
+        if(scope.IsDefined(GetDataFromString(itemlist.at(i), Token::TokenDataType::scope))){
+            return GetDataFromString(itemlist.at(i), datatype);
+        }
+    }
+
+    return QString();
+}
+
+bool WorkerCompiler::SetDataFromHash(QString hashkey, Token::TokenDataType datatype, QString data, ScopeCode &scope){
+
+    QMultiHash<QString,QString>::iterator iterator;
+    QList<QString> itemlist;
+
+    itemlist = hashtable.values(hashkey);
+
+    for(int i=0; i<itemlist.size() ;i++){
+        if(scope.IsDefined(GetDataFromString(itemlist.at(i), Token::TokenDataType::scope))){
+            iterator = hashtable.find(hashkey, itemlist.at(i));
+            SetDataToString(iterator.value(), datatype, data);
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool WorkerCompiler::InsertIdentifier(QString hashkey, Token::TokenSubtype datatype, ScopeCode &scope){
+    QList<QString> itemlist;
+    QString dataaux;
+
+    SetDataToString(dataaux, Token::TokenDataType::tk_type, QString::number((int)Token::TokenType::identifier));
+    SetDataToString(dataaux, Token::TokenDataType::tk_subtype, QString::number((int)datatype));
+    SetDataToString(dataaux, Token::TokenDataType::scope, scope);
+
+    itemlist = hashtable.values(hashkey);
+
+    if(!itemlist.size()){
+        hashtable.insert(hashkey, dataaux);
+        return true;
+    }
+
+    for(int i=0; i<itemlist.size() ;i++){
+        if(scope.IsDefined(GetDataFromString(itemlist.at(i), Token::TokenDataType::scope))){
+            return false;
+        }
+    }
+
+    hashtable.insert(hashkey, dataaux);
+    return true;
+}
+
 //---------------------------SLOTS---------------------------
 
 void WorkerCompiler::Compile(QString text){
@@ -669,11 +797,12 @@ void WorkerCompiler::Compile(QString text){
     }
 
     if(!SemanticAnalysis()){
+        PrintSyntaxTreeToFile("syntax.skyy");
+        PrintHashToFile("hash.skyy");
         return;
     }
 
     PrintSyntaxTreeToFile("syntax.skyy");
-
     PrintHashToFile("hash.skyy");
 
     emit Done(2);
