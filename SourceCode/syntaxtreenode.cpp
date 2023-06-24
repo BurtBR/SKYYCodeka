@@ -247,7 +247,7 @@ bool SyntaxTreeNode::Derivation(QQueue<Token> &streamtoken, QString &message){
             break;
         default:
             childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_value, -1, -1)));
-            childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_more_arguments, -1, -1)));
+            childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_more_arguments_call, -1, -1)));
             return true;
         }
         break;
@@ -606,6 +606,7 @@ bool SyntaxTreeNode::Derivation(QQueue<Token> &streamtoken, QString &message){
                 break;
             }
             break;
+        case Token::TokenType::separator:
         case Token::TokenType::endargument:
             DeleteSelf();
             return true;
