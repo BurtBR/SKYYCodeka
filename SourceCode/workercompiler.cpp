@@ -413,7 +413,6 @@ bool WorkerCompiler::SemanticHashInit(){
                 }
                 break;
             case Token::TokenSubtype::nont_function_return:
-                scope++;
                 nodeaux = nodeaux->Next();
                 nodeaux = nodeaux->Next();
                 nodeaux = nodeaux->Next();
@@ -421,6 +420,12 @@ bool WorkerCompiler::SemanticHashInit(){
 
                 nodeaux = nodeaux->Next();
                 nodeaux->SetTokenSubtype(Token::TokenSubtype::returnfuntion);
+                if(!InsertIdentifier(nodeaux->GetTokenHashKey(), Token::TokenSubtype::returnfuntion, scope)){
+                    emit Error(2, "Multiplas definições de " + nodeaux->GetTokenHashKey(), nodeaux->GetTokenLine());
+                    return false;
+                }
+
+                scope++;
 
                 nodeaux = nodeaux->Next();
                 nodeaux = nodeaux->Next();
@@ -447,11 +452,16 @@ bool WorkerCompiler::SemanticHashInit(){
                 //END FUNCTION RETURN
 
             case Token::TokenSubtype::nont_function_void:
-                scope++;
                 nodeaux = nodeaux->Next();
                 nodeaux = nodeaux->Next();
 
                 nodeaux->SetTokenSubtype(Token::TokenSubtype::voidfunction);
+                if(!InsertIdentifier(nodeaux->GetTokenHashKey(), Token::TokenSubtype::voidfunction, scope)){
+                    emit Error(2, "Multiplas definições de " + nodeaux->GetTokenHashKey(), nodeaux->GetTokenLine());
+                    return false;
+                }
+
+                scope++;
 
                 nodeaux = nodeaux->Next();
                 nodeaux = nodeaux->Next();

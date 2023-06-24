@@ -239,6 +239,15 @@ QString Token::GetSubTokenString(TokenSubtype tk){
     case TokenSubtype::nont_functioncall:
         return "functioncall";
         break;
+    case TokenSubtype::nont_arguments_call:
+        return "arguments_call";
+        break;
+    case TokenSubtype::nont_arg_list_call:
+        return "arg_list_call";
+        break;
+    case TokenSubtype::nont_more_arguments_call:
+        return "more_arguments_call";
+        break;
     case TokenSubtype::nont_function_definition:
         return "function_definition";
         break;

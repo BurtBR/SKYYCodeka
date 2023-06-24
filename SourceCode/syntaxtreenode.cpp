@@ -196,6 +196,20 @@ bool SyntaxTreeNode::Derivation(QQueue<Token> &streamtoken, QString &message){
         }
         break;
 
+    case Token::TokenSubtype::nont_arguments_call:
+        switch(streamtoken.first().GetTokenType()){
+        case Token::TokenType::beginargument:
+            childs.append(SyntaxTreeNode(this, streamtoken.first()));
+            childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_arg_list_call, -1, -1)));
+            childs.append(SyntaxTreeNode(this, Token(Token::TokenType::endargument, Token::TokenSubtype::unidentified, -1, -1)));
+            return true;
+            break;
+        default:
+            message = "Esperado inicio de argumento \"(\", recebeu " + Token::GetTokenString(streamtoken.first().GetTokenType());
+            break;
+        }
+        break;
+
     case Token::TokenSubtype::nont_arglist:
         switch(streamtoken.first().GetTokenType()){
         case Token::TokenType::keyword:
@@ -225,11 +239,41 @@ bool SyntaxTreeNode::Derivation(QQueue<Token> &streamtoken, QString &message){
         }
         break;
 
+    case Token::TokenSubtype::nont_arg_list_call:
+        switch(streamtoken.first().GetTokenType()){
+        case Token::TokenType::endargument:
+            DeleteSelf();
+            return true;
+            break;
+        default:
+            childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_value, -1, -1)));
+            childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_more_arguments, -1, -1)));
+            return true;
+        }
+        break;
+
     case Token::TokenSubtype::nont_more_arguments:
         switch(streamtoken.first().GetTokenType()){
         case Token::TokenType::separator:
             childs.append(SyntaxTreeNode(this, streamtoken.first()));
             childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_arglist, -1, -1)));
+            return true;
+            break;
+        case Token::TokenType::endargument:
+            DeleteSelf();
+            return true;
+            break;
+        default:
+            message = "Esperado separador, recebeu " + Token::GetTokenString(streamtoken.first().GetTokenType());
+            break;
+        }
+        break;
+
+    case Token::TokenSubtype::nont_more_arguments_call:
+        switch(streamtoken.first().GetTokenType()){
+        case Token::TokenType::separator:
+            childs.append(SyntaxTreeNode(this, streamtoken.first()));
+            childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_arg_list_call, -1, -1)));
             return true;
             break;
         case Token::TokenType::endargument:
@@ -583,7 +627,7 @@ bool SyntaxTreeNode::Derivation(QQueue<Token> &streamtoken, QString &message){
             case Token::TokenSubtype::tovarish:
                 childs.append(SyntaxTreeNode(this, streamtoken.first()));
                 childs.append(SyntaxTreeNode(this, Token(Token::TokenType::identifier, Token::TokenSubtype::unidentified, -1, -1)));
-                childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_arguments, -1, -1)));
+                childs.append(SyntaxTreeNode(this, Token(Token::TokenType::nonterminal, Token::TokenSubtype::nont_arguments_call, -1, -1)));
                 childs.append(SyntaxTreeNode(this, Token(Token::TokenType::eol, Token::TokenSubtype::unidentified, -1, -1)));
                 return true;
                 break;
