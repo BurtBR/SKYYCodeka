@@ -5,7 +5,7 @@ Extraia em alguma pasta no seu computador
 Execute SKYYCodeka.exe
 
 ## Observação
-O compilador gera alguns arquivos que tem a finalidade de visualização das etapas de compilação. Esses arquivos são gerados a cada compilação e são salvos na pasta "GENERATED FILES" com a extensão .skyy. Para visualizá-los, abra-os em um arquivo de edição de texto como o notepad++.
+O compilador gera alguns arquivos que têm a finalidade de visualização das etapas de compilação. Esses arquivos são gerados a cada compilação e são salvos na pasta "GENERATED FILES" com a extensão .skyy. Para visualizá-los, abra-os em um arquivo de edição de texto como o notepad++.
 
 # PALAVRAS RESERVADAS
 **Código** | **Descrição**
