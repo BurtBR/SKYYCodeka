@@ -788,22 +788,22 @@ void WorkerCompiler::Compile(QString text){
         return;
     }
 
-    PrintTokensToFile("lexer.skyy");
+    PrintTokensToFile("GENERATED FILES/lexer.skyy");
 
     if(!SyntacticAnalysis()){
-        PrintSyntaxTreeToFile("syntax.skyy");
+        PrintSyntaxTreeToFile("GENERATED FILES/syntax.skyy");
         emit Error(2, "Falha na sintaxe, compilação interrompida", tokenlist.first().GetLine());
         return;
     }
 
     if(!SemanticAnalysis()){
-        PrintSyntaxTreeToFile("syntax.skyy");
-        PrintHashToFile("hash.skyy");
+        PrintSyntaxTreeToFile("GENERATED FILES/syntax.skyy");
+        PrintHashToFile("GENERATED FILES/hash.skyy");
         return;
     }
 
-    PrintSyntaxTreeToFile("syntax.skyy");
-    PrintHashToFile("hash.skyy");
+    PrintSyntaxTreeToFile("GENERATED FILES/syntax.skyy");
+    PrintHashToFile("GENERATED FILES/hash.skyy");
 
     emit Done(2);
 }

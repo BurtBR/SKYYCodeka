@@ -118,6 +118,10 @@ bool MainWindow::StartCompilerThread(){
 void MainWindow::LoadConfigFile(){
 
     QFile configfile("configuramento.skyy");
+    QDir generateddir("GENERATED FILES");
+
+    if(!QDir("GENERATED FILES").exists())
+        QDir().mkdir("GENERATED FILES");
 
     if(!configfile.exists()){
 
@@ -157,7 +161,7 @@ void MainWindow::ProcessConfiLine(QString line){
     if(config.size() != 2)
         return;
 
-    if(!config[0].compare("lastfile")){
+    if(!config[0].compare("lastfile") && config[1].size()){
         OpenFile(config[1]);
     }
 
