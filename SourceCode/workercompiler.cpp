@@ -390,6 +390,7 @@ bool WorkerCompiler::SemanticHashInit(){
     SyntaxTreeNode *nodeaux = &syntaxtree;
     Token::TokenSubtype currentvartype = Token::TokenSubtype::unidentified;
     ScopeCode scope;
+    QString straux;
 
     nodeaux->ResetIndex();
 
@@ -531,7 +532,12 @@ bool WorkerCompiler::SemanticHashInit(){
             break;
 
         case Token::TokenType::identifier:
-            nodeaux->SetTokenSubtype((Token::TokenSubtype) GetDataFromHash(nodeaux->GetTokenHashKey(), Token::TokenDataType::tk_subtype, scope).toInt());
+            straux = GetDataFromHash(nodeaux->GetTokenHashKey(), Token::TokenDataType::tk_subtype, scope);
+            if(!straux.size()){
+                emit Error(2, "Variável não declarada: " + nodeaux->GetTokenHashKey(), nodeaux->GetTokenLine());
+                return false;
+            }
+            nodeaux->SetTokenSubtype((Token::TokenSubtype) straux.toInt());
             break;
 
         default:
