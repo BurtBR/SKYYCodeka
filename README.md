@@ -1,3 +1,12 @@
+# COMO FAZER DOWNLOAD E UTILIZAR
+Vá para a página de releases: https://github.com/BurtBR/SKYYCodeka/releases/tag/Release
+Faça o download do arquivo SKYYCodeka_Vx_x.zip
+Extraia em alguma pasta no seu computador
+Execute SKYYCodeka.exe
+
+## Observação
+O compilador gera alguns arquivos que tem a finalidade de visualização das etapas de compilação. Esses arquivos são gerados a cada compilação e são salvos na pasta "GENERATED FILES" com a extensão .skyy. Para visualizá-los, abra-os em um arquivo de edição de texto como o notepad++.
+
 # PALAVRAS RESERVADAS
 **Código** | **Descrição**
 :---------|:---------
