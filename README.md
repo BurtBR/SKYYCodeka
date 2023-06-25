@@ -179,7 +179,7 @@ motherland(){
         └<arguments>
         |   └<begin_arg>
         |   |   └"("
-	|	|
+	|   |
         |   └<end_arg>
         |       └")"
         |
