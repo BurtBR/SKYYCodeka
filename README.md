@@ -91,7 +91,7 @@ pow | elevado à potência
 \<integer\> | \<digit\> \| (\<digit_nonzero\> {\<digit\>})
 \<function_call\> | \<call\> \<identifier\> \<arguments_call\> \<eol\>
 \<arguments_call\> | \<begin_arg\> [\<arg_list_call\>] \<end_arg\>
-\<arg_list_call\> | \<value\> {\<more_arguments_call\>}
+\<arg_list_call\> | \<value\> [<more_arguments_call\]
 \<more_arguments_call\> | \<separator\> \<arg_list_call\>
 \<function_definition\> | \<function_return\> \| \<function_void\>
 \<function_return\> | \<newfunction\> \<return_type\> \<identifier\> \<arguments\> \<code_block_return\>
