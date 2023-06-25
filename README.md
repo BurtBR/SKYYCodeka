@@ -94,8 +94,7 @@ pow | elevado à potência
 \<arg_list_call\> | \<value\> [<more_arguments_call\]
 \<more_arguments_call\> | \<separator\> \<arg_list_call\>
 \<function_definition\> | \<function_return\> \| \<function_void\>
-\<function_return\> | \<newfunction\> \<return_type\> \<identifier\> \<arguments\> \<code_block_return\>
-\<return_type\> | \<var_type\>
+\<function_return\> | \<newfunction\> \<var_type\> \<identifier\> \<arguments\> \<code_block_return\>
 \<function_void\> | \<void\> \<identifier\> \<arguments\> \<code_block\>
 \<identifier\> | \<letter\> {\<character\>}
 \<character\> | \<letter\> \| \<digit\> \| \<underline\>
