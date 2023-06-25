@@ -78,7 +78,7 @@ pow | elevado à potência
 \<code\> | (\<var_declaration\> \| \<loop_block\> \| \<ifelse_statement\> \| \<attribution\> \| \<function_call\>) [\<code\>]
 \<return_statement\> | \<return\> \<value\> \<eol\>
 \<var_declaration\> | \<var_type\> \<identifier\> [\<more_declaration\>] \<eol\>
-\<more_declaration\> | \<separator\> \<identifier\> {\<more_declaration\>}
+\<more_declaration\> | \<separator\> \<identifier\> [\<more_declaration\>]
 \<loop_block\> | \<for\> \<begin_arg\> \<value\> \<end_arg\> \<code_block\>
 \<ifelse_statement\> | \<if\> \<begin_arg\> \<value\> \<end_arg\> \<code_block\> [\<else_statement\>]
 \<else_statement\> | \<else\> \<more_else\>
