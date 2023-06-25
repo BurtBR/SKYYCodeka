@@ -179,10 +179,7 @@ motherland(){
         └<arguments>
         |   └<begin_arg>
         |   |   └"("
-        |   |
-        |   └<arg_list>
-        |   |   └"vazio"
-        |   |
+		|	|
         |   └<end_arg>
         |       └")"
         |
