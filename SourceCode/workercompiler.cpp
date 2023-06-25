@@ -552,7 +552,16 @@ bool WorkerCompiler::SemanticHashInit(){
                             return false;
                         }
 
-                        if((int)nodeaux->GetTokenSubtype() != strlist.at(intaux).toInt()){
+
+                        if(nodeaux->GetTokenSubtype() == Token::TokenSubtype::strongon ||
+                            nodeaux->GetTokenSubtype() == Token::TokenSubtype::strongonoff){
+
+                            if(strlist.at(intaux).toInt() != (int)Token::TokenSubtype::bolichisky){
+                                emit Error(2, "Tipo incorreto de dado: " + nodeaux->GetTokenHashKey(), nodeaux->GetTokenLine());
+                                return false;
+                            }
+
+                        }else if((int)nodeaux->GetTokenSubtype() != strlist.at(intaux).toInt()){
                             emit Error(2, "Tipo incorreto de dado: " + nodeaux->GetTokenHashKey(), nodeaux->GetTokenLine());
                             return false;
                         }
