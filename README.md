@@ -131,34 +131,43 @@ pow | elevado à potência
 ## Exemplo 1
 
 ```
-intsky copovisky;
+intsky copovsky, garrafovsky;
 
-chernobyl enchecopovisky(){
-    ikov(copovisky < 100){
-        copovisky = 100;
-    }
+moscow bolichisky enchecopovsky(intsky capacidade){
+
+	bolichisky retorno;
+	retorno = strongonoff;
+
+	ikov(copovsky >= capacidade){
+		retorno = strongonoff;
+	}kalashn ikov(garrafovsky >= capacidade - copovsky){
+		garrafovsky = garrafovsky - capacidade + copovsky;
+		copovsky = capacidade;
+		retorno = strongon;
+	}kalashn ikov(garrafovsky > 0){
+		copovsky = copovsky + garrafovsky;
+		garrafovsky = 0;
+		retorno = strongon;
+	}
+
+	yebat retorno;
 }
 
-moscow intsky beber(){
-    intsky outrocopo;
-    
-    ikov(copovisky > 0){
-        outrocopo = copovisky - 1;
-    }kalashn ikov(copovisky == 0){
-        outrocopo = 0;
-    }
-    
-    yebat outrocopo;
+chernobyl beber(){
+	copovsky = 0;
 }
 
 motherland(){
-    copovisky = 0;
 
-    tovarish enchecopovisky();
+	intsky capacidade;
 
-    forevisky(copovisky > 0){
-        tovarish beber();
-    }
+	copovsky = 0;
+	garrafovsky = 1000;
+	capacidade = 100;
+
+	forevisky(tovarish enchecopovsky(capacidade);){
+		tovarish beber();
+	}
 }
 ```
 

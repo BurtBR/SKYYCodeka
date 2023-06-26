@@ -658,7 +658,17 @@ bool WorkerCompiler::SemanticVerifyOperationTypes(){
     while(nodeaux){
 
         switch(nodeaux->GetNodeToken().GetTokenSubtype()){
-        //case Token::TokenSubtype::nont_value:
+        case Token::TokenSubtype::nont_value:
+            nodeaux = nodeaux->Next();
+            if(nodeaux->GetTokenSubtype() == Token::TokenSubtype::nont_functioncall){
+                nodeaux = nodeaux->Next();
+                nodeaux = nodeaux->Next();
+                if(nodeaux->GetTokenSubtype() == Token::TokenSubtype::voidfunction){
+                    emit Error(2, "Função chernobyl não retorna valor algum", nodeaux->GetTokenLine());
+                    return false;
+                }
+            }
+            break;
         case Token::TokenSubtype::nont_attribution:
             levelaux = level;
             nodeaux = nodeaux->Next(level);
