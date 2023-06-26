@@ -648,9 +648,10 @@ bool WorkerCompiler::SemanticHashInit(){
 bool WorkerCompiler::SemanticVerifyOperationTypes(){
 
     SyntaxTreeNode *nodeaux = &syntaxtree;
-    int level = 0, levelaux;
+    int level = 0, levelaux, lineaux;
     QMultiHash<QString,QString>::iterator iterator;
     Token::TokenSubtype currentvartype = Token::TokenSubtype::unidentified;
+    Token::TokenSubtype currentreturntype = Token::TokenSubtype::unidentified;
     QString message;
 
     nodeaux->ResetIndex();
@@ -711,6 +712,24 @@ bool WorkerCompiler::SemanticVerifyOperationTypes(){
                 nodeaux = nodeaux->Next(level);
             }
             break;
+        case Token::TokenSubtype::nont_function_definition:
+            nodeaux = nodeaux->Next(level);
+            if(nodeaux->GetTokenSubtype() == Token::TokenSubtype::nont_function_return){
+                nodeaux = nodeaux->Next(level);
+                nodeaux = nodeaux->Next(level);
+                nodeaux = nodeaux->Next(level);
+                currentreturntype = nodeaux->GetTokenSubtype();
+            }
+            break;
+        case Token::TokenSubtype::nont_return_statement:
+            nodeaux = nodeaux->Next();
+            lineaux = nodeaux->GetTokenLine();
+            nodeaux = nodeaux->Next();
+            if(GetValueType(nodeaux) != currentreturntype){
+                emit Error(2, "Tipo de retorno incompatível. Esperado: " + Token::GetSubTokenString(currentreturntype), lineaux);
+                return false;
+            }
+            break;
         default:
             break;
         }
@@ -719,6 +738,70 @@ bool WorkerCompiler::SemanticVerifyOperationTypes(){
     }
 
     return true;
+}
+
+Token::TokenSubtype WorkerCompiler::GetValueType(SyntaxTreeNode *nodeaux){
+
+    Token::TokenSubtype currentvartype = Token::TokenSubtype::unidentified;
+    ScopeCode scopeaux;
+    int levelaux = 0;
+
+    nodeaux = nodeaux->Next();
+
+    switch(nodeaux->GetTokenType()){
+    case Token::TokenType::nonterminal:
+        switch(nodeaux->GetTokenSubtype()){
+        case Token::TokenSubtype::nont_functioncall:
+            nodeaux = nodeaux->Next();
+            nodeaux = nodeaux->Next();
+            if(nodeaux->GetTokenSubtype() == Token::TokenSubtype::voidfunction){
+                return Token::TokenSubtype::unidentified;
+            }
+            //Functions are always declared in global scope
+            currentvartype = (Token::TokenSubtype)GetDataFromHash(nodeaux->GetTokenHashKey(), Token::TokenDataType::returntype, scopeaux).toInt();
+            //Skip arguments
+            while((nodeaux->GetTokenType() != Token::TokenType::endargument) && (levelaux > 0))
+                nodeaux->Next(levelaux);
+            nodeaux->Next(levelaux);//eol
+            break;
+        default:
+            break;
+        }
+        break;
+    case Token::TokenType::identifier:
+        currentvartype = nodeaux->GetTokenSubtype();
+        break;
+    case Token::TokenType::constant:
+        currentvartype = nodeaux->GetTokenSubtype();
+        break;
+    case Token::TokenType::keyword:
+        switch(nodeaux->GetTokenSubtype()){
+        case Token::TokenSubtype::strongon:
+        case Token::TokenSubtype::strongonoff:
+            currentvartype = Token::TokenSubtype::bolichisky;
+            break;
+        case Token::TokenSubtype::niet:
+            nodeaux = nodeaux->Next();
+            return GetValueType(nodeaux);
+            break;
+        default:
+            break;
+        }
+        break;
+    default:
+        break;
+    }
+
+    nodeaux = nodeaux->Next();
+
+    if(nodeaux->GetTokenSubtype() == Token::TokenSubtype::nont_operation){
+        nodeaux = nodeaux->Next();
+        if(currentvartype != GetValueType(nodeaux))
+            return Token::TokenSubtype::unidentified;
+        return currentvartype;
+    }
+
+    return currentvartype;
 }
 
 void WorkerCompiler::Tokenize(QString word, int linenumber, int columnnumber){

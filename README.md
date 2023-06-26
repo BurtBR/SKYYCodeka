@@ -75,7 +75,7 @@ pow | elevado à potência
 \<more_arguments\> | \<separator\> \<arg_list\>
 \<code_block\> | \<begin_code\> [\<code\>] \<end_code\>
 \<code_block_return\> | \<begin_code\> [\<code\>] \<return_statement\> \<end_code\>
-\<code\> | (\<var_declaration\> \| \<loop_block\> \| \<ifelse_statement\> \| \<attribution\> \| \<function_call\>) [\<code\>]
+\<code\> | (\<var_declaration\> \| \<loop_block\> \| \<ifelse_statement\> \| \<attribution\> \| (\<function_call\> \<eol\>)) [\<code\>]
 \<return_statement\> | \<return\> \<value\> \<eol\>
 \<var_declaration\> | \<var_type\> \<identifier\> [\<more_declaration\>] \<eol\>
 \<more_declaration\> | \<separator\> \<identifier\> [\<more_declaration\>]
@@ -89,7 +89,7 @@ pow | elevado à potência
 \<number\> | \<float\> \| \<integer\>
 \<float\> | \<integer\> \<float_separator\> \<integer\>
 \<integer\> | \<digit\> \| (\<digit_nonzero\> {\<digit\>})
-\<function_call\> | \<call\> \<identifier\> \<arguments_call\> \<eol\>
+\<function_call\> | \<call\> \<identifier\> \<arguments_call\>
 \<arguments_call\> | \<begin_arg\> [\<arg_list_call\>] \<end_arg\>
 \<arg_list_call\> | \<value\> [<more_arguments_call\]
 \<more_arguments_call\> | \<separator\> \<arg_list_call\>
@@ -165,7 +165,7 @@ motherland(){
 	garrafovsky = 1000;
 	capacidade = 100;
 
-	forevisky(tovarish enchecopovsky(capacidade);){
+	forevisky(tovarish enchecopovsky(capacidade)){
 		tovarish beber();
 	}
 }
