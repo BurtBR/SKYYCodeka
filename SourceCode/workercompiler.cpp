@@ -658,7 +658,7 @@ bool WorkerCompiler::SemanticVerifyOperationTypes(){
     while(nodeaux){
 
         switch(nodeaux->GetNodeToken().GetTokenSubtype()){
-        case Token::TokenSubtype::nont_value:
+        //case Token::TokenSubtype::nont_value:
         case Token::TokenSubtype::nont_attribution:
             levelaux = level;
             nodeaux = nodeaux->Next(level);
@@ -670,7 +670,7 @@ bool WorkerCompiler::SemanticVerifyOperationTypes(){
                     if(iterator != hashtable.end()){
                         if(GetDataFromString(iterator.value(), Token::TokenDataType::returntype).toInt() != (int)currentvartype){
                             emit Error(2, "Operação entre variáveis de tipos incompatíveis " +
-                                        Token::GetSubTokenString(currentvartype) + " e " +
+                                        Token::GetSubTokenString(currentvartype) + " " + nodeaux->GetTokenHashKey() + " e " +
                                         Token::GetSubTokenString((Token::TokenSubtype)GetDataFromString(iterator.value(), Token::TokenDataType::returntype).toInt()),
                                  nodeaux->GetTokenLine());
                             return false;
