@@ -648,11 +648,9 @@ bool WorkerCompiler::SemanticHashInit(){
 bool WorkerCompiler::SemanticVerifyOperationTypes(){
 
     SyntaxTreeNode *nodeaux = &syntaxtree;
-    int level = 0, levelaux, lineaux;
-    QMultiHash<QString,QString>::iterator iterator;
+    int lineaux;
     Token::TokenSubtype currentvartype = Token::TokenSubtype::unidentified;
     Token::TokenSubtype currentreturntype = Token::TokenSubtype::unidentified;
-    QString message;
 
     nodeaux->ResetIndex();
 
@@ -671,53 +669,22 @@ bool WorkerCompiler::SemanticVerifyOperationTypes(){
             }
             break;
         case Token::TokenSubtype::nont_attribution:
-            levelaux = level;
-            nodeaux = nodeaux->Next(level);
+            nodeaux = nodeaux->Next();
             currentvartype = nodeaux->GetTokenSubtype();
-            while(level > levelaux){
-                switch(nodeaux->GetTokenSubtype()){
-                case Token::TokenSubtype::returnfuntion:
-                    iterator = hashtable.find(nodeaux->GetTokenHashKey());
-                    if(iterator != hashtable.end()){
-                        if(GetDataFromString(iterator.value(), Token::TokenDataType::returntype).toInt() != (int)currentvartype){
-                            emit Error(2, "Operação entre variáveis de tipos incompatíveis " +
-                                        Token::GetSubTokenString(currentvartype) + " " + nodeaux->GetTokenHashKey() + " e " +
-                                        Token::GetSubTokenString((Token::TokenSubtype)GetDataFromString(iterator.value(), Token::TokenDataType::returntype).toInt()),
-                                 nodeaux->GetTokenLine());
-                            return false;
-                        }
-                    }
-                    break;
-                case Token::TokenSubtype::intsky:
-                case Token::TokenSubtype::charovsky:
-                case Token::TokenSubtype::floatsky:
-                case Token::TokenSubtype::bolichisky:
-                case Token::TokenSubtype::palavrovka:
-                    if(currentvartype != nodeaux->GetTokenSubtype()){
-                        message = "Operação entre variáveis de tipos incompatíveis " +
-                                  Token::GetSubTokenString(currentvartype) + " e " +
-                                  nodeaux->GetTokenSubtypeString();
-                        emit Error(2, message, nodeaux->GetTokenLine());
-                        return false;
-                    }
-                    break;
-                case Token::TokenSubtype::voidfunction:
-                    emit Error(2, "Operação entre variáveis de tipos incompatíveis", nodeaux->GetTokenLine());
-                    return false;
-                    break;
-                default:
-                    break;
-                }
-
-                nodeaux = nodeaux->Next(level);
+            lineaux = nodeaux->GetTokenLine();
+            nodeaux = nodeaux->Next();
+            nodeaux = nodeaux->Next();
+            if(currentvartype != GetValueType(nodeaux)){
+                emit Error(2, "Atribuição de tipo incompatível. Esperado: " + Token::GetSubTokenString(currentvartype), lineaux);
+                return false;
             }
             break;
         case Token::TokenSubtype::nont_function_definition:
-            nodeaux = nodeaux->Next(level);
+            nodeaux = nodeaux->Next();
             if(nodeaux->GetTokenSubtype() == Token::TokenSubtype::nont_function_return){
-                nodeaux = nodeaux->Next(level);
-                nodeaux = nodeaux->Next(level);
-                nodeaux = nodeaux->Next(level);
+                nodeaux = nodeaux->Next();
+                nodeaux = nodeaux->Next();
+                nodeaux = nodeaux->Next();
                 currentreturntype = nodeaux->GetTokenSubtype();
             }
             break;
@@ -734,7 +701,7 @@ bool WorkerCompiler::SemanticVerifyOperationTypes(){
             break;
         }
 
-        nodeaux = nodeaux->Next(level);
+        nodeaux = nodeaux->Next();
     }
 
     return true;
@@ -796,6 +763,7 @@ Token::TokenSubtype WorkerCompiler::GetValueType(SyntaxTreeNode *nodeaux){
 
     if(nodeaux->GetTokenSubtype() == Token::TokenSubtype::nont_operation){
         nodeaux = nodeaux->Next();
+        nodeaux = nodeaux->Next(); //operator
         if(currentvartype != GetValueType(nodeaux))
             return Token::TokenSubtype::unidentified;
         return currentvartype;
