@@ -32,7 +32,7 @@ QString Token::GetTokenString(Token::TokenType tk){
         return "unidentified";
         break;
     case Token::TokenType::mainfunction:
-        return "mainfunction";
+        return "motherland";
         break;
     case Token::TokenType::keyword:
         return "keyword";
