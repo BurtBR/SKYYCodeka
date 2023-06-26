@@ -433,6 +433,8 @@ bool WorkerCompiler::SemanticHashInit(){
                     return false;
                 }
 
+                SetDataFromHash(nodeaux->GetTokenHashKey(), Token::TokenDataType::returntype, QString::number((int)currentvartype), scope);
+
                 scopeaux = scope++;
                 identifieraux = nodeaux->GetTokenHashKey();
                 vartypesaux.clear();
@@ -667,7 +669,10 @@ bool WorkerCompiler::SemanticVerifyOperationTypes(){
                     iterator = hashtable.find(nodeaux->GetTokenHashKey());
                     if(iterator != hashtable.end()){
                         if(GetDataFromString(iterator.value(), Token::TokenDataType::returntype).toInt() != (int)currentvartype){
-                            emit Error(2, "Operação entre variáveis de tipos incompatíveis", nodeaux->GetTokenLine());
+                            emit Error(2, "Operação entre variáveis de tipos incompatíveis " +
+                                        Token::GetSubTokenString(currentvartype) + " e " +
+                                        Token::GetSubTokenString((Token::TokenSubtype)GetDataFromString(iterator.value(), Token::TokenDataType::returntype).toInt()),
+                                 nodeaux->GetTokenLine());
                             return false;
                         }
                     }
