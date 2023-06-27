@@ -209,7 +209,7 @@ motherland(){
             |   |       └";"
             |   |
             |   └<code>
-			|		└<attribution>
+	    |	    └<attribution>
             |       	|<identifier>
             |       	|   └<letter>
             |       	|       └"a"
