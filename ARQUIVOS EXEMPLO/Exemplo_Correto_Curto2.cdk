@@ -1,0 +1,4 @@
+motherland(){
+	palavrovka a;
+	a = "SKYY Vodka";
+}

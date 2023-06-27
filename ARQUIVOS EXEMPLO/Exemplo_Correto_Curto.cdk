@@ -1,0 +1,4 @@
+motherland(){
+	intsky a;
+	a = 3;
+}

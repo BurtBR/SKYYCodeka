@@ -1,0 +1,8 @@
+intsky antesa;
+intsky antesb;
+intsky antesc;
+
+motherland(){
+	intsky a;
+	a = 3;
+}

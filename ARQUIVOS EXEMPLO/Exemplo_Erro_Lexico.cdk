@@ -1,0 +1,38 @@
+intsky copovsky, garrafovsky;
+
+moscow bolichisky enchecopovsky(intsky capacidade){
+
+	bolichisky retorno;
+	retorno = strongonoff;
+
+	ikov(copovsky >= capacidade){
+		retorno = strongonoff;
+	}kalashn ikov(garrafovsky >= capacidade - copovsky){
+		garrafovsky = garrafovsky - capacidade + copovsky;
+		copovsky = capacidade;
+		retorno = strongon;
+	}kalashn ikov(garrafovsky > 0){
+		copovsky = copovsky + garrafovsky;
+		garrafovsky = 0;
+		retorno = strongon;
+	}
+
+	yebat retorno;
+}
+
+chernobyl beber(){
+	copovsky = 0;
+}
+
+motherland(){
+
+	intsky 12capacidade;
+
+	copovsky = 0.l32;
+	garrafovsky = 1000;
+	capacidade = 100;
+
+	forevisky(tovarish enchecopovsky(capacidade)){
+		tovarish beber();
+	}
+}
