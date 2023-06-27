@@ -208,22 +208,23 @@ motherland(){
             |   |   └<eol>
             |   |       └";"
             |   |
-            |   └<attribution>
-            |       └<identifier>
-            |       |   └<letter>
-            |       |       └"a"
-            |       |
-            |       └<equal>
-            |       |   └"="
-            |       |
-            |       └<value>
-            |       |   └<number>
-            |       |       └<integer>
-            |       |           └<digit>
-            |       |               └"3"
-            |       |
-            |       └<eol>
-            |           └";"
+            |   └<code>
+			|		└<attribution>
+            |       	|<identifier>
+            |       	|   └<letter>
+            |       	|       └"a"
+            |       	|
+            |       	└<equal>
+            |       	|   └"="
+            |       	|
+            |       	└<value>
+            |       	|   └<number>
+            |       	|       └<integer>
+            |       	|           └<digit>
+            |       	|               └"3"
+            |       	|
+            |       	└<eol>
+            |           	└";"
             |
             └<end_code>
                 └"}"
