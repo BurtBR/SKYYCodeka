@@ -9,7 +9,7 @@ O compilador gera alguns arquivos que têm a finalidade de visualização das et
 
 ## Observação 2
 * Tente compilar sem código algum
-* Teste os arquivos de teste na pasta "ARQUIVOS EXEMPLO" do github
+* Teste os arquivos de teste na pasta "ARQUIVOS EXEMPLO" do github, analise os arquivos lexer, syntax e hash gerados.
 
 # PALAVRAS RESERVADAS
 **Código** | **Descrição**
