@@ -5,9 +5,9 @@
 * Execute SKYYCodeka.exe
 
 ## Observação
-O compilador gera alguns arquivos que têm a finalidade de visualização das etapas de compilação. Esses arquivos são gerados a cada compilação e são salvos na pasta "GENERATED FILES" com a extensão .skyy. Para visualizá-los, abra-os em um arquivo de edição de texto como o notepad++.
-
-## Observação 2
+* O compilador gera alguns arquivos que têm a finalidade de visualização das etapas de compilação. Esses arquivos são gerados a cada compilação e são salvos na pasta "GENERATED FILES" com a extensão .skyy. Para visualizá-los, abra-os em um arquivo de edição de texto como o notepad++.
+* Não há geração/otimização de código
+* Existem bugs
 * Tente compilar sem código algum
 * Teste os arquivos de teste na pasta "ARQUIVOS EXEMPLO" do github, analise os arquivos lexer, syntax e hash gerados.
 
